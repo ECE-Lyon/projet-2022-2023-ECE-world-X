@@ -13,4 +13,4 @@ LINK_DIRECTORIES(/opt/homebrew/Cellar/allegro/5.2.8.0_2/lib)
 file(GLOB LIBRARIES "/opt/homebrew/Cellar/allegro/5.2.8.0_2/lib/*.dylib")
 message("LIBRARIES = ${LIBRARIES}")
 TARGET_LINK_LIBRARIES(allegrojeux ${LIBRARIES})
-ENDIF(WIN32
+ENDIF(WIN32)
