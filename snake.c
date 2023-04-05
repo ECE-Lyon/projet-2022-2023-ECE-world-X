@@ -6,6 +6,7 @@
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "constante.h"
 #include "miam.h"
@@ -28,6 +29,7 @@ void init_snake(Body* player) {
     player->next = NULL;
     player->img =  al_load_bitmap("/Users/trist/OneDrive/Documents/CoursECE/CLionProjects/projet2minijeux/projet-2022-2023-ECE-world-X/snakehead.png");
     check_load_img(player->img);
+    player->next = NULL;
 }
 
 void print_player (Body player) {
@@ -81,8 +83,32 @@ void move_player(Body* player, int wi, int hei) {
     }
 }
 
+void add(Body* player) {
+    enum{HAUT, DROITE, BAS, GAUCHE};
+
+    if (player->next == NULL) {
+        player = malloc(sizeof(Body));
+        switch (player->next->direction) {
+            case HAUT :
+                break;
+            case DROITE :
+                break;
+            case BAS :
+                break;
+            case GAUCHE :
+                break;
+        }
+        player->next->direction = player->direction;
+        player->img = al_load_bitmap()
+        return;
+    }
+
+
+}
+
 int check_food(Body player, Food pomme) {
     if (player.x == pomme.x && player.y == pomme.y) {
+
         return 1;
     }
     return 0;
