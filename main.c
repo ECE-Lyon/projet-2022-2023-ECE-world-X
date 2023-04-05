@@ -5,19 +5,22 @@
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
 #include <assert.h>
+#include <stdlib.h>
+#include <time.h>
 
 #include "snake.h"
 #include "constante.h"
 #include "interface.h"
+#include "miam.h"
 
 
-#define FPS 60.0 //Timer
+#define FPS 6.0 //Timer
 
 
-ALLEGRO_DISPLAY*setting( ){
+ALLEGRO_DISPLAY* setting(){
     assert(al_init());
     ALLEGRO_DISPLAY*display=NULL;
-    display=al_create_display(LARGEUR, LONGUEUR);
+    display=al_create_display(WIDTH, HEIGHT);
     assert(display!=NULL);
     //Initialiser avec assert le reste
     assert(al_init_image_addon());
@@ -26,20 +29,24 @@ ALLEGRO_DISPLAY*setting( ){
     al_set_window_title(display,"Title");
     al_set_window_position(display,200,100);
     al_flip_display();
+    srand(time(NULL));
     return display;
 
 }
 
 void game(){
-    ALLEGRO_DISPLAY* display=setting(LONGUEUR,LARGEUR);
+    ALLEGRO_DISPLAY* display=setting();
     int isEnd=0;
-    int longueur, largeur;
-    longueur = LGAME/SIZEGAME;
-    largeur = LARGAME/SIZEGAME;
-    ALLEGRO_EVENT_QUEUE*queue;
+    int heightsquare, widthsquare;
+    float fps;
+
+    fps = 7.0f;
+    widthsquare = WIGAME/NBSQUARE;
+    heightsquare = HEIGAME/NBSQUARE;
+    ALLEGRO_EVENT_QUEUE* queue;
 
     //Créer un timer si nécéssaire
-    ALLEGRO_TIMER*timer=al_create_timer(1/FPS);
+    ALLEGRO_TIMER*timer=al_create_timer(1/fps);
     al_start_timer(timer);
     queue=al_create_event_queue();
     assert(queue);
@@ -49,9 +56,15 @@ void game(){
     al_register_event_source(queue,al_get_timer_event_source(timer));
 
     Body player;
+    star bg_star[NBSTAR];
+    Food pomme;
+
     init_snake(&player);
+    create_star_list(bg_star);
+    init_apple(&pomme, widthsquare, heightsquare);
 
     enum {HAUT, DROITE, BAS, GAUCHE};
+
     while(!isEnd){
         ALLEGRO_EVENT event={0};
         al_wait_for_event(queue,&event);
@@ -66,30 +79,35 @@ void game(){
                         isEnd=1;
                         break;
                     case ALLEGRO_KEY_UP :
-                        printf("PIF HAUT");
-                        player.direction = HAUT;
+                        if (player.direction != BAS) {
+                            player.direction = HAUT;
+                        }
                         break;
                     case ALLEGRO_KEY_RIGHT :
-                        player.direction = DROITE;
+                        if (player.direction != GAUCHE) {
+                            player.direction = DROITE;
+                        }
                         break;
                     case ALLEGRO_KEY_DOWN :
-                        player.direction = BAS;
+                        if (player.direction != HAUT) {
+                            player.direction = BAS;
+                        }
                         break;
                     case ALLEGRO_KEY_LEFT :
-                        player.direction = GAUCHE;
+                        if (player.direction != DROITE) {
+                            player.direction = GAUCHE;
+                        }
                         break;
                 }
                 break;
             case ALLEGRO_EVENT_TIMER :
-                update(&player, longueur, largeur);
+                update(&player, &pomme, bg_star, widthsquare, heightsquare);
+                print_apple(pomme);
                 break;
         }
-
-
-
-
     }
     al_destroy_event_queue(queue);
+
 }
 
 int main() {
