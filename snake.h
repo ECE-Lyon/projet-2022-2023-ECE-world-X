@@ -17,9 +17,11 @@ typedef struct Part{
 }Body;
 
 void init_snake(Body* player);
-void print_player(Body player);
+void print_player(Body* player);
 void move_player(Body* player, int wi, int hei);
-int bordure(Body player, int wi, int hei);
-int check_food(Body player, Food pomme);
+int bordure(Body* player, int wi, int hei);
+int check_food(Body *player, Food pomme);
+void add(Body* player, int wisquare, int heisquare);
+void free_snake(Body* player);
 
 #endif //SNAKE_SNAKE_H

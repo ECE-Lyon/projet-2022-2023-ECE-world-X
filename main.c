@@ -55,11 +55,12 @@ void game(){
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue,al_get_timer_event_source(timer));
 
-    Body player;
+    Body* player;
+    player = malloc(sizeof(Body));
     star bg_star[NBSTAR];
     Food pomme;
 
-    init_snake(&player);
+    init_snake(player);
     create_star_list(bg_star);
     init_apple(&pomme, widthsquare, heightsquare);
 
@@ -79,34 +80,35 @@ void game(){
                         isEnd=1;
                         break;
                     case ALLEGRO_KEY_UP :
-                        if (player.direction != BAS) {
-                            player.direction = HAUT;
+                        if (player->direction != BAS) {
+                            player->direction = HAUT;
                         }
                         break;
                     case ALLEGRO_KEY_RIGHT :
-                        if (player.direction != GAUCHE) {
-                            player.direction = DROITE;
+                        if (player->direction != GAUCHE) {
+                            player->direction = DROITE;
                         }
                         break;
                     case ALLEGRO_KEY_DOWN :
-                        if (player.direction != HAUT) {
-                            player.direction = BAS;
+                        if (player->direction != HAUT) {
+                            player->direction = BAS;
                         }
                         break;
                     case ALLEGRO_KEY_LEFT :
-                        if (player.direction != DROITE) {
-                            player.direction = GAUCHE;
+                        if (player->direction != DROITE) {
+                            player->direction = GAUCHE;
                         }
                         break;
                 }
                 break;
             case ALLEGRO_EVENT_TIMER :
-                update(&player, &pomme, bg_star, widthsquare, heightsquare);
+                update(player, &pomme, bg_star, widthsquare, heightsquare);
                 print_apple(pomme);
                 break;
         }
     }
     al_destroy_event_queue(queue);
+    free_snake(player);
 
 }
 

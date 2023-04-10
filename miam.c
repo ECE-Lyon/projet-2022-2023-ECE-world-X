@@ -15,7 +15,7 @@ void init_apple(Food* pomme, int wisquare, int heisquare) {
     centermap = NBSQUARE/2;
     pomme->x = PLAYERX+(wisquare*centermap);
     pomme->y = PLAYERY+(centermap*heisquare);
-    pomme->img = al_load_bitmap("/Users/trist/OneDrive/Documents/CoursECE/CLionProjects/projet2minijeux/projet-2022-2023-ECE-world-X/apple.png");
+    pomme->img = al_load_bitmap("../apple.png");
     if (pomme->img == NULL) {
         printf("Failed to load apple");
     }

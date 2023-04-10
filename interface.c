@@ -67,14 +67,15 @@ void update(Body* player, Food* pomme, star bg_star[NBSTAR], int width, int heig
     al_clear_to_color(al_map_rgb(0, 0, 0));
     print_all_stars(bg_star);
     create_map(width, height);
-    res = bordure(*player, width, height);
+    res = bordure(player, width, height);
     if (res == 1) {
         move_player(player, width, height);
     }
-    print_player(*player);
-    res = check_food(*player, *pomme);
+    print_player(player);
+    res = check_food(player, *pomme);
     if (res == 1) {
         coord(pomme, width, height);
+        add(player, width, height);
     }
     print_apple(*pomme);
 
