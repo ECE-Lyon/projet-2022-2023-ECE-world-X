@@ -3,7 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include "beatmap.h"
-int getTimeXY(int difficulty){
+int getXYTime(int difficulty){
     // get the difficulty and parses the map to play. It will return the Timing, X coord and Y coord
     int numHitObjects = 0;
     int numTimingPoints = 0;
@@ -52,7 +52,7 @@ int getTimeXY(int difficulty){
     }
     if (!file) { //on doit changer le chemin absolu
         printf("Error: could not open file\n");
-        return 1;
+        EXIT_FAILURE;
     }
 
     char lines[1024];
@@ -89,19 +89,15 @@ int getTimeXY(int difficulty){
 
     // generate circles
     printf("NUM : %d\n", numHitObjects);
-    for (int i = 0; i < numHitObjects; i++) {
+    XYT tabXYT[numHitObjects][numHitObjects][numHitObjects];
+    for (int i = 0; i < numHitObjects; i++){
         HitObject ho = hitObjects[i];
-        int closestTimingPoint = -1;
-        double minDistance = INFINITY;
-        for (int j = 0; j < numTimingPoints; j++) {
-            TimingPoint tp = timingPoints[j];
-            double distance = fabs(ho.time - tp.time);
-            if (distance < minDistance) {
-                closestTimingPoint = j;
-                minDistance = distance;
-            }
-        }
-        printf("%d,%lf,%lf\n", ho.time, ho.x, ho.y);
+        tabXYT[i][i]->x = ho.x;
+        tabXYT[i][i]->y = ho.y;
+        tabXYT[i][i]->timing = ho.time;
+        printf("%d, %d, %d\n", tabXYT[i][i]->x, tabXYT[i][i]->y, tabXYT[i][i]->timing);
     }
+
+    return 0;
 }
 void draw_map();

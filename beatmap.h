@@ -1,4 +1,4 @@
-#define MAX_TIMING_POINTS 1000
+#define MAX_TIMING_POINTS 10000
 #define MAX_HIT_OBJECTS 10000
 #include <stdio.h>
 #include <wchar.h>
@@ -15,17 +15,24 @@ typedef struct {
 } TimingPoint;
 
 typedef struct {
-    double x;
-    double y;
+    int x;
+    int y;
     int time;
     int type;
     int hitsound;
     int hitSample;
 } HitObject;
 
+typedef struct {
+    int x;
+    int y;
+    int timing;
+}XYT;
+
+
 TimingPoint timingPoints[MAX_TIMING_POINTS];
 
 HitObject hitObjects[MAX_HIT_OBJECTS];
 
-int getTimeXY(int difficulty);
+int getXYTime(int difficulty);
 void draw_map();
