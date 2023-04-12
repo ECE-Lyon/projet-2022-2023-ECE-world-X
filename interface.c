@@ -8,11 +8,12 @@
 #include "constante.h"
 #include "interface.h"
 #include "snake.h"
+#include "plateau.h"
 
 #define SIZESTAR 2
 
 
-void create_map(int width, int height) {
+void create_map(Damier board) {
     int x, y;
     int indice = 0;
     x = STARTX;
@@ -22,17 +23,17 @@ void create_map(int width, int height) {
         for(int j = 0; j<NBSQUARE; j++) {
             switch (indice) {
                 case 0 :
-                    al_draw_filled_rectangle(x, y, x+width, y+height, al_map_rgb(96,96,96));
+                    al_draw_filled_rectangle(x, y, x+board.widthsquare, y+board.heightsquare, al_map_rgb(96,96,96));
                     indice = 1;
                     break;
                 case 1 :
-                    al_draw_filled_rectangle(x, y, x+width, y+height, al_map_rgb(113,106,105));
+                    al_draw_filled_rectangle(x, y, x+board.widthsquare, y+board.heightsquare, al_map_rgb(113,106,105));
                     indice = 0;
                     break;
             }
-            x += width;
+            x += board.widthsquare;
         }
-        y+=height;
+        y+=board.heightsquare;
         x=STARTX;
     }
     al_flip_display();
@@ -62,20 +63,20 @@ void print_all_stars(star bg_star[NBSTAR]) {
     }
 }
 
-void update(Body* player, Food* pomme, star bg_star[NBSTAR], int width, int height) {
+void update(Body* player, Food* pomme, star bg_star[NBSTAR], Damier board) {
     int res;
     al_clear_to_color(al_map_rgb(0, 0, 0));
     print_all_stars(bg_star);
-    create_map(width, height);
-    res = bordure(player, width, height);
+    create_map(board);
+    res = bordure(player, board);
     if (res == 1) {
-        move_player(player, width, height);
+        move_player(player, board);
     }
     print_player(player);
     res = check_food(player, *pomme);
     if (res == 1) {
-        coord(pomme, width, height);
-        add(player, width, height);
+        coord(pomme, board);
+        add(player, board);
     }
     print_apple(*pomme);
 

@@ -5,6 +5,8 @@
 #ifndef SNAKE_INTERFACE_H
 #define SNAKE_INTERFACE_H
 
+#include "plateau.h"
+
 #define NBSTAR 500
 
 typedef struct {
@@ -12,6 +14,6 @@ typedef struct {
 }star;
 
 void create_star_list(star bg_star[NBSTAR]);
-void update(Body* player,Food* pomme, star bg_star[NBSTAR], int longueur, int largeur);
+void update(Body* player,Food* pomme, star bg_star[NBSTAR], Damier board);
 
 #endif //SNAKE_INTERFACE_H

@@ -10,11 +10,11 @@
 #include "miam.h"
 #include "constante.h"
 
-void init_apple(Food* pomme, int wisquare, int heisquare) {
+void init_apple(Food* pomme, Damier board) {
     int centermap;
     centermap = NBSQUARE/2;
-    pomme->x = PLAYERX+(wisquare*centermap);
-    pomme->y = PLAYERY+(centermap*heisquare);
+    pomme->x = PLAYERX+(board.widthsquare*centermap);
+    pomme->y = PLAYERY+(centermap*board.heightsquare);
     pomme->img = al_load_bitmap("../apple.png");
     if (pomme->img == NULL) {
         printf("Failed to load apple");
@@ -26,12 +26,12 @@ void print_apple (Food pomme) {
     al_flip_display();
 }
 
-void coord(Food *pomme,int wisquare, int heisquare) {
+void coord(Food *pomme, Damier board) {
     int coordx, coordy;
     coordx = rand()%NBSQUARE;
     coordy = (rand()%NBSQUARE);
-    coordx = PLAYERX+(wisquare*coordx);
-    coordy = PLAYERY+(heisquare*coordy);
+    coordx = PLAYERX+(board.widthsquare*coordx);
+    coordy = PLAYERY+(board.heightsquare*coordy);
     pomme->x = coordx;
     pomme->y = coordy;
 }

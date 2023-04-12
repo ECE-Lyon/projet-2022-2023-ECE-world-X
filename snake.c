@@ -2,6 +2,7 @@
 // Created by trist on 04/04/2023.
 //
 #include "snake.h"
+
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
@@ -9,7 +10,6 @@
 #include <stdlib.h>
 
 #include "constante.h"
-#include "miam.h"
 
 #define STARTSPEED 1
 #define SIZESTART 3
@@ -22,7 +22,6 @@ void check_load_img(ALLEGRO_BITMAP* img) {
 }
 
 void init_snake(Body* player) {
-    enum {HAUT, DROITE, BAS, GAUCE};
     player->x = PLAYERX;
     player->y = PLAYERY;
     player->direction = STARTDIRECTION;
@@ -44,23 +43,22 @@ void print_player (Body* player) {
         return;
     }
     al_draw_bitmap(player->img, player->x, player->y, 0);
-    debug_player(player);
+    //debug_player(player);
     al_flip_display();
     print_player(player->next);
 }
 
 
 
-int bordure(Body* player, int wi, int hei) {
-    enum{HAUT, DROITE, BAS, GAUCHE};
+int bordure(Body* player, Damier board) {
     switch (player->direction) {
         case HAUT :
-            if (player->y-hei < PLAYERY) {
+            if (player->y-board.heightsquare < PLAYERY) {
                 return 0;
             }
             break;
         case DROITE :
-            if(player->x+wi > WIGAME+STARTX) {
+            if(player->x+board.widthsquare > WIGAME+STARTX) {
                 return 0;
             }
             break;
@@ -70,7 +68,7 @@ int bordure(Body* player, int wi, int hei) {
             }
             break;
         case GAUCHE :
-            if(player->x-wi < PLAYERX) {
+            if(player->x-board.widthsquare < PLAYERX) {
                 return 0;
             }
             break;
@@ -78,50 +76,68 @@ int bordure(Body* player, int wi, int hei) {
     return 1;
 }
 
+void change_all_direction(Body* player, int direction) {
+    if (player != NULL) {
+        switch (direction) {
+            case HAUT:
+                player->direction = HAUT;
+                break;
+            case DROITE :
+                player->direction= DROITE;
+                break;
+            case BAS:
+                player->direction = BAS;
+                break;
+            case GAUCHE :
+                player->direction = GAUCHE;
+                break;
+        }
+        change_direction(player->next, direction);
+        return;
+    }
+}
 
-void move_player(Body* player, int wi, int hei) {
-    enum{HAUT,DROITE,BAS, GAUCHE};
+
+void move_player(Body* player, Damier board) {
     if (player != NULL) {
         switch (player->direction) {
             case HAUT:
-                player->y -= hei;
+                player->y -= board.heightsquare;
                 break;
             case DROITE :
-                player->x += wi;
+                player->x += board.widthsquare;
                 break;
             case BAS:
-                player->y += hei;
+                player->y += board.heightsquare;
                 break;
             case GAUCHE :
-                player->x -= wi;
+                player->x -= board.widthsquare;
                 break;
         }
-        move_player(player->next, wi, hei);
+        move_player(player->next, board);
         return;
     }
 
 }
 
-void add(Body* player, int wisquare, int heisquare) {
-    enum{HAUT, DROITE, BAS, GAUCHE};
+void add(Body* player, Damier board) {
     if (player->next == NULL) {
-        printf("J'ajoute\n");
         player->next = malloc(sizeof(Body));
         switch (player->direction) {
             case HAUT :
                 player->next->x = player->x;
-                player->next->y = player->y-heisquare;
+                player->next->y = player->y-board.heightsquare;
                 break;
             case DROITE :
-                player->next->x = player->x-wisquare;
+                player->next->x = player->x-board.widthsquare;
                 player->next->y = player->y;
                 break;
             case BAS :
                 player->next->x = player->x;
-                player->next->y = player->y+heisquare;
+                player->next->y = player->y+board.heightsquare;
                 break;
             case GAUCHE :
-                player->next->x = player->x+wisquare;
+                player->next->x = player->x+board.widthsquare;
                 player->next->y = player->y;
                 break;
         }
@@ -134,7 +150,7 @@ void add(Body* player, int wisquare, int heisquare) {
         debug_player(player->next);
         return;
     }
-    add(player->next, wisquare, heisquare);
+    add(player->next, board);
 
 }
 

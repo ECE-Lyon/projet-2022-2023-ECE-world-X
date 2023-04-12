@@ -55,6 +55,8 @@ void game(){
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue,al_get_timer_event_source(timer));
 
+    Damier board;
+    init_board(&board);
     Body* player;
     player = malloc(sizeof(Body));
     star bg_star[NBSTAR];
@@ -62,9 +64,8 @@ void game(){
 
     init_snake(player);
     create_star_list(bg_star);
-    init_apple(&pomme, widthsquare, heightsquare);
+    init_apple(&pomme, board);
 
-    enum {HAUT, DROITE, BAS, GAUCHE};
 
     while(!isEnd){
         ALLEGRO_EVENT event={0};
@@ -81,28 +82,28 @@ void game(){
                         break;
                     case ALLEGRO_KEY_UP :
                         if (player->direction != BAS) {
-                            player->direction = HAUT;
+                            change_direction(player, HAUT);
                         }
                         break;
                     case ALLEGRO_KEY_RIGHT :
                         if (player->direction != GAUCHE) {
-                            player->direction = DROITE;
+                            change_direction(player, DROITE);
                         }
                         break;
                     case ALLEGRO_KEY_DOWN :
                         if (player->direction != HAUT) {
-                            player->direction = BAS;
+                            change_direction(player, BAS);
                         }
                         break;
                     case ALLEGRO_KEY_LEFT :
                         if (player->direction != DROITE) {
-                            player->direction = GAUCHE;
+                            change_direction(player, GAUCHE);
                         }
                         break;
                 }
                 break;
             case ALLEGRO_EVENT_TIMER :
-                update(player, &pomme, bg_star, widthsquare, heightsquare);
+                update(player, &pomme, bg_star, board);
                 print_apple(pomme);
                 break;
         }
