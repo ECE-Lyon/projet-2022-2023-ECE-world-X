@@ -7,13 +7,13 @@
 
 #include "plateau.h"
 
-#define NBSTAR 500
+#define NBSTAR 250
 
 typedef struct {
     int x, y;
 }star;
 
 void create_star_list(star bg_star[NBSTAR]);
-void update(Body* player,Food* pomme, star bg_star[NBSTAR], Damier board);
+void update(Body* player,Waychange* lstchange, Food* pomme, star bg_star[NBSTAR], Damier board);
 
 #endif //SNAKE_INTERFACE_H

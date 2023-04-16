@@ -37,12 +37,11 @@ ALLEGRO_DISPLAY* setting(){
 void game(){
     ALLEGRO_DISPLAY* display=setting();
     int isEnd=0;
-    int heightsquare, widthsquare;
     float fps;
+    int changeallowed;
 
-    fps = 7.0f;
-    widthsquare = WIGAME/NBSQUARE;
-    heightsquare = HEIGAME/NBSQUARE;
+    fps = 5.0f;
+    changeallowed = 1;
     ALLEGRO_EVENT_QUEUE* queue;
 
     //Créer un timer si nécéssaire
@@ -56,16 +55,19 @@ void game(){
     al_register_event_source(queue,al_get_timer_event_source(timer));
 
     Damier board;
-    init_board(&board);
     Body* player;
-    player = malloc(sizeof(Body));
     star bg_star[NBSTAR];
     Food pomme;
+    Waychange* lstchange = NULL;
 
+    player = malloc(sizeof(Body));
+
+    init_board(&board);
     init_snake(player);
     create_star_list(bg_star);
     init_apple(&pomme, board);
 
+    Waychange* newchange;
 
     while(!isEnd){
         ALLEGRO_EVENT event={0};
@@ -81,30 +83,58 @@ void game(){
                         isEnd=1;
                         break;
                     case ALLEGRO_KEY_UP :
-                        if (player->direction != BAS) {
-                            change_direction(player, HAUT);
+                        if (changeallowed == 1) {
+                            if (player->direction != BAS && player->direction != HAUT) {
+                                change_direction(player, HAUT);
+                                if (player->next != NULL) {
+                                    newchange= add_change_way(player, &lstchange);
+                                    set_change(player->next, newchange);
+                                }
+                                changeallowed = 0;
+                            }
+                            break;
                         }
-                        break;
                     case ALLEGRO_KEY_RIGHT :
-                        if (player->direction != GAUCHE) {
-                            change_direction(player, DROITE);
+                        if (changeallowed == 1) {
+                            if (player->direction != GAUCHE && player->direction != DROITE) {
+                                change_direction(player, DROITE);
+                                if (player->next != NULL) {
+                                    newchange = add_change_way(player, &lstchange);
+                                    set_change(player->next, newchange);
+                                }
+                                changeallowed = 0;
+                            }
+                            break;
                         }
-                        break;
                     case ALLEGRO_KEY_DOWN :
-                        if (player->direction != HAUT) {
-                            change_direction(player, BAS);
+                        if (changeallowed == 1) {
+                            if (player->direction != HAUT && player->direction != BAS) {
+                                change_direction(player, BAS);
+                                if (player->next != NULL) {
+                                    newchange = add_change_way(player, &lstchange);
+                                    set_change(player->next, newchange);
+                                }
+                                changeallowed = 0;
+                            }
+                            break;
                         }
-                        break;
                     case ALLEGRO_KEY_LEFT :
-                        if (player->direction != DROITE) {
-                            change_direction(player, GAUCHE);
+                        if (changeallowed == 1) {
+                            if (player->direction != DROITE && player->direction != GAUCHE) {
+                                change_direction(player, GAUCHE);
+                                if (player->next != NULL) {
+                                    newchange = add_change_way(player, &lstchange);
+                                    set_change(player->next, newchange);
+                                }
+                                changeallowed = 0;
+                            }
+                            break;
                         }
-                        break;
                 }
                 break;
             case ALLEGRO_EVENT_TIMER :
-                update(player, &pomme, bg_star, board);
-                print_apple(pomme);
+                changeallowed = 1;
+                update(player, lstchange, &pomme, bg_star, board);
                 break;
         }
     }

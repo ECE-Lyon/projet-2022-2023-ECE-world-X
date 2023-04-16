@@ -11,23 +11,35 @@
 #ifndef SNAKE_SNAKE_H
 #define SNAKE_SNAKE_H
 
-enum{HAUT,DROITE,BAS, GAUCHE};
+typedef enum{HAUT,DROITE,BAS, GAUCHE} E_direction;
 
-
-typedef struct Part{
+typedef struct Mdirec {
     int x,y;
-    int direction;
+    E_direction direction;
+    struct Mdirec* next;
+} Waychange;
+
+typedef struct Part {
+    int x,y;
+    E_direction direction;
     ALLEGRO_BITMAP* img;
+    Waychange* nextchange;
     struct Part* next;
-}Body;
+} Body;
 
 void init_snake(Body* player);
 void print_player(Body* player);
 void move_player(Body* player, Damier board);
 int bordure(Body* player, Damier board);
 int check_food(Body *player, Food pomme);
-void add(Body* player, Damier board);
+void add_body(Body* player, Waychange* lstchange, Damier board);
 void free_snake(Body* player);
-void change_all_direction(Body* player, int direction);
+void change_direction(Body* player, int direction);
+Waychange* add_change_way(Body* player, Waychange** lstchange);
+void move_body(Body* player, Damier board);
+void debuglst (Waychange *l);
+void set_change(Body* player, Waychange* lstchange);
+
+
 
 #endif //SNAKE_SNAKE_H

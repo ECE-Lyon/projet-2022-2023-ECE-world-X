@@ -28,6 +28,7 @@ void init_snake(Body* player) {
     player->next = NULL;
     player->img =  al_load_bitmap("../snakehead.png");
     check_load_img(player->img);
+    player->nextchange = NULL;
     player->next = NULL;
 }
 
@@ -36,6 +37,13 @@ void debug_player(Body* p) {
         return;
     }
     printf("x:%d, y:%d, next:%x direc:%d\n", p->x, p->y, p->next, p->direction);
+}
+
+void debuglst (Waychange *l) {
+    if (l == NULL) {
+        return;
+    }
+    printf("x:%d, y:%d, next:%x direc:%d\n", l->x, l->y, l->next, l->direction);
 }
 
 void print_player (Body* player) {
@@ -76,7 +84,20 @@ int bordure(Body* player, Damier board) {
     return 1;
 }
 
-void change_all_direction(Body* player, int direction) {
+
+Waychange* add_change_way(Body* player, Waychange** lstchange) {
+    if (*lstchange == NULL) {
+        (*lstchange) = malloc(sizeof(Waychange));
+        (*lstchange)->x = player->x;
+        (*lstchange)->y = player->y;
+        (*lstchange)->direction = player->direction;
+        (*lstchange)->next = NULL;
+        return *lstchange;
+    }
+    add_change_way(player, &(*lstchange)->next);
+}
+
+void change_direction(Body* player, int direction) {
     if (player != NULL) {
         switch (direction) {
             case HAUT:
@@ -92,11 +113,8 @@ void change_all_direction(Body* player, int direction) {
                 player->direction = GAUCHE;
                 break;
         }
-        change_direction(player->next, direction);
-        return;
     }
 }
-
 
 void move_player(Body* player, Damier board) {
     if (player != NULL) {
@@ -114,19 +132,42 @@ void move_player(Body* player, Damier board) {
                 player->x -= board.widthsquare;
                 break;
         }
-        move_player(player->next, board);
-        return;
     }
-
 }
 
-void add(Body* player, Damier board) {
+void set_change(Body* player, Waychange* newchange) {
+    while(player->nextchange==NULL){
+            player->nextchange = newchange;
+            if (player->next == NULL) {
+                return;
+            }
+            player = player->next;
+    }
+}
+
+
+void move_body(Body* player, Damier board) {
+    if (player != NULL) {
+        move_player(player, board);
+        if (player->nextchange != NULL) {
+            if ((player->x == player->nextchange->x) && (player->y == player->nextchange->y)) {
+                printf("Je change\n");
+                player->direction = player->nextchange->direction;
+                player->nextchange = player->nextchange->next;
+            }
+        }
+        move_body(player->next, board);
+    }
+}
+
+
+void add_body(Body* player, Waychange* lstchange, Damier board) {
     if (player->next == NULL) {
         player->next = malloc(sizeof(Body));
         switch (player->direction) {
             case HAUT :
                 player->next->x = player->x;
-                player->next->y = player->y-board.heightsquare;
+                player->next->y = player->y+board.heightsquare;
                 break;
             case DROITE :
                 player->next->x = player->x-board.widthsquare;
@@ -134,7 +175,7 @@ void add(Body* player, Damier board) {
                 break;
             case BAS :
                 player->next->x = player->x;
-                player->next->y = player->y+board.heightsquare;
+                player->next->y = player->y-board.heightsquare;
                 break;
             case GAUCHE :
                 player->next->x = player->x+board.widthsquare;
@@ -142,16 +183,16 @@ void add(Body* player, Damier board) {
                 break;
         }
         player->next->direction = player->direction;
+        player->next->nextchange = player->nextchange;
         player->next->img = al_load_bitmap("../bodysnake.png");
         if(player->next->img == NULL) {
             printf("Image doesn't load\n");
         }
         player->next->next = NULL;
-        debug_player(player->next);
+        //debug_player(player->next);
         return;
     }
-    add(player->next, board);
-
+    add_body(player->next, lstchange, board);
 }
 
 void free_snake(Body* player) {
@@ -163,7 +204,6 @@ void free_snake(Body* player) {
 
 int check_food(Body* player, Food pomme) {
     if (player->x == pomme.x && player->y == pomme.y) {
-
         return 1;
     }
     return 0;

@@ -63,7 +63,7 @@ void print_all_stars(star bg_star[NBSTAR]) {
     }
 }
 
-void update(Body* player, Food* pomme, star bg_star[NBSTAR], Damier board) {
+void update(Body* player,Waychange* lstchange, Food* pomme, star bg_star[NBSTAR], Damier board) {
     int res;
     al_clear_to_color(al_map_rgb(0, 0, 0));
     print_all_stars(bg_star);
@@ -71,12 +71,13 @@ void update(Body* player, Food* pomme, star bg_star[NBSTAR], Damier board) {
     res = bordure(player, board);
     if (res == 1) {
         move_player(player, board);
+        move_body(player->next, board);
     }
     print_player(player);
     res = check_food(player, *pomme);
     if (res == 1) {
         coord(pomme, board);
-        add(player, board);
+        add_body(player, lstchange, board);
     }
     print_apple(*pomme);
 
