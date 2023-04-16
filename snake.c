@@ -11,6 +11,7 @@
 
 #include "constante.h"
 
+
 #define STARTSPEED 1
 #define SIZESTART 3
 #define STARTDIRECTION 2
@@ -160,7 +161,6 @@ void move_body(Body* player, Damier board) {
     }
 }
 
-
 void add_body(Body* player, Waychange* lstchange, Damier board) {
     if (player->next == NULL) {
         player->next = malloc(sizeof(Body));
@@ -193,6 +193,16 @@ void add_body(Body* player, Waychange* lstchange, Damier board) {
         return;
     }
     add_body(player->next, lstchange, board);
+}
+
+int check_body_collision(Body* playerhead, Body* playerbody) {
+    if(playerbody == NULL) {
+        return 0;
+    }
+    else if (playerhead->x == playerbody->x && playerhead->y == playerbody->y) {
+        return 1;
+    }
+    check_body_collision(playerhead, playerbody->next);
 }
 
 void free_snake(Body* player) {

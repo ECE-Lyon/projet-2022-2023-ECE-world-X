@@ -39,6 +39,7 @@ Waychange* add_change_way(Body* player, Waychange** lstchange);
 void move_body(Body* player, Damier board);
 void debuglst (Waychange *l);
 void set_change(Body* player, Waychange* lstchange);
+int check_body_collision(Body* playerhead, Body* playerbody);
 
 
 

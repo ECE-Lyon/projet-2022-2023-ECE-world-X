@@ -9,3 +9,4 @@ void init_board(Damier* board) {
     board->heightsquare = HEIGAME/NBSQUARE;
     board->nb = NBSQUARE;
 }
+

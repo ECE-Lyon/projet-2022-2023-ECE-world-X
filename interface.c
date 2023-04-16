@@ -63,8 +63,19 @@ void print_all_stars(star bg_star[NBSTAR]) {
     }
 }
 
-void update(Body* player,Waychange* lstchange, Food* pomme, star bg_star[NBSTAR], Damier board) {
-    int res;
+int collision_apple(Body* player, int coordx, int coordy) {
+    if(player == NULL) {
+        return 0;
+    }
+    if (coordx == player->x && coordy == player->y) {
+        return 1;
+    }
+    collision_apple(player->next, coordx, coordy);
+}
+
+int update(Body* player,Waychange* lstchange, Food* pomme, star bg_star[NBSTAR], Damier board) {
+    int res, collision = 0;
+
     al_clear_to_color(al_map_rgb(0, 0, 0));
     print_all_stars(bg_star);
     create_map(board);
@@ -73,11 +84,22 @@ void update(Body* player,Waychange* lstchange, Food* pomme, star bg_star[NBSTAR]
         move_player(player, board);
         move_body(player->next, board);
     }
+    else {
+        return 1;
+    }
     print_player(player);
     res = check_food(player, *pomme);
     if (res == 1) {
-        coord(pomme, board);
+        do {
+            coord(pomme, board);
+        }while(collision_apple(player, pomme->x, pomme->y)==1);
         add_body(player, lstchange, board);
+    }
+    if (player->next != NULL) {
+        collision = check_body_collision(player, player->next);
+    }
+    if (collision == 1) {
+        return 1;
     }
     print_apple(*pomme);
 

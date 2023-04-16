@@ -40,7 +40,7 @@ void game(){
     float fps;
     int changeallowed;
 
-    fps = 5.0f;
+    fps = 7.0f;
     changeallowed = 1;
     ALLEGRO_EVENT_QUEUE* queue;
 
@@ -134,13 +134,12 @@ void game(){
                 break;
             case ALLEGRO_EVENT_TIMER :
                 changeallowed = 1;
-                update(player, lstchange, &pomme, bg_star, board);
+                isEnd = update(player, lstchange, &pomme, bg_star, board);
                 break;
         }
     }
     al_destroy_event_queue(queue);
     free_snake(player);
-
 }
 
 int main() {

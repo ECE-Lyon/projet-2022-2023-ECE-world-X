@@ -27,7 +27,7 @@ void print_apple (Food pomme) {
 }
 
 void coord(Food *pomme, Damier board) {
-    int coordx, coordy;
+    int coordx, coordy, res;
     coordx = rand()%NBSQUARE;
     coordy = (rand()%NBSQUARE);
     coordx = PLAYERX+(board.widthsquare*coordx);
