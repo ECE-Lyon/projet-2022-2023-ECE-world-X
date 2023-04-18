@@ -7,16 +7,22 @@
 #include <assert.h>
 #include "constantes.h"
 #include "duck.h"
+#include "test.h"
 
 #define BTN_GAUCHE 1
 
 int main() {
+    int i;
     ALLEGRO_DISPLAY* fenetre = NULL;
     ALLEGRO_EVENT_QUEUE* fifo = NULL;
     ALLEGRO_TIMER* timer = NULL;
     ALLEGRO_EVENT event;
-
     Duck Canard;
+    Ennemi *ennemis[NB_MAX_ENNEMIS];
+    for( i = 0 ; i < NB_MAX_ENNEMIS; i++ ){
+        ennemis[i] = malloc(sizeof(Ennemi));
+    }
+
     int xSouris, ySouris, offsetX, offsetY;
     bool fini = false, redessiner = false, deplacementSouris = false;
 
@@ -28,9 +34,8 @@ int main() {
     duckPosition(&Canard, 80, 50);
 
     fenetre = al_create_display(LARGEUR, HAUTEUR);
-    assert(fenetre);// on verifie que fenetre n'est pas NULL
+    assert(fenetre);
     al_set_window_title(fenetre, "CoinCoin");
-
 
     timer = al_create_timer(1.0/FPS);
     assert(timer);
@@ -41,7 +46,8 @@ int main() {
     al_register_event_source(fifo, al_get_mouse_event_source());
     al_register_event_source(fifo, al_get_timer_event_source(timer));
 
-    dessiner(Canard);
+    init_ennemis(ennemis);
+    //dessiner(Canard);
 
     al_start_timer(timer);
     while(!fini) {
@@ -78,6 +84,10 @@ int main() {
                     Canard.y = ySouris - offsetY;
                     redessiner = true;
                 }
+                apparition_ennemis(ennemis);
+                affiche_ennemis(ennemis);
+                mouvement_ennemis(ennemis);
+
                 duckReposition(&Canard);
                 if(redessiner) {
                     dessiner(Canard);
@@ -88,11 +98,12 @@ int main() {
         }
     }
 
+
+    al_destroy_event_queue(fifo);
+    al_destroy_timer(timer);
     al_destroy_bitmap("../Images/pixelBoat2.png");
     al_destroy_bitmap("../Images/Duck.png");
     al_destroy_display(fenetre);
-    al_destroy_event_queue(fifo);
-    al_destroy_timer(timer);
     return 0;
 }
 

@@ -7,6 +7,8 @@
 
 typedef struct {
     int x, y, largeur, hauteur;
+    int speed;
+    int active;
 } Duck;
 
 void duckReposition(Duck* r);

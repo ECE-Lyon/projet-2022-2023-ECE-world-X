@@ -5,43 +5,46 @@
 #include "test.h"
 #include "constantes.h"
 
-void init_ennemis(DuckStruct canard[]) {
+void init_ennemis(Ennemi *ennemi[]) {
     int i = 0;
     for (i = 0; i < NB_MAX_ENNEMIS; i++) {
-        canard[i].vitesse = 2 + rand() % 3;
-        canard[i].actif = 0;
+        ennemi[i]-> vitesse = 20;
+        ennemi[i]-> actif = 0;
     }
 }
 
 
-void afficheDuck(DuckStruct canard[]) {
+void affiche_ennemis(Ennemi *ennemi[]) {
     int i = 0;
     for (i = 0; i < NB_MAX_ENNEMIS; i++) {
-        if (canard[i].actif) {
-            al_load_bitmap("../Images/Duck.png");
+        if (ennemi[i]-> actif) {
+            printf("%d\n%d\n" ,ennemi[i]-> x, ennemi[i]-> y);
+            al_clear_to_color(al_map_rgb(0,0,0));
+            al_draw_bitmap(al_load_bitmap("../Images/Duck.png"),ennemi[i]-> x,ennemi[i]-> y,0);
+            al_flip_display();
         }
     }
 }
 
-void mouvement_ennemis(DuckStruct canard[]) {
+void mouvement_ennemis(Ennemi *ennemi[]) {
     int i = 0;
     for (i = 0; i < NB_MAX_ENNEMIS; i++) {
-        if (canard[i].actif) {
-            canard[i].x -= canard[i].vitesse;
-            if (canard[i].x - canard[i].width < 0) {
-                canard[i].actif = 0;
+        if (ennemi[i]->actif) {
+            ennemi[i]-> x -= ennemi[i]-> vitesse;
+            if (ennemi[i]-> x < 0) {
+                ennemi[i]->actif = 0;
             }
         }
     }
 }
 
-void apparition_ennemis(DuckStruct canard[]) {
+void apparition_ennemis(Ennemi *ennemi[]) {
     int i = 0;
     for (i = 0; i < NB_MAX_ENNEMIS; i++) {
-        if (!canard[i].actif && rand() % 1000 < 10) {
-            canard[i].x = LARGEUR - canard[i].width;
-            canard[i].y = canard[i].height + rand() % (HAUTEUR - (canard[i].height * 2));
-            canard[i].actif = 1;
+        if (!ennemi[i]->actif) {
+            ennemi[i]-> x = 2400;
+            ennemi[i]-> y = 600;
+            ennemi[i]->actif = 1;
         }
     }
 }
