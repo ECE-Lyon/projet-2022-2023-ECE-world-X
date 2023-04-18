@@ -23,7 +23,6 @@ void init_apple(Food* pomme, Damier board) {
 
 void print_apple (Food pomme) {
     al_draw_bitmap(pomme.img, pomme.x, pomme.y, 0);
-    al_flip_display();
 }
 
 void coord(Food *pomme, Damier board) {

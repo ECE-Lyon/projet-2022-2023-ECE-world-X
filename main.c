@@ -135,6 +135,7 @@ void game(){
             case ALLEGRO_EVENT_TIMER :
                 changeallowed = 1;
                 isEnd = update(player, lstchange, &pomme, bg_star, board);
+                al_flip_display();
                 break;
         }
     }

@@ -36,7 +36,6 @@ void create_map(Damier board) {
         y+=board.heightsquare;
         x=STARTX;
     }
-    al_flip_display();
 }
 
 void drawstars(int cx, int cy) {
@@ -77,7 +76,7 @@ int update(Body* player,Waychange* lstchange, Food* pomme, star bg_star[NBSTAR],
     int res, collision = 0;
 
     al_clear_to_color(al_map_rgb(0, 0, 0));
-    //print_all_stars(bg_star);
+    print_all_stars(bg_star);
     create_map(board);
     res = bordure(player, board);
     if (res == 1) {

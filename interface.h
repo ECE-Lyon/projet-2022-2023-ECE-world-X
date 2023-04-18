@@ -7,7 +7,7 @@
 
 #include "plateau.h"
 
-#define NBSTAR 25
+#define NBSTAR 250
 
 typedef struct {
     int x, y;
