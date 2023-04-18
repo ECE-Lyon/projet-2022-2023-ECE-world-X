@@ -6,6 +6,8 @@
 #include <allegro5/allegro_image.h>
 #include "duck.h"
 #include "constantes.h"
+#include "test.h"
+
 
 void duckPosition(Duck* r, int lar, int haut) {
     r->largeur = lar;

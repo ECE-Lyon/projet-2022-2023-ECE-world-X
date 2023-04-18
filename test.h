@@ -13,17 +13,16 @@
 typedef struct {
     int x, y, z;
     int vitesse;
-    int width, height;
     int actif;
-} Ennemi;
+} DuckStruct;
 
-void init_ennemis(Ennemi ennemis[]);
+void init_ennemis(DuckStruct canard[]);
 
-void affiche_ennemis(Ennemi ennemis[]);
+void afficheDuck(DuckStruct canard[]);
 
-void mouvement_ennemis(Ennemi ennemis[]);
+void mouvement_ennemis(DuckStruct canard[]);
 
-void apparition_ennemis(Ennemi ennemis[]);
+void apparition_ennemis(DuckStruct canard[]);
 
 
 #endif //PROJET_TEST_H
