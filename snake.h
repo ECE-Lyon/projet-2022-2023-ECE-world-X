@@ -8,6 +8,8 @@
 #include "miam.h"
 #include "plateau.h"
 
+#define NBHEAD 4
+
 #ifndef SNAKE_SNAKE_H
 #define SNAKE_SNAKE_H
 
@@ -22,7 +24,7 @@ typedef struct Mdirec {
 typedef struct Part {
     int x,y;
     E_direction direction;
-    ALLEGRO_BITMAP* img;
+    ALLEGRO_BITMAP* img[NBHEAD];
     Waychange* nextchange;
     struct Part* next;
 } Body;

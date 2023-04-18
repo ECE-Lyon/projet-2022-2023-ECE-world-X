@@ -22,13 +22,23 @@ void check_load_img(ALLEGRO_BITMAP* img) {
     }
 }
 
+void init_image(Body* player) {
+    player->img[HAUT] = al_load_bitmap("../snakeheadtop.png");
+    player->img[DROITE] =  al_load_bitmap("../snakeheadright.png");
+    player->img[BAS] =  al_load_bitmap("../snakeheadbot.png");
+    player->img[GAUCHE] =  al_load_bitmap("../snakeheadleft.png");
+    for(int i =0; i<NBHEAD; i++) {
+        check_load_img(player->img[i]);
+    }
+
+}
+
 void init_snake(Body* player) {
     player->x = PLAYERX;
     player->y = PLAYERY;
     player->direction = STARTDIRECTION;
     player->next = NULL;
-    player->img =  al_load_bitmap("../snakehead.png");
-    check_load_img(player->img);
+    init_image(player);
     player->nextchange = NULL;
     player->next = NULL;
 }
@@ -47,14 +57,21 @@ void debuglst (Waychange *l) {
     printf("x:%d, y:%d, next:%x direc:%d\n", l->x, l->y, l->next, l->direction);
 }
 
+void print_body(Body* player) {
+    if(player == NULL) {
+        return;
+    }
+    al_draw_bitmap(player->img[0], player->x, player->y, 0);
+    print_body(player->next);
+}
+
 void print_player (Body* player) {
     if (player == NULL) {
         return;
     }
-    al_draw_bitmap(player->img, player->x, player->y, 0);
+    al_draw_bitmap(player->img[player->direction], player->x, player->y, 0);
     //debug_player(player);
-    al_flip_display();
-    print_player(player->next);
+    print_body(player->next);
 }
 
 
@@ -183,8 +200,8 @@ void add_body(Body* player, Waychange* lstchange, Damier board) {
         }
         player->next->direction = player->direction;
         player->next->nextchange = player->nextchange;
-        player->next->img = al_load_bitmap("../bodysnake.png");
-        if(player->next->img == NULL) {
+        player->next->img[0] = al_load_bitmap("../bodysnake.png");
+        if(player->next->img[0] == NULL) {
             printf("Image doesn't load\n");
         }
         player->next->next = NULL;
