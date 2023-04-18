@@ -1,5 +1,8 @@
 #define MAX_TIMING_POINTS 10000
 #define MAX_HIT_OBJECTS 10000
+#define MAX_POINTS 3000
+#define LINES 1024
+#define MAXHITOBJECT 5000
 #include <stdio.h>
 #include <wchar.h>
 
@@ -27,12 +30,10 @@ typedef struct {
     int x;
     int y;
     int timing;
-}XYT;
+} XYT;
 
 
 TimingPoint timingPoints[MAX_TIMING_POINTS];
 
-HitObject hitObjects[MAX_HIT_OBJECTS];
 
-int getXYTime(int difficulty);
-void draw_map();
+int getXYTime(int difficulty, XYT tab[MAXHITOBJECT]);
