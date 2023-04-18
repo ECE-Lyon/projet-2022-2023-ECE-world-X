@@ -152,7 +152,6 @@ void move_body(Body* player, Damier board) {
         move_player(player, board);
         if (player->nextchange != NULL) {
             if ((player->x == player->nextchange->x) && (player->y == player->nextchange->y)) {
-                printf("Je change\n");
                 player->direction = player->nextchange->direction;
                 player->nextchange = player->nextchange->next;
             }
