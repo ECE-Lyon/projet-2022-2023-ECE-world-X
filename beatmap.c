@@ -72,11 +72,6 @@ int getXYTime(int difficulty, XYT tabXYT[]) {
         if (lines[0] == '[') {
             break;
         }
-        TimingPoint tp;
-        sscanf(lines, "%d,%lf,%d,%d,%d,%d,%d,%d",
-               &tp.time, &tp.beatLength, &tp.meter, &tp.sampleSet,
-               &tp.sampleIndex, &tp.volume, &tp.inherited, &tp.kiai);
-        timingPoints[numTimingPoints++] = tp;
     }
 
     HitObject* hitObjects = malloc(1*sizeof(HitObject));
@@ -104,5 +99,5 @@ int getXYTime(int difficulty, XYT tabXYT[]) {
 
 
 
-    return 0;
+    return nb;
 }

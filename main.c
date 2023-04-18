@@ -56,13 +56,15 @@ int main() {
     ALLEGRO_EVENT event;
     bool running = true;
     al_start_timer(timer);
+    printf("%d", numHitObjects);
     while (running) {
         al_wait_for_event(queue, &event);
         switch (event.type) {
             case ALLEGRO_EVENT_TIMER:
-                printf("%lld\n", al_get_timer_count(timer)); // print the timer value
-                while (current_point < numHitObjects && tabXYT[current_point].timing <= al_get_timer_count(timer)*1000) {
-                    al_draw_filled_circle(tabXYT[current_point].x, tabXYT[current_point].y, 10, al_map_rgb(255, 255, 255));
+                printf("%d\n", al_get_timer_count(timer));
+                while (current_point < numHitObjects && tabXYT[current_point].timing/(50/3) <= al_get_timer_count(timer)) {
+                    printf("%d", al_get_timer_count(timer));
+                    al_draw_filled_circle(tabXYT[current_point].x, tabXYT[current_point].y, 10, al_map_rgb(255, 0, 0));
                     al_flip_display();
                     current_point++;
                 }
