@@ -23,10 +23,8 @@ void duckReposition(Duck* r) {
 }
 
 void dessiner(Duck r) {
-    /*al_clear_to_color(BLANC);
-    al_draw_bitmap(al_load_bitmap("../Images/pixelBoat2.png"), 0,0,0);
     al_draw_bitmap(al_load_bitmap("../Images/Duck.png"),r.x,r.y,0);
-    al_flip_display();*/
+    al_flip_display();
 }
 
 bool pointEstDansZone(int x, int y, int x1, int y1, int x2, int y2) {

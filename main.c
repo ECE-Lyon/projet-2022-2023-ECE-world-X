@@ -8,6 +8,7 @@
 #include "constantes.h"
 #include "duck.h"
 #include "test.h"
+#include "boat.h"
 
 #define BTN_GAUCHE 1
 
@@ -19,6 +20,7 @@ int main() {
     ALLEGRO_TIMER* timer = NULL;
     ALLEGRO_EVENT event;
     Duck Canard;
+    Boat* smallBoat;
     Coin *ducks[NB_MAX_ENNEMIS];
     for( i = 0 ; i < NB_MAX_ENNEMIS; i++ ){
         ducks[i] = malloc(sizeof(Coin));
@@ -48,6 +50,7 @@ int main() {
     al_register_event_source(fifo, al_get_timer_event_source(timer));
 
     init_Duck(ducks);
+    init_boat(smallBoat);
     //dessiner(Canard);
 
     al_start_timer(timer);
@@ -102,6 +105,7 @@ int main() {
         if (dessin) {
             al_clear_to_color(BLANC);
             printDuck(ducks);
+            printBoat(smallBoat);
             al_flip_display();
             dessin = 0;
         }
@@ -113,7 +117,7 @@ int main() {
 
     al_destroy_event_queue(fifo);
     al_destroy_timer(timer);
-    al_destroy_bitmap("../Images/pixelBoat2.png");
+    al_destroy_bitmap("../Images/pixelBoat.png");
     al_destroy_bitmap("../Images/Duck.png");
     al_destroy_display(fenetre);
     return 0;
