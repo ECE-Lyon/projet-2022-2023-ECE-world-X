@@ -5,15 +5,19 @@
 #ifndef PROJET_TEST_H
 #define PROJET_TEST_H
 
-#define NB_MAX_ENNEMIS 10
+#define NB_MAX_ENNEMIS 5
 #include <stdlib.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_image.h>
+#include <assert.h>
 
 typedef struct {
     int x, y, z;
     int vitesse;
     int actif;
+    int width, height;
+    ALLEGRO_BITMAP *duck;
 } Ennemi;
 
 void init_ennemis(Ennemi *ennemi[]);

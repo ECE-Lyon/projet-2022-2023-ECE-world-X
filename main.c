@@ -13,6 +13,7 @@
 
 int main() {
     int i;
+    int dessin = 0;
     ALLEGRO_DISPLAY* fenetre = NULL;
     ALLEGRO_EVENT_QUEUE* fifo = NULL;
     ALLEGRO_TIMER* timer = NULL;
@@ -83,21 +84,32 @@ int main() {
                     Canard.x = xSouris - offsetX;
                     Canard.y = ySouris - offsetY;
                     redessiner = true;
+
                 }
+                dessin = 1;
                 apparition_ennemis(ennemis);
                 affiche_ennemis(ennemis);
                 mouvement_ennemis(ennemis);
 
                 duckReposition(&Canard);
-                if(redessiner) {
+                /*if(redessiner) {
                     dessiner(Canard);
                     redessiner = false;
-                }
+                }*/
                 break;
             }
         }
+        if (dessin) {
+            al_clear_to_color(BLANC);
+            affiche_ennemis(ennemis);
+            al_flip_display();
+            dessin = 0;
+        }
     }
 
+    for (i = 0; i < NB_MAX_ENNEMIS; i++) {
+        free(ennemis[i]);
+    }
 
     al_destroy_event_queue(fifo);
     al_destroy_timer(timer);
