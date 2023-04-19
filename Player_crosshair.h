@@ -1,0 +1,17 @@
+#ifndef PROJET_ECE_WORLD_PLAYER_CROSSHAIR_H
+#define PROJET_ECE_WORLD_PLAYER_CROSSHAIR_H
+
+#include <stdio.h>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_image.h>
+
+typedef struct {
+    int crosshair_location_x, crosshair_location_y;
+    int state;
+    ALLEGRO_BITMAP *crosshair;
+}Crosshair;
+
+#endif //PROJET_ECE_WORLD_PLAYER_CROSSHAIR_H
