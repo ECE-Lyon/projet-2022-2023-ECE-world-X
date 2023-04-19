@@ -1,4 +1,4 @@
-#include "game.h"
+#include "Snake/game.h"
 
 int main() {
     game();

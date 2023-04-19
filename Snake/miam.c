@@ -15,7 +15,7 @@ void init_apple(Food* pomme, Damier board) {
     centermap = NBSQUARE/2;
     pomme->x = PLAYERX+(board.widthsquare*centermap);
     pomme->y = PLAYERY+(centermap*board.heightsquare);
-    pomme->img = al_load_bitmap("../apple.png");
+    pomme->img = al_load_bitmap("../Snake/apple.png");
     if (pomme->img == NULL) {
         printf("Failed to load apple");
     }
