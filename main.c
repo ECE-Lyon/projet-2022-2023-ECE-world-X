@@ -7,12 +7,5 @@
 
 
 int main() {
-    int difficulty = 0;
-    while (difficulty <= 0 && difficulty <= 10){
-        printf("Choisissez votre difficulté (attention elle est exponentielle), entre 1 et 10 inclus\n");
-        scanf("%d", &difficulty);
-    }
-    getTimeXY(difficulty);
-
     return 0;
 }
