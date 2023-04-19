@@ -77,6 +77,7 @@ int main() {
         switch (event.type) {
             case ALLEGRO_EVENT_TIMER:
                 while (current_point < numHitObjects && clock()-off_beat >= tabXYT[current_point].timing) {
+                    printObjectsArr(tabXYT, printedXYT); //ajouter les éléments à print dans le tableau
                     printedXYT[current_point] = tabXYT[current_point];
                     al_clear_to_color(al_map_rgb(0, 0, 0));
                     draw_circles(printedXYT, off_beat);

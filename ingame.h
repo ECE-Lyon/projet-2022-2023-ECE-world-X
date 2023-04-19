@@ -8,5 +8,6 @@
 
 void removeFromArray(XYT *tab, int size);
 void draw_circles(XYT tabXYT[], int off_beat);
+void printObjectsArr(XYT source[], XYT dest[]);
 
 #endif //OSU_INGAME_H

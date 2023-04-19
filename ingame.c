@@ -6,7 +6,9 @@
 #include "ingame.h"
 #include "time.h"
 
+void printObjectsArr(XYT source[], XYT dest[]){
 
+}
 void removeFromArray(XYT *array, int size){
     if (size <= 1) {
         return;
@@ -16,10 +18,10 @@ void removeFromArray(XYT *array, int size){
     }
 }
 void draw_circles(XYT tabXYT[], int off_beat){
-    for (int i = 0; i < sizeof tabXYT; i++){
+    for (int i = 0; i < MAXHITOBJECTSONSCREEN; i++){
         printf("%d", tabXYT[i].timing);
-        if(tabXYT[i].timing < clock()-off_beat-100){
-            removeFromArray(tabXYT, sizeof tabXYT);
+        if(tabXYT[i].timing < clock()-off_beat-1000){
+            removeFromArray(tabXYT, MAXHITOBJECTSONSCREEN);
         }
         else {
             al_draw_filled_circle(tabXYT[i].x, tabXYT[i].y, 10, al_map_rgb(255, 0, 0));
