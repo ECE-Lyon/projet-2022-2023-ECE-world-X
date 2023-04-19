@@ -200,7 +200,6 @@ void add_body(Body* player, Waychange* lstchange, Damier board) {
         }
         player->next->direction = player->direction;
         player->next->nextchange = player->nextchange;
-        realloc(player->next->img, sizeof(ALLEGRO_BITMAP*));
         player->next->img[0] = al_load_bitmap("../bodysnake.png");
         if(player->next->img[0] == NULL) {
             printf("Image doesn't load\n");
