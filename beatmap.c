@@ -88,13 +88,11 @@ int getXYTime(int difficulty, XYT tabXYT[]) {
     fclose(file);
 
     // generate circles
-    printf("NUM : %d\n", nb);
     for (int i = 0; i < nb; i++){
         HitObject ho = hitObjects[i];
         tabXYT[i].x = ho.x;
         tabXYT[i].y = ho.y;
         tabXYT[i].timing = ho.time;
-        printf("%d, %d, %d\n", tabXYT[i].x, tabXYT[i].y, tabXYT[i].timing);
     }
 
 
