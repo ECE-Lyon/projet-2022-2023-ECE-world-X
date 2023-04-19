@@ -19,9 +19,9 @@ int main() {
     ALLEGRO_TIMER* timer = NULL;
     ALLEGRO_EVENT event;
     Duck Canard;
-    Ennemi *ennemis[NB_MAX_ENNEMIS];
+    Coin *ducks[NB_MAX_ENNEMIS];
     for( i = 0 ; i < NB_MAX_ENNEMIS; i++ ){
-        ennemis[i] = malloc(sizeof(Ennemi));
+        ducks[i] = malloc(sizeof(Coin));
     }
 
     int xSouris, ySouris, offsetX, offsetY;
@@ -47,7 +47,7 @@ int main() {
     al_register_event_source(fifo, al_get_mouse_event_source());
     al_register_event_source(fifo, al_get_timer_event_source(timer));
 
-    init_ennemis(ennemis);
+    init_Duck(ducks);
     //dessiner(Canard);
 
     al_start_timer(timer);
@@ -87,28 +87,28 @@ int main() {
 
                 }
                 dessin = 1;
-                apparition_ennemis(ennemis);
-                affiche_ennemis(ennemis);
-                mouvement_ennemis(ennemis);
+                apparitionDuck(ducks);
+                printDuck(ducks);
+                moveDuck(ducks);
 
                 duckReposition(&Canard);
-                /*if(redessiner) {
+                if(redessiner) {
                     dessiner(Canard);
                     redessiner = false;
-                }*/
+                }
                 break;
             }
         }
         if (dessin) {
             al_clear_to_color(BLANC);
-            affiche_ennemis(ennemis);
+            printDuck(ducks);
             al_flip_display();
             dessin = 0;
         }
     }
 
     for (i = 0; i < NB_MAX_ENNEMIS; i++) {
-        free(ennemis[i]);
+        free(ducks[i]);
     }
 
     al_destroy_event_queue(fifo);

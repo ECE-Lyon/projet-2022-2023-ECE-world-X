@@ -17,16 +17,16 @@ typedef struct {
     int vitesse;
     int actif;
     int width, height;
-    ALLEGRO_BITMAP *duck;
-} Ennemi;
+    ALLEGRO_BITMAP *duckimage;
+} Coin;
 
-void init_ennemis(Ennemi *ennemi[]);
+void init_Duck(Coin *ducks[]);
 
-void affiche_ennemis(Ennemi *ennemi[]);
+void printDuck(Coin *ducks[]);
 
-void mouvement_ennemis(Ennemi *ennemi[]);
+void moveDuck(Coin *ducks[]);
 
-void apparition_ennemis(Ennemi *ennemi[]);
+void apparitionDuck(Coin *ducks[]);
 
 
 #endif //PROJET_TEST_H
