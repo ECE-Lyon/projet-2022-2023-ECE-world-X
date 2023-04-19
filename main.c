@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <math.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
@@ -48,7 +50,7 @@ int main() {
     }
 
     int difficulty = 0;
-    while (difficulty <= 0 || difficulty > 10) {
+    while (difficulty <= 0 && difficulty <= 10) {
         printf("Choose your difficulty (warning it is exponential)\n");
         scanf("%d", &difficulty);
     }
@@ -57,8 +59,7 @@ int main() {
     ALLEGRO_SAMPLE *sample = NULL;
 
     XYT tabXYT[MAXHITOBJECT];
-    XYT printedXYT[MAXHITOBJECT];
-    int numHitObjects;
+    int numHitObjects = 0;
     numHitObjects = getXYTime(difficulty, tabXYT);
 
     al_register_event_source(queue, al_get_display_event_source(display));
@@ -70,6 +71,7 @@ int main() {
     int current_point = 0;
     ALLEGRO_EVENT event;
     bool running = true;
+    al_start_timer(timer);
     play_music(difficulty, sample);
     int off_beat = clock();
     while (running) {
@@ -77,13 +79,9 @@ int main() {
         switch (event.type) {
             case ALLEGRO_EVENT_TIMER:
                 while (current_point < numHitObjects && clock()-off_beat >= tabXYT[current_point].timing) {
-                    printObjectsArr(tabXYT, printedXYT); //ajouter les éléments à print dans le tableau
-                    printedXYT[current_point] = tabXYT[current_point];
                     al_clear_to_color(al_map_rgb(0, 0, 0));
-                    draw_circles(printedXYT, off_beat);
-                    al_flip_display();
+                    printArr(tabXYT, clock(), numHitObjects);
                     current_point++;
-                    printf("%ld\n", clock()-off_beat);
                 }
                 break;
             case ALLEGRO_EVENT_DISPLAY_CLOSE:

@@ -1,30 +1,23 @@
-//
-// Created by benja on 19/04/2023.
-//
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_primitives.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "ingame.h"
-#include "time.h"
 
-void printObjectsArr(XYT source[], XYT dest[]){
+#define MAXHITOBJECT 5000
 
-}
-void removeFromArray(XYT *array, int size){
-    if (size <= 1) {
-        return;
-    }
-    for (int i = 1; i < size; i++) {
-        array[i-1] = array[i];
+void removeFirst(XYT arr[], int size) {
+    for (int i = 0; i < size - 1; i++) {
+        arr[i] = arr[i + 1];
     }
 }
-void draw_circles(XYT tabXYT[], int off_beat){
-    for (int i = 0; i < MAXHITOBJECTSONSCREEN; i++){
-        printf("%d", tabXYT[i].timing);
-        if(tabXYT[i].timing < clock()-off_beat-1000){
-            removeFromArray(tabXYT, MAXHITOBJECTSONSCREEN);
-        }
-        else {
-            al_draw_filled_circle(tabXYT[i].x, tabXYT[i].y, 10, al_map_rgb(255, 0, 0));
+
+
+void printArr(XYT arr[], int current_time, int size){
+    for (int i = 0; arr[i].timing<=current_time; i++){
+        al_draw_filled_circle(arr[i].x, arr[i].y, 10, al_map_rgb(255, 0, 0));
+        al_flip_display();
+        if (arr[i].timing < clock()-100){
+            removeFirst(arr, size);
         }
     }
+
 }
