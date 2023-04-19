@@ -19,9 +19,9 @@ typedef struct {
 
 void error(const char *txt);
 
-void init_turret(FPSdisplay *turret);
+void init_images(FPSdisplay *turret, Crosshair *crosshair);
 
-void display_turret(FPSdisplay *turret);
+void display_turret(FPSdisplay *turret, bool engame);
 
 void shoot_turret(FPSdisplay *turret, Ship ships[], Crosshair crosshair);
 
