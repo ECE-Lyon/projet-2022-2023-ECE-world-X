@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
 project(osu C)
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 99)
 
 add_executable(osu main.c beatmap.c beatmap.h beatmap.c music.c music.h music.c music.c ingame.c ingame.h)
 IF(WIN32)
