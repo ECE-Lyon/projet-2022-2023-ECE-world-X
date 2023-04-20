@@ -10,7 +10,7 @@
 
 typedef struct {
     int x, y;
-    int width, height;
+    int size;
     int speed;
     bool destroyed;
     ALLEGRO_BITMAP *ship1, *ship2, *ship3;

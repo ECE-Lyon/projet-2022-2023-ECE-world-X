@@ -44,5 +44,7 @@ int main() {
     if (!display) {
         error("Création de la fenêtre");
     }
+
+    al_draw_bitmap()
     return 0;
 }
