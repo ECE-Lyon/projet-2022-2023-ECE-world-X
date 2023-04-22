@@ -2,6 +2,7 @@
 // Created by trist on 19/04/2023.
 //
 #include "character.h"
+#include "constante.h"
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
@@ -9,10 +10,9 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdio.h>
 
-#define FPS 60.0
-#define WIDTH 1200
-#define HEIGHT 600
+#define FPS 15.0
 
 ALLEGRO_DISPLAY* setting(){
     assert(al_init());
@@ -50,28 +50,62 @@ void menu(){
     //Ajouter tous les types d'événements souhaités
     al_register_event_source(queue,al_get_display_event_source(display));
     al_register_event_source(queue,al_get_timer_event_source(timer));
+    al_register_event_source(queue, al_get_keyboard_event_source());
 
+    int Keys[NBKEYS] = {0};
 
     while(!isEnd){
         ALLEGRO_EVENT event={0};
         al_wait_for_event(queue,&event);//on pioche un événement dès qu'il y en a un
-        switch(event.type){//en fonction de son type (événement de souris,du clavier...),on agit
+        switch(event.type) {//en fonction de son type (événement de souris,du clavier...),on agit
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
-                isEnd=1;
+                isEnd = 1;
                 break;
             case ALLEGRO_EVENT_KEY_DOWN://Si on arrive ici, c'est qu'on a pioché un événement du clavier de type touche  enfoncée
-                switch(event.keyboard.keycode){//On vérifie de quelle touche il s'agit
+                switch (event.keyboard.keycode) {//On vérifie de quelle touche il s'agit
                     case ALLEGRO_KEY_ESCAPE://on ne gère quel cas où la touche enfoncée est ECHAP
-                        isEnd=1;
+                        isEnd = 1;
+                        break;
+                    case ALLEGRO_KEY_UP :
+                        Keys[HAUT] = 1;
+                        break;
+                    case ALLEGRO_KEY_LEFT :
+                        Keys[GAUCHE] = 1;
+                        break;
+                    case ALLEGRO_KEY_RIGHT :
+                        Keys[DROITE] = 1;
+                        break;
+                    case ALLEGRO_KEY_DOWN :
+                        Keys[BAS] = 1;
+                        break;
+                }
+                break;
+            case ALLEGRO_EVENT_KEY_UP :
+                switch (event.keyboard.keycode) {//On vérifie de quelle touche il s'agit
+                    case ALLEGRO_KEY_UP :
+                        Keys[HAUT] = 0;
+                        player1.img = player1.anim[T1];
+                        break;
+                    case ALLEGRO_KEY_LEFT :
+                        Keys[GAUCHE] = 0;
+                        player1.img = player1.anim[L1];
+                        break;
+                    case ALLEGRO_KEY_RIGHT :
+                        Keys[DROITE] = 0;
+                        player1.img = player1.anim[R1];
+                        break;
+                    case ALLEGRO_KEY_DOWN :
+                        Keys[BAS] = 0;
+                        player1.img = player1.anim[B1];
                         break;
                 }
                 break;
             case ALLEGRO_EVENT_TIMER :
                 al_clear_to_color(al_map_rgb(0,0,0));
+                animation(&player1, Keys);
                 print_character(player1);
                 al_flip_display();
         }
-
     }
     al_destroy_event_queue(queue);
 }
