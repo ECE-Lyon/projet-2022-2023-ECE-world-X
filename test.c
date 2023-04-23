@@ -14,7 +14,7 @@ void init_Duck(Coin *ducks[]) {
         ducks[i]-> actif = 0;
         ducks[i]-> width = 10 + rand() % 20;
         ducks[i]-> height = ducks[i]-> width * 2 / 3;
-        ducks[i] -> duckimage = al_load_bitmap("../Images/Duck.png");
+        ducks[i] -> duckimage = al_load_bitmap("../Images/Cane.png");
     }
 }
 
@@ -50,4 +50,13 @@ void apparitionDuck(Coin *ducks[]) {
             ducks[i]->actif = 1;
         }
     }
+}
+
+
+void duckReposition(Coin* ducks[]) {
+    int i = 0;
+    if(ducks[i]->x < 0) { ducks[i]->x = 0; }
+    if(ducks[i]->y < 0) { ducks[i]->y = 0; }
+    if(ducks[i]->x+ducks[i]->largeur > LARGEUR) { ducks[i]->x = LARGEUR - ducks[i]->largeur; }
+    if(ducks[i]->y+ducks[i]->hauteur > HAUTEUR) { ducks[i]->y = HAUTEUR - ducks[i]->hauteur; }
 }

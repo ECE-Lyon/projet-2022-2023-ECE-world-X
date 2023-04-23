@@ -9,6 +9,7 @@
 #include "duck.h"
 #include "test.h"
 #include "boat.h"
+#include "cane.h"
 
 #define BTN_GAUCHE 1
 
@@ -19,8 +20,9 @@ int main() {
     ALLEGRO_EVENT_QUEUE* fifo = NULL;
     ALLEGRO_TIMER* timer = NULL;
     ALLEGRO_EVENT event;
-    Duck Canard;
+    Cane Canard;
     Boat* smallBoat;
+    Cane* pixelCane;
     Coin *ducks[NB_MAX_ENNEMIS];
     for( i = 0 ; i < NB_MAX_ENNEMIS; i++ ){
         ducks[i] = malloc(sizeof(Coin));
@@ -34,7 +36,7 @@ int main() {
     assert(al_install_mouse());
     assert(al_init_image_addon());
 
-    duckPosition(&Canard, 80, 50);
+    canePos(&Canard, 80, 50);
 
     fenetre = al_create_display(LARGEUR, HAUTEUR);
     assert(fenetre);
@@ -51,6 +53,7 @@ int main() {
 
     init_Duck(ducks);
     init_boat(smallBoat);
+    init_Cane(pixelCane);
     //dessiner(Canard);
 
     al_start_timer(timer);
@@ -63,7 +66,7 @@ int main() {
             }
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN: {
                 if(event.mouse.button == BTN_GAUCHE) {
-                    if(pointEstDansRect(event.mouse.x, event.mouse.y, Canard)) {
+                    if(pointEstDansRect(event.mouse.x, event.mouse.y, pixelCane)) {
                         deplacementSouris = true;
                         offsetX = event.mouse.x - Canard.x;
                         offsetY = event.mouse.y - Canard.y;
@@ -72,7 +75,7 @@ int main() {
                 break;
             }
             case ALLEGRO_EVENT_MOUSE_BUTTON_UP: {
-                if(event.mouse.button == BTN_GAUCHE) { // si on relache le bouton gauche
+                if(event.mouse.button == BTN_GAUCHE) {
                     deplacementSouris = false;
                 }
                 break;
@@ -94,9 +97,10 @@ int main() {
                 printDuck(ducks);
                 moveDuck(ducks);
 
-                duckReposition(&Canard);
+                duckReposition(ducks);
                 if(redessiner) {
-                    dessiner(Canard);
+                    drawCane(pixelCane);
+                    al_hide_mouse_cursor(fenetre);
                     redessiner = false;
                 }
                 break;
@@ -118,7 +122,7 @@ int main() {
     al_destroy_event_queue(fifo);
     al_destroy_timer(timer);
     al_destroy_bitmap("../Images/pixelBoat.png");
-    al_destroy_bitmap("../Images/Duck.png");
+    al_destroy_bitmap("../Images/Cane.png");
     al_destroy_display(fenetre);
     return 0;
 }

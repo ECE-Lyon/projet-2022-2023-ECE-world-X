@@ -13,7 +13,7 @@
 #include <assert.h>
 
 typedef struct {
-    int x, y, z;
+    int x, y, z, hauteur, largeur;
     int vitesse;
     int actif;
     int width, height;
@@ -27,6 +27,8 @@ void printDuck(Coin *ducks[]);
 void moveDuck(Coin *ducks[]);
 
 void apparitionDuck(Coin *ducks[]);
+
+void duckReposition(Coin* ducks[]);
 
 
 #endif //PROJET_TEST_H
