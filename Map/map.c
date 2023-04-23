@@ -3,6 +3,7 @@
 //
 #include "character.h"
 #include "constante.h"
+#include "background.h"
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
@@ -39,6 +40,8 @@ void menu(){
 
     Perso player1;
     init_Luke(&player1);
+    Background bar;
+    init_bg(&bar);
 
     //Créer un timer si nécéssaire
     ALLEGRO_TIMER*timer=al_create_timer(1/FPS);
@@ -102,7 +105,9 @@ void menu(){
                 break;
             case ALLEGRO_EVENT_TIMER :
                 al_clear_to_color(al_map_rgb(0,0,0));
+                print_background(bar);
                 animation(&player1, Keys);
+                move_bg(&bar, Keys);
                 print_character(player1);
                 al_flip_display();
         }

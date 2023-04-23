@@ -2,6 +2,7 @@
 // Created by trist on 19/04/2023.
 //
 #include <allegro5/allegro.h>
+#include "constante.h"
 #define NBANIMATION 12
 
 
@@ -10,7 +11,6 @@
 
 enum{B1, B2, B3, L1, L2, L3, R1, R2, R3, T1, T2, T3}; //B = bot, L = Left, R = Right, T = Top
 
-enum{HAUT, DROITE, BAS, GAUCHE, NBKEYS};
 
 typedef struct{
     int x,y, direction, state, ticket;

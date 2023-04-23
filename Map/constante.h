@@ -5,6 +5,9 @@
 #ifndef PROJET_CONSTANTE_H
 #define PROJET_CONSTANTE_H
 
+enum{HAUT, DROITE, BAS, GAUCHE, NBKEYS};
+
+
 #define WIDTH 1200
 #define HEIGHT 600
 
@@ -12,4 +15,9 @@
 #define STARTY HEIGHT/2
 
 #define NBTICKET 5
+
+#define BGX 0
+#define BGY 0
+#define SPEEDBG 8
+
 #endif //PROJET_CONSTANTE_H
