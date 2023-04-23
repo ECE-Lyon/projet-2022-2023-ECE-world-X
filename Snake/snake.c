@@ -43,6 +43,14 @@ void init_snake(Body* player) {
     player->next = NULL;
 }
 
+int size_snake(Body* player, int size) {
+    if (player->next == NULL) {
+        return size;
+    }
+    size+=1;
+    size_snake(player->next, size);
+}
+
 void debug_player(Body* p) {
     if (p == NULL) {
         return;

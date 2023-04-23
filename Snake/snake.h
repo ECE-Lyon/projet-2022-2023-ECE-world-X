@@ -42,6 +42,7 @@ void move_body(Body* player, Damier board);
 void debuglst (Waychange *l);
 void set_change(Body* player, Waychange* lstchange);
 int check_body_collision(Body* playerhead, Body* playerbody);
+int size_snake(Body* player, int size);
 
 
 

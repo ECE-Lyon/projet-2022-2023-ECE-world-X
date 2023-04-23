@@ -8,6 +8,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <time.h>
 
 #include "snake.h"
@@ -38,8 +39,9 @@ void game(){
     int isEnd=0;
     float fps;
     int changeallowed;
+    int size = 0;
 
-    fps = 7.0f;
+    fps = 6.0f;
     changeallowed = 1;
     ALLEGRO_EVENT_QUEUE* queue;
 
@@ -139,5 +141,8 @@ void game(){
         }
     }
     al_destroy_event_queue(queue);
+    size = size_snake(player, size);
+    printf("Votre taille etait de %d\n", size);
     free_snake(player);
+
 }

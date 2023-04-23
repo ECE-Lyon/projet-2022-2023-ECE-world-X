@@ -3,7 +3,7 @@ project(PROJET C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(PROJET main.c Snake/interface.c Snake/snake.c Snake/miam.h Snake/miam.c Snake/plateau.c Snake/plateau.h Snake/game.c Map/map.h Map/character.h Map/character.c Map/map.c)
+add_executable(PROJET main.c Snake/interface.c Snake/snake.c Snake/miam.h Snake/miam.c Snake/plateau.c Snake/plateau.h Snake/game.c Snake/game.c Snake/interface.c Snake/miam.c Snake/plateau.c)
 
 IF(WIN32)
     target_link_libraries(PROJET -lmingw32 -lallegro-5.0.10-monolith-md-debug)
