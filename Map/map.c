@@ -32,6 +32,11 @@ ALLEGRO_DISPLAY* setting(){
 
 }
 
+void reset_keys(int Keys[NBKEYS]) {
+    for(int i=0; i<NBKEYS; i++) {
+        Keys[i] = 0;
+    }
+}
 
 void menu(){
     ALLEGRO_DISPLAY* display=setting();
@@ -70,15 +75,19 @@ void menu(){
                         isEnd = 1;
                         break;
                     case ALLEGRO_KEY_UP :
+                        reset_keys(Keys);
                         Keys[HAUT] = 1;
                         break;
                     case ALLEGRO_KEY_LEFT :
+                        reset_keys(Keys);
                         Keys[GAUCHE] = 1;
                         break;
                     case ALLEGRO_KEY_RIGHT :
+                        reset_keys(Keys);
                         Keys[DROITE] = 1;
                         break;
                     case ALLEGRO_KEY_DOWN :
+                        reset_keys(Keys);
                         Keys[BAS] = 1;
                         break;
                 }
