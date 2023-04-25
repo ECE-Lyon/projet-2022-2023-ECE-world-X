@@ -27,7 +27,7 @@ void display_turret(FPSdisplay turret, bool endgame){
 
 void init_images(FPSdisplay turret, Crosshair crosshair){
     turret.turretdisplay = al_load_bitmap("../Pictures/POV_Ship.png");
+    turret.backgrounddisplay = al_load_bitmap("../Picture/background.png");
     //turrettimerdisplay;
     crosshair.crosshair = al_load_bitmap("../Pictures/crosshair.png");
-    turret.backgrounddisplay = al_load_bitmap("../Picture/background.png");
 }
