@@ -15,6 +15,7 @@ typedef struct {
     int score;
     ALLEGRO_BITMAP *timerdisplay;
     ALLEGRO_BITMAP *turretdisplay;
+    ALLEGRO_BITMAP *backgrounddisplay;
 }FPSdisplay;
 
 void error(const char *txt);

@@ -52,6 +52,8 @@ int main() {
     }
     turret.turretdisplay = al_load_bitmap("../Pictures/POV_Ship.png");
     crosshair.crosshair = al_load_bitmap("../Pictures/crosshair.png");
+    turret.backgrounddisplay = al_load_bitmap("../Pictures/background.png");
+    al_draw_bitmap(turret.backgrounddisplay, 0, 0, 0);
     al_draw_bitmap(turret.turretdisplay, 0, 159, 0);
     init_ships(ships);
     spawn_ships(ships);

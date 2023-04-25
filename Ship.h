@@ -10,6 +10,7 @@
 
 typedef struct {
     float x, y;
+    int width, length;
     int size;
     int speed;
     bool destroyed;
