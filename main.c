@@ -20,13 +20,11 @@ int main() {
     ALLEGRO_EVENT_QUEUE* fifo = NULL;
     ALLEGRO_TIMER* timer = NULL;
     ALLEGRO_EVENT event;
-    Cane Canard;
-    Boat* smallBoat;
-    Cane* pixelCane;
-    Coin *ducks[NB_MAX_ENNEMIS];
-    for( i = 0 ; i < NB_MAX_ENNEMIS; i++ ){
-        ducks[i] = malloc(sizeof(Coin));
-    }
+    //Cane Canard;
+    Boat smallBoat;
+    Cane pixelCane;
+    Coin ducks[NB_MAX_ENNEMIS];
+
 
     int xSouris, ySouris, offsetX, offsetY;
     bool fini = false, redessiner = false, deplacementSouris = false;
@@ -36,7 +34,7 @@ int main() {
     assert(al_install_mouse());
     assert(al_init_image_addon());
 
-    canePos(&Canard, 80, 50);
+    canePos(&pixelCane, 80, 50);
 
     fenetre = al_create_display(LARGEUR, HAUTEUR);
     assert(fenetre);
@@ -51,9 +49,9 @@ int main() {
     al_register_event_source(fifo, al_get_mouse_event_source());
     al_register_event_source(fifo, al_get_timer_event_source(timer));
 
-    init_Duck(ducks);
-    init_boat(smallBoat);
-    init_Cane(pixelCane);
+    init_Duck(&ducks);
+    init_boat(&smallBoat);
+    init_Cane(&pixelCane);
     //dessiner(Canard);
 
     al_start_timer(timer);
@@ -66,10 +64,10 @@ int main() {
             }
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN: {
                 if(event.mouse.button == BTN_GAUCHE) {
-                    if(pointEstDansRect(event.mouse.x, event.mouse.y, pixelCane)) {
+                    if(pointEstDansRect(event.mouse.x, event.mouse.y, &pixelCane)) {
                         deplacementSouris = true;
-                        offsetX = event.mouse.x - Canard.x;
-                        offsetY = event.mouse.y - Canard.y;
+                        offsetX = event.mouse.x - pixelCane.x;
+                        offsetY = event.mouse.y - pixelCane.y;
                     }
                 }
                 break;
@@ -87,37 +85,36 @@ int main() {
             }
             case ALLEGRO_EVENT_TIMER: {
                 if(deplacementSouris) {
-                    Canard.x = xSouris - offsetX;
-                    Canard.y = ySouris - offsetY;
-                    redessiner = true;
+                    pixelCane.x = xSouris - offsetX;
+                    pixelCane.y = ySouris - offsetY;
+                    dessin = true;
 
                 }
-                dessin = 1;
-                apparitionDuck(ducks);
-                printDuck(ducks);
-                moveDuck(ducks);
+                apparitionDuck(&ducks);
+                printDuck(&ducks);
+                moveDuck(&ducks);
+                duckReposition(&ducks);
+                dessin = true;
 
-                duckReposition(ducks);
-                if(redessiner) {
-                    drawCane(pixelCane);
-                    al_hide_mouse_cursor(fenetre);
+                /*if(redessiner) {
+                    al_clear_to_color(BLANC);
+                    drawCane(&pixelCane);
                     redessiner = false;
-                }
+                }*/
                 break;
             }
         }
         if (dessin) {
             al_clear_to_color(BLANC);
-            printDuck(ducks);
-            printBoat(smallBoat);
+            drawCane(&pixelCane);
+            printDuck(&ducks);
+            printBoat(&smallBoat);
             al_flip_display();
-            dessin = 0;
+            dessin = false;
         }
     }
 
-    for (i = 0; i < NB_MAX_ENNEMIS; i++) {
-        free(ducks[i]);
-    }
+
 
     al_destroy_event_queue(fifo);
     al_destroy_timer(timer);

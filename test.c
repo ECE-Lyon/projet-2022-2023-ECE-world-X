@@ -7,56 +7,56 @@
 #include "test.h"
 #include "constantes.h"
 
-void init_Duck(Coin *ducks[]) {
+void init_Duck(Coin *ducks) {
     int i = 0;
     for (i = 0; i < NB_MAX_ENNEMIS; i++) {
-        ducks[i]-> vitesse = 2 + rand() % 3;
-        ducks[i]-> actif = 0;
-        ducks[i]-> width = 10 + rand() % 20;
-        ducks[i]-> height = ducks[i]-> width * 2 / 3;
-        ducks[i] -> duckimage = al_load_bitmap("../Images/Cane.png");
+        ducks[i].vitesse = 2 + rand() % 3;
+        ducks[i].actif = 0;
+        ducks[i].width = 10 + rand() % 20;
+        ducks[i].height = ducks[i].width * 2 / 3;
+        ducks[i].duckimage = al_load_bitmap("../Images/Duck.png");
     }
 }
 
 
-void printDuck(Coin *ducks[]) {
+void printDuck(Coin *ducks) {
     int i = 0;
     for (i = 0; i < NB_MAX_ENNEMIS; i++) {
-        if (ducks[i]-> actif) {
-            printf("%d\n%d\n" , ducks[i]-> x, ducks[i]-> y);
-            al_draw_bitmap(ducks[i] -> duckimage, ducks[i]-> x, ducks[i]-> y, ALLEGRO_FLIP_HORIZONTAL);
+        if (ducks[i].actif) {
+            printf("%d\n%d\n" , ducks[i].x, ducks[i].y);
+            al_draw_bitmap(ducks[i].duckimage, ducks[i].x, ducks[i].y, ALLEGRO_FLIP_HORIZONTAL);
         }
     }
 }
 
-void moveDuck(Coin *ducks[]) {
+void moveDuck(Coin *ducks) {
     int i = 0;
     for (i = 0; i < NB_MAX_ENNEMIS; i++) {
-        if (ducks[i]->actif) {
-            ducks[i]-> x -= ducks[i]-> vitesse;
-            if (ducks[i]-> x < 0) {
-                ducks[i]->actif = 0;
+        if (ducks[i].actif) {
+            ducks[i].x -= ducks[i].vitesse;
+            if (ducks[i].x < 0) {
+                ducks[i].actif = 0;
             }
         }
     }
 }
 
-void apparitionDuck(Coin *ducks[]) {
+void apparitionDuck(Coin *ducks) {
     int i = 0;
     for (i = 0; i < NB_MAX_ENNEMIS; i++) {
-        if (!ducks[i]->actif) {
-            ducks[i]-> x = LARGEUR - ducks[i]-> width;
-            ducks[i]-> y = ducks[i]-> height + rand() % (HAUTEURMAX - (ducks[i]-> height * 2));
-            ducks[i]->actif = 1;
+        if (!ducks[i].actif) {
+            ducks[i].x = LARGEUR - ducks[i].width;
+            ducks[i].y = ducks[i].height + rand() % (HAUTEURMAX - (ducks[i].height * 2));
+            ducks[i].actif = 1;
         }
     }
 }
 
 
-void duckReposition(Coin* ducks[]) {
+void duckReposition(Coin* ducks) {
     int i = 0;
-    if(ducks[i]->x < 0) { ducks[i]->x = 0; }
-    if(ducks[i]->y < 0) { ducks[i]->y = 0; }
-    if(ducks[i]->x+ducks[i]->largeur > LARGEUR) { ducks[i]->x = LARGEUR - ducks[i]->largeur; }
-    if(ducks[i]->y+ducks[i]->hauteur > HAUTEUR) { ducks[i]->y = HAUTEUR - ducks[i]->hauteur; }
+    if(ducks[i].x < 0) { ducks[i].x = 0; }
+    if(ducks[i].y < 0) { ducks[i].y = 0; }
+    if(ducks[i].x+ducks[i].largeur > LARGEUR) { ducks[i].x = LARGEUR - ducks[i].largeur; }
+    if(ducks[i].y+ducks[i].hauteur > HAUTEUR) { ducks[i].y = HAUTEUR - ducks[i].hauteur; }
 }

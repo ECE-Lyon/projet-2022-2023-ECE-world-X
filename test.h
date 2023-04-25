@@ -20,15 +20,15 @@ typedef struct {
     ALLEGRO_BITMAP *duckimage;
 } Coin;
 
-void init_Duck(Coin *ducks[]);
+void init_Duck(Coin *ducks);
 
-void printDuck(Coin *ducks[]);
+void printDuck(Coin *ducks);
 
-void moveDuck(Coin *ducks[]);
+void moveDuck(Coin *ducks);
 
-void apparitionDuck(Coin *ducks[]);
+void apparitionDuck(Coin *ducks);
 
-void duckReposition(Coin* ducks[]);
+void duckReposition(Coin* ducks);
 
 
 #endif //PROJET_TEST_H
