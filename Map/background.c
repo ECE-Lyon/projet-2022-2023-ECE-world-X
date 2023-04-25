@@ -10,7 +10,7 @@
 void init_bg (Background* bar) {
     bar->x = BGX;
     bar->y = BGY;
-    bar->img = al_load_bitmap("../Map/mubg2.png");
+    bar->img = al_load_bitmap("../Map/mapv2large.png");
     if (bar->img == NULL) {
         printf("Failed to load Background\n");
     }

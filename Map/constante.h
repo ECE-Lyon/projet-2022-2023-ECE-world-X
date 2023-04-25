@@ -16,8 +16,12 @@ enum{HAUT, DROITE, BAS, GAUCHE, NBKEYS};
 
 #define NBTICKET 5
 
-#define BGX 0
-#define BGY 0
+#define BGX -495
+#define BGY -595
 #define SPEEDBG 5
+
+#define COLLISIONWI 87
+#define COLLISIONHEI 70
+#define SIZECOLLISION 13.8f
 
 #endif //PROJET_CONSTANTE_H

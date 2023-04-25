@@ -4,6 +4,7 @@
 #include "character.h"
 #include "constante.h"
 #include "background.h"
+#include "collision.h"
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
@@ -13,6 +14,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
+
 
 #define FPS 30.0
 
@@ -44,6 +46,8 @@ void menu(){
     int isEnd=0;
     ALLEGRO_EVENT_QUEUE*queue;
 
+    char lst_collision[COLLISIONWI][COLLISIONHEI];
+    load_file_collision(lst_collision);
     Perso player1;
     init_Luke(&player1);
     Background bar;
@@ -124,12 +128,9 @@ void menu(){
             case ALLEGRO_EVENT_TIMER :
                 al_clear_to_color(al_map_rgb(0,0,0));
                 print_background(bar);
-                if (al_get_timer_count(timer)%4 == 0) {
-                    for(int i=0; i<NBKEYS; i++) {
-                        printf("%d", Keys[i]);
-                    }
-                    printf("\n");
-                    animation(&player1, Keys); //Bug multiple touch
+                if (al_get_timer_count(timer)%3 == 0) {
+                    animation(&player1, Keys);
+                    //printf("x:%d y:%d\n", bar.x, bar.y);
                 }
                 move_bg(&bar, Keys);
                 print_character(player1);
