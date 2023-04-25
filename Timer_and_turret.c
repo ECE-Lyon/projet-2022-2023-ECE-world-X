@@ -14,18 +14,18 @@ void error(const char *txt) {
     exit(EXIT_FAILURE);
 }
 
-int Timer(){
-    ALLEGRO_TIMER *al_create_timer()
-}
+//int Timer(){
+//    ALLEGRO_TIMER *al_create_timer()
+//}
 
-void display_turret(FPSdisplay *turret, bool endgame){
+void display_turret(FPSdisplay turret, bool endgame){
     while (endgame == 0){
-        al_draw_bitmap(turret->turretdisplay, 0, 159, 0);
+        al_draw_bitmap(turret.turretdisplay, 0, 159, 0);
     }
 }
 
-void init_images(FPSdisplay *turret, Crosshair *crosshair){
-    turret->turretdisplay = al_load_bitmap("../POV_Ship.png");
-    turret->timerdisplay =;
-    crosshair->crosshair = al_load_bitmap("../crosshair.png");
+void init_images(FPSdisplay turret, Crosshair crosshair){
+    turret.turretdisplay = al_load_bitmap("../Pictures/POV_Ship.png");
+    //turrettimerdisplay;
+    crosshair.crosshair = al_load_bitmap("../Pictures/crosshair.png");
 }

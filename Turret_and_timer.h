@@ -19,10 +19,10 @@ typedef struct {
 
 void error(const char *txt);
 
-void init_images(FPSdisplay *turret, Crosshair *crosshair);
+void init_images(FPSdisplay turret, Crosshair crosshair);
 
-void display_turret(FPSdisplay *turret, bool engame);
+void display_turret(FPSdisplay turret, bool engame);
 
-void shoot_turret(FPSdisplay *turret, Ship ships[], Crosshair crosshair);
+void shoot_turret(FPSdisplay turret, Ship ships[], Crosshair crosshair);
 
 #endif //PROJET_ECE_WORLD_TURRET_AND_TIMER_H

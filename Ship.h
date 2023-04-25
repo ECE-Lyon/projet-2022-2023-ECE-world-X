@@ -9,7 +9,7 @@
 #include <allegro5/allegro_image.h>
 
 typedef struct {
-    int x, y;
+    float x, y;
     int size;
     int speed;
     bool destroyed;
