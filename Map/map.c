@@ -8,12 +8,13 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_native_dialog.h>
 #include <assert.h>
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
 
-#define FPS 15.0
+#define FPS 30.0
 
 ALLEGRO_DISPLAY* setting(){
     assert(al_init());
@@ -95,30 +96,45 @@ void menu(){
             case ALLEGRO_EVENT_KEY_UP :
                 switch (event.keyboard.keycode) {//On vérifie de quelle touche il s'agit
                     case ALLEGRO_KEY_UP :
-                        Keys[HAUT] = 0;
-                        player1.img = player1.anim[T1];
+                        if (Keys[HAUT] == 1) {
+                            Keys[HAUT] = 0;
+                            player1.img = player1.anim[T1];
+                        }
                         break;
                     case ALLEGRO_KEY_LEFT :
-                        Keys[GAUCHE] = 0;
-                        player1.img = player1.anim[L1];
-                        break;
+                        if (Keys[GAUCHE] == 1) {
+                            Keys[GAUCHE] = 0;
+                            player1.img = player1.anim[L1];
+                            break;
+                        }
                     case ALLEGRO_KEY_RIGHT :
-                        Keys[DROITE] = 0;
-                        player1.img = player1.anim[R1];
-                        break;
+                        if (Keys[DROITE] == 1) {
+                            Keys[DROITE] = 0;
+                            player1.img = player1.anim[R1];
+                            break;
+                        }
                     case ALLEGRO_KEY_DOWN :
-                        Keys[BAS] = 0;
-                        player1.img = player1.anim[B1];
-                        break;
+                        if (Keys[BAS] == 1) {
+                            Keys[BAS] = 0;
+                            player1.img = player1.anim[B1];
+                            break;
+                        }
                 }
                 break;
             case ALLEGRO_EVENT_TIMER :
                 al_clear_to_color(al_map_rgb(0,0,0));
                 print_background(bar);
-                animation(&player1, Keys);
+                if (al_get_timer_count(timer)%4 == 0) {
+                    for(int i=0; i<NBKEYS; i++) {
+                        printf("%d", Keys[i]);
+                    }
+                    printf("\n");
+                    animation(&player1, Keys); //Bug multiple touch
+                }
                 move_bg(&bar, Keys);
                 print_character(player1);
                 al_flip_display();
+                break;
         }
     }
     al_destroy_event_queue(queue);

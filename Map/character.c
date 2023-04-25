@@ -70,5 +70,4 @@ void animation(Perso* player, int Keys[NBKEYS]) {
                 break;
         }
     }
-
 }

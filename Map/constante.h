@@ -18,6 +18,6 @@ enum{HAUT, DROITE, BAS, GAUCHE, NBKEYS};
 
 #define BGX 0
 #define BGY 0
-#define SPEEDBG 8
+#define SPEEDBG 5
 
 #endif //PROJET_CONSTANTE_H
