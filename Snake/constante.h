@@ -15,8 +15,8 @@
 #define STARTX 300
 #define STARTY 50
 
-#define PLAYERX 302
-#define PLAYERY 48
+#define PLAYERX 300
+#define PLAYERY 45
 
 
 #endif //SNAKE_CONSTANTE_H
