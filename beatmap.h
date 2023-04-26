@@ -3,6 +3,7 @@
 #define MAX_POINTS 3000
 #define LINES 1024
 #define MAXHITOBJECT 5000
+
 #include <stdio.h>
 #include <wchar.h>
 

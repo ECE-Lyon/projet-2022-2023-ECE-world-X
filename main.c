@@ -11,8 +11,6 @@
 #include "ingame.h"
 
 
-
-
 int main() {
     if (!al_init()) {
         printf((const char *) stderr, "Error with (!al_init)\n");
@@ -59,7 +57,8 @@ int main() {
     ALLEGRO_SAMPLE *sample = NULL;
 
     XYT tabXYT[MAXHITOBJECT];
-    int numHitObjects = 0;
+    XYT printedArr[20] = {0};
+    int numHitObjects;
     numHitObjects = getXYTime(difficulty, tabXYT);
 
     al_register_event_source(queue, al_get_display_event_source(display));
@@ -78,11 +77,12 @@ int main() {
         al_wait_for_event(queue, &event);
         switch (event.type) {
             case ALLEGRO_EVENT_TIMER:
-                while (current_point < numHitObjects && clock()-off_beat >= tabXYT[current_point].timing) {
-                    al_clear_to_color(al_map_rgb(0, 0, 0));
-                    printArr(tabXYT, clock(), numHitObjects);
+                while (tabXYT[current_point].timing + 400 < clock() - off_beat) {
+                    addToPrintedArr(tabXYT, printedArr, current_point); //tous les points sont affichés
                     current_point++;
                 }
+                printArr(printedArr, clock(), numHitObjects);
+                al_flip_display();
                 break;
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
                 running = false;
