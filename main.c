@@ -72,18 +72,17 @@ int main() {
     bool running = true;
     al_start_timer(timer);
     play_music(difficulty, sample);
-    int off_beat = clock();
     while (running) {
         al_wait_for_event(queue, &event);
         switch (event.type) {
             case ALLEGRO_EVENT_TIMER:
-                while (tabXYT[current_point].timing + 400 < clock() - off_beat) {
+                while (tabXYT[current_point].timing + 400 < clock()) {
                     addToPrintedArr(tabXYT, printedArr, current_point); //tous les points sont affichés
                     current_point++;
                 }
-                printArr(printedArr, clock(), numHitObjects);
-                al_flip_display();
+                printArr(printedArr);
                 break;
+
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
                 running = false;
                 break;
