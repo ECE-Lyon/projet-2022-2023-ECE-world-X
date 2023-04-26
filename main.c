@@ -79,10 +79,10 @@ int main() {
                 break;
             }
             case ALLEGRO_EVENT_MOUSE_AXES: {
-                if(cursEstDansWIND(event.mouse.x, event.mouse.y, &pixelCane)) {
+                /*if(cursEstDansWIND(event.mouse.x, event.mouse.y, &pixelCane)) {
                     offsetXcursor = event.mouse.x - pixelCane.x;
                     offsetYcursor = event.mouse.y - pixelCane.y;
-                }
+                }*/
                 xMouse = event.mouse.x;
                 yMouse = event.mouse.y;
                 if(duckSelect != -1){
@@ -94,8 +94,8 @@ int main() {
             }
             case ALLEGRO_EVENT_TIMER: {
                 al_get_mouse_state(&mouse_state);
-                pixelCane.x = mouse_state.x - offsetXcursor;
-                pixelCane.y = mouse_state.y - offsetYcursor;
+                pixelCane.x = mouse_state.x - 80;
+                pixelCane.y = mouse_state.y - 80;
                 apparitionDuck(ducks);
                 printDuck(ducks);
                 moveDuck(ducks);
