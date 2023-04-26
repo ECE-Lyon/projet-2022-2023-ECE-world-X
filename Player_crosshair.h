@@ -14,4 +14,10 @@ typedef struct {
     ALLEGRO_BITMAP *crosshair;
 }Crosshair;
 
+typedef struct {
+    char name;
+    float score;
+    int turn;
+}Player;
+
 #endif //PROJET_ECE_WORLD_PLAYER_CROSSHAIR_H

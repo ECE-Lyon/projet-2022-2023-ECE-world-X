@@ -1,0 +1,65 @@
+#include "Ship.h"
+#include "Start_and_images.h"
+#include "const.h"
+
+#include <stdio.h>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_image.h>
+
+void error(const char *txt) {
+    printf("ERREUR : %s", txt);
+    exit(EXIT_FAILURE);
+}
+
+
+void display_turret(FPSdisplay turret) {
+    al_draw_bitmap(turret.turretdisplay, 0, 159, 0);
+    al_draw_bitmap(turret.backgrounddisplay, 0, 0, 0);
+}
+
+void init_images(FPSdisplay turret, Crosshair crosshair) {
+    turret.turretdisplay = al_load_bitmap("../Pictures/POV_Ship.png");
+    turret.backgrounddisplay = al_load_bitmap("../Picture/background.png");
+    //turrettimerdisplay;
+    crosshair.crosshair = al_load_bitmap("../Pictures/crosshair.png");
+}
+
+void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALLEGRO_FONT *fontBig) {
+    if (P1.turn) {
+        al_draw_textf(fontBig, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
+                      SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBig), ALLEGRO_ALIGN_CENTER, "C'est au tour de %s",
+                      P1.name);
+    } else if (P2.turn) {
+        al_draw_textf(fontBig, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
+                      SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBig), ALLEGRO_ALIGN_CENTER, "C'est au tour de %s",
+                      P2.name);
+    }
+    al_rest(2);
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_bitmap(turret.backgrounddisplay, 0, 0, 0);
+    al_draw_bitmap(turret.turretdisplay, 0, 159, 0);
+    al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
+                  SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBig), ALLEGRO_ALIGN_CENTER, "3");
+    al_rest(1);
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_bitmap(turret.backgrounddisplay, 0, 0, 0);
+    al_draw_bitmap(turret.turretdisplay, 0, 159, 0);
+    al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
+                  SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBig), ALLEGRO_ALIGN_CENTER, "2");
+    al_rest(1);
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_bitmap(turret.backgrounddisplay, 0, 0, 0);
+    al_draw_bitmap(turret.turretdisplay, 0, 159, 0);
+    al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
+                  SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBig), ALLEGRO_ALIGN_CENTER, "1");
+    al_rest(1);
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_draw_bitmap(turret.backgrounddisplay, 0, 0, 0);
+    al_draw_bitmap(turret.turretdisplay, 0, 159, 0);
+    al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
+                  SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBig), ALLEGRO_ALIGN_CENTER, "GAME START !");
+
+}

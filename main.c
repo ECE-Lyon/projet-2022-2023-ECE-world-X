@@ -1,5 +1,5 @@
 #include "Ship.h"
-#include "Turret_and_timer.h"
+#include "Start_and_images.h"
 #include "const.h"
 #include "Player_crosshair.h"
 
@@ -11,16 +11,24 @@
 #include <allegro5/allegro_image.h>
 
 int main() {
-    int endgame = 0;
-    int pause = 0;
-    int quit = 0;
+    int endgame = 0, gameover = 0, pause = 0, start = 0, quit = 0, ingame = 0, destroyedShips = 0, scoreP1 = 0, scoreP2 = 0;
+    int wait = -1;
+    printf("%d", start);
     FPSdisplay turret;
     Ship ships[NB_SHIPS];
     Crosshair crosshair;
+    Player P1;
+    P1.name = 22;
+    P1.turn = 1;
+    Player P2;
+    P2.name = 23;
+    P2.turn = 0;
 
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_EVENT_QUEUE *queue = NULL;
     ALLEGRO_TIMER *timer = NULL;
+    ALLEGRO_TIMER *timerP1 = NULL;
+    ALLEGRO_TIMER *timerP2 = NULL;
     ALLEGRO_FONT *fontBangers60 = NULL;
     ALLEGRO_FONT *fontBangers160 = NULL;
     ALLEGRO_EVENT event;
@@ -31,14 +39,11 @@ int main() {
         error("Initialisation Allegro");
     }
     if (!al_install_keyboard()) {
-        error("Installation clavier");
-    }
-    if (!al_init_primitives_addon()) {
-        error("Initialisation primitives de dessin");
+        error("Keyboard download");
     }
     al_init_font_addon();
     if (!al_init_ttf_addon()) {
-        error("Initialisation polices TTF");
+        error("Initialisation fonts");
     }
     if (!al_init_image_addon()) {
         error("Initialisation images");
@@ -48,43 +53,152 @@ int main() {
 
     al_set_window_position(display, 200, 100);
     if (!display) {
-        error("Création de la fenêtre");
+        error("Display creation");
     }
-    turret.turretdisplay = al_load_bitmap("../Pictures/POV_Ship.png");
-    crosshair.crosshair = al_load_bitmap("../Pictures/crosshair.png");
-    turret.backgrounddisplay = al_load_bitmap("../Pictures/background.png");
-    al_draw_bitmap(turret.backgrounddisplay, 0, 0, 0);
-    al_draw_bitmap(turret.turretdisplay, 0, 159, 0);
+
+    timer = al_create_timer(1.0 / 60.0);
+    if (!timer) {
+        al_destroy_display(display);
+        al_destroy_font(fontBangers60);
+        al_destroy_font(fontBangers160);
+        error("Timer creation");
+    }
+
+    queue = al_create_event_queue();
+    if (!queue) {
+        al_destroy_display(display);
+        al_destroy_font(fontBangers60);
+        al_destroy_font(fontBangers160);
+        al_destroy_timer(timer);
+        error("Event queue creation");
+    }
+
+    al_register_event_source(queue, al_get_display_event_source(display));
+    al_register_event_source(queue, al_get_keyboard_event_source());
+    al_register_event_source(queue, al_get_timer_event_source(timer));
+    al_register_event_source(queue, al_get_mouse_event_source());
+
     init_ships(ships);
-    spawn_ships(ships);
-    move_ships(ships);
-    display_ships(ships);
-    al_flip_display();
-    al_rest(2);
-    move_ships(ships);
-    display_ships(ships);
-    al_flip_display();
-    move_ships(ships);
-    display_ships(ships);
-    al_flip_display();
-    al_rest(0.5);
-    move_ships(ships);
-    display_ships(ships);
-    al_flip_display();
-    al_rest(0.5);
-    move_ships(ships);
-    display_ships(ships);
-    al_flip_display();
-    al_rest(0.5);
-    move_ships(ships);
-    display_ships(ships);
-    al_flip_display();
-    al_rest(0.5);
-    move_ships(ships);
-    display_ships(ships);
-    al_flip_display();
-    al_rest(0.5);
-    al_rest(15);
-    al_destroy_display(display);
+    init_images(turret, crosshair);
+
+    al_start_timer(timer);
+
+    printf("Press SPACE to start the game");
+
+    do {
+        al_wait_for_event(queue, &event);
+
+        if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+            endgame = 1;
+        } else if (event.type == ALLEGRO_EVENT_KEY_DOWN && !pause && wait == -1) {
+            switch (event.keyboard.keycode) {
+                case ALLEGRO_KEY_P:
+                    pause = 1;
+                    break;
+
+                case ALLEGRO_KEY_ESCAPE:
+                    endgame = 1;
+                    break;
+
+                case ALLEGRO_KEY_SPACE:
+                    if (ingame == 0) {
+                        display_turret(turret);
+                        start_game(P1, P2, turret, fontBangers60, fontBangers160);
+                        ingame = 1;
+                        break;
+                    }
+            }
+        } else if (event.type == ALLEGRO_EVENT_TIMER && ingame == 1) {
+
+            if (!pause) {
+                if (key[UP]) {
+                    monte(&vaisseau);
+                }
+                if (key[DOWN]) {
+                    descend(&vaisseau);
+                }
+                if (key[LEFT]) {
+                    gauche(&vaisseau);
+                }
+                if (key[RIGHT]) {
+                    droite(&vaisseau);
+                }
+
+                if (start == 1) {
+                    spawn_ships(ships);
+                    if (P1.turn){
+                        al_start_timer(timerP1);
+                    } else if (P2.turn){
+                        al_start_timer(timerP2);
+                    }
+                    start = 0;
+                }
+                for (int i = 0; i < NB_SHIPS; ++i) {
+                    if (ships[i].destroyed == 1) {
+                        destroyedShips++;
+                    }
+                }
+
+                display_turret(turret);
+                display_ships(ships);
+                move_ships(ships);
+                display_timer(timer, scoreP1, scoreP2);
+
+                al_clear_to_color(al_map_rgb(0, 0, 0));
+
+                if (destroyedShips == NB_SHIPS) {
+                    if (P1.turn) {
+                        scoreP1 = timerP1;
+                        start = 1;
+                        P2.turn = 1;
+                    } else if (P2.turn) {
+                        scoreP2 = timerP2;
+                        gameover = 1;
+                    }
+                }
+            }
+        }
+
+        if (gameOver) {
+            if (waitInMilliseconds == -1) {
+                waitInMilliseconds = 5 * 60;
+            } else if (waitInMilliseconds == 0) {
+                vaisseau.vie = 3;
+                vaisseau.score = 0;
+                gameOver = 0;
+                key[UP] = 0;
+                key[DOWN] = 0;
+                key[LEFT] = 0;
+                key[RIGHT] = 0;
+                waitInMilliseconds = -1;
+            }
+        }
+
+        if (dessin && al_is_event_queue_empty(queue)) {
+            al_clear_to_color(NOIR);
+            affiche_etoiles(etoiles);
+            affiche_ennemis(ennemis);
+            affiche_missiles(missiles);
+            affiche_vaisseau(&vaisseau);
+            affiche_infos(vaisseau, fontBangers60, fontBangers160);
+
+            if (pause) {
+                al_draw_textf(fontBangers160, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
+                              SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBangers160), ALLEGRO_ALIGN_CENTER, "Pause");
+            }
+
+            if (gameOver) {
+                al_draw_textf(fontBangers60, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
+                              SCREEN_HEIGHT - al_get_font_ascent(fontBangers160) - 20, ALLEGRO_ALIGN_CENTER,
+                              (waitInMilliseconds / 60) + 1 > 1 ? "Nouvelle partie dans %d secondes..."
+                                                                : "Nouvelle partie dans %d seconde...",
+                              (waitInMilliseconds / 60) + 1);
+            }
+
+            al_flip_display();
+        }
+
+    } while (!endgame);
+
     return 0;
 }

@@ -1,5 +1,5 @@
 #include "Ship.h"
-#include "Turret_and_timer.h"
+#include "Start_and_images.h"
 #include "const.h"
 
 #include <stdio.h>
@@ -88,7 +88,6 @@ void move_ships(Ship ships[]) {
     int direction = 0;
     for (i = 0; i < NB_SHIPS; i++) {
         if (ships[i].destroyed == 0) {
-            // random movement
             direction = rand() % 4;
             switch (direction) {
                 case 0: // move up
@@ -104,7 +103,6 @@ void move_ships(Ship ships[]) {
                     ships[i].x += ships[i].speed;
                     break;
             }
-            // check if ships go out of screen, if so, reset its position
             if (ships[i].x < 0 || ships[i].x > SCREEN_WIDTH || ships[i].y < 0 || ships[i].y > SCREEN_HEIGHT) {
                 ships[i].x = rand() % (SCREEN_WIDTH - ships[i].width);
                 ships[i].y = rand() % (SCREEN_HEIGHT - ships[i].length);
