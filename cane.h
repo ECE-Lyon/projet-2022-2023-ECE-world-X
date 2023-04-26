@@ -24,8 +24,8 @@ void canePos(Cane* pixelCane, int lar, int haut) ;
 
 void caneRepos(Cane* pixelCane);
 
-bool pointEstDansZone(int x, int y, int x1, int y1, int x2, int y2);
+bool cursEstDansWIND(int x, int y, Cane* pixelCane);
 
-bool pointEstDansRect(int x, int y, Cane* pixelCane);
+bool cursWind(int x, int y, int x1, int y1, int x2, int y2);
 
 #endif //PROJET_CANE_H

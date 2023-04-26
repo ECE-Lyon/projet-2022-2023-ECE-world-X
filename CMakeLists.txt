@@ -3,7 +3,7 @@ project(PROJET C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(PROJET main.c duck.c duck.h constantes.h test.c test.h cane.c cane.h boat.c boat.h)
+add_executable(PROJET main.c constantes.h Duck.c Duck.h cane.c cane.h boat.c boat.h)
 
 IF(WIN32)
     target_link_libraries(PROJET -lmingw32 -lallegro-5.0.10-monolith-md-debug)

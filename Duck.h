@@ -30,5 +30,8 @@ void apparitionDuck(Coin *ducks);
 
 void duckReposition(Coin* ducks);
 
+bool cane_on_duck(int x, int y, int x1, int y1, int x2, int y2);
+
+bool cane_active(int x, int y, Coin* ducks);
 
 #endif //PROJET_TEST_H

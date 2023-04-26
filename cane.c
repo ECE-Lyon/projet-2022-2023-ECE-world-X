@@ -21,22 +21,15 @@ void canePos(Cane* pixelCane, int lar, int haut) {
     pixelCane->y = HAUTEUR / 2 - pixelCane->hauteur / 2;
 }
 
-void caneRepos(Cane* pixelCane) {
-    if(pixelCane->x < 0) { pixelCane->x = 0; }
-    if(pixelCane->y < 0) { pixelCane->y = 0; }
-    if(pixelCane->x + pixelCane->largeur > LARGEUR) { pixelCane->x = LARGEUR - pixelCane->largeur; }
-    if(pixelCane->y + pixelCane->hauteur > HAUTEUR) { pixelCane->y = HAUTEUR - pixelCane->hauteur; }
-}
-
 void drawCane(Cane* pixelCane) {
     al_draw_bitmap(pixelCane->imageCane ,pixelCane->x,pixelCane->y,0);
-    al_flip_display();
+    printf("%d\n%d",pixelCane->x,pixelCane->y);
 }
 
-bool pointEstDansZone(int x, int y, int x1, int y1, int x2, int y2) {
+bool cursWind(int x, int y, int x1, int y1, int x2, int y2) {
     return x >= 0 && x <= LARGEUR && y >= 0 && y < HAUTEUR;
 }
 
-bool pointEstDansRect(int x, int y, Cane* pixelCane) {
-    return pointEstDansZone(x, y, pixelCane->x, pixelCane->y, pixelCane->x+pixelCane->largeur, pixelCane->y+pixelCane->hauteur);
+bool cursEstDansWIND(int x, int y, Cane* pixelCane) {
+    return cursWind(x, y, pixelCane->x, pixelCane->y, pixelCane->x+pixelCane->largeur, pixelCane->y+pixelCane->hauteur);
 }

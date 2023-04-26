@@ -6,28 +6,26 @@
 #include <allegro5/allegro_image.h>
 #include <assert.h>
 #include "constantes.h"
-#include "duck.h"
-#include "test.h"
+#include "Duck.h"
 #include "boat.h"
 #include "cane.h"
 
-#define BTN_GAUCHE 1
+#define BTN_LEFT 1
+
 
 int main() {
-    int i;
-    int dessin = 0;
-    ALLEGRO_DISPLAY* fenetre = NULL;
+    int dessin = false;
+    ALLEGRO_DISPLAY* window = NULL;
     ALLEGRO_EVENT_QUEUE* fifo = NULL;
     ALLEGRO_TIMER* timer = NULL;
     ALLEGRO_EVENT event;
-    //Cane Canard;
+    ALLEGRO_MOUSE_STATE mouse_state;
     Boat smallBoat;
     Cane pixelCane;
     Coin ducks[NB_MAX_ENNEMIS];
-
-
-    int xSouris, ySouris, offsetX, offsetY;
-    bool fini = false, redessiner = false, deplacementSouris = false;
+    bool end = false;
+    int i, xMouse, yMouse, offsetXduck, offsetYduck, offsetXcursor, offsetYcursor;
+    int duckSelect = -1;
 
     assert(al_init());
     assert(al_init_primitives_addon());
@@ -36,91 +34,85 @@ int main() {
 
     canePos(&pixelCane, 80, 50);
 
-    fenetre = al_create_display(LARGEUR, HAUTEUR);
-    assert(fenetre);
-    al_set_window_title(fenetre, "CoinCoin");
+    window = al_create_display(LARGEUR, HAUTEUR);
+    assert(window);
+    al_set_window_title(window, "CoinCoin");
 
     timer = al_create_timer(1.0/FPS);
     assert(timer);
 
     fifo = al_create_event_queue();
     assert(fifo);
-    al_register_event_source(fifo, al_get_display_event_source(fenetre));
+    al_register_event_source(fifo, al_get_display_event_source(window));
     al_register_event_source(fifo, al_get_mouse_event_source());
     al_register_event_source(fifo, al_get_timer_event_source(timer));
 
-    init_Duck(&ducks);
+    init_Duck(ducks);
     init_boat(&smallBoat);
     init_Cane(&pixelCane);
-    //dessiner(Canard);
+    //al_hide_mouse_cursor(window);
 
     al_start_timer(timer);
-    while(!fini) {
+    while(!end) {
         al_wait_for_event(fifo, &event);
         switch(event.type) {
             case ALLEGRO_EVENT_DISPLAY_CLOSE: {
-                fini = true;
+                end = true;
                 break;
             }
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN: {
-                if(event.mouse.button == BTN_GAUCHE) {
-                    if(pointEstDansRect(event.mouse.x, event.mouse.y, &pixelCane)) {
-                        deplacementSouris = true;
-                        offsetX = event.mouse.x - pixelCane.x;
-                        offsetY = event.mouse.y - pixelCane.y;
+                if(event.mouse.button == BTN_LEFT) {
+                    for(i=0; i<NB_MAX_ENNEMIS; i++){
+                        if(cane_active(event.mouse.x, event.mouse.y, &ducks[i])) {
+                            duckSelect = i;
+                            offsetXduck = event.mouse.x - ducks[i].x;
+                            offsetYduck = event.mouse.y - ducks[i].y;
+                        }
                     }
                 }
                 break;
             }
             case ALLEGRO_EVENT_MOUSE_BUTTON_UP: {
-                if(event.mouse.button == BTN_GAUCHE) {
-                    deplacementSouris = false;
+                if(event.mouse.button == BTN_LEFT) {
+                    duckSelect = -1;
                 }
                 break;
             }
             case ALLEGRO_EVENT_MOUSE_AXES: {
-                xSouris = event.mouse.x;
-                ySouris = event.mouse.y;
+                xMouse = event.mouse.x;
+                yMouse = event.mouse.y;
                 break;
             }
             case ALLEGRO_EVENT_TIMER: {
-                if(deplacementSouris) {
-                    pixelCane.x = xSouris - offsetX;
-                    pixelCane.y = ySouris - offsetY;
+                if(duckSelect != -1){
+                    ducks[duckSelect].x = xMouse - offsetXduck;
+                    ducks[duckSelect].y = yMouse - offsetYduck;
                     dessin = true;
-
                 }
-                apparitionDuck(&ducks);
-                printDuck(&ducks);
-                moveDuck(&ducks);
-                duckReposition(&ducks);
+                al_get_mouse_state(&mouse_state);
+                pixelCane.x = mouse_state.x - 80;
+                pixelCane.y = mouse_state.y - 80;
+                apparitionDuck(ducks);
+                printDuck(ducks);
+                moveDuck(ducks);
+                duckReposition(ducks);
                 dessin = true;
-
-                /*if(redessiner) {
-                    al_clear_to_color(BLANC);
-                    drawCane(&pixelCane);
-                    redessiner = false;
-                }*/
                 break;
             }
         }
         if (dessin) {
             al_clear_to_color(BLANC);
-            drawCane(&pixelCane);
-            printDuck(&ducks);
+            printDuck(ducks);
             printBoat(&smallBoat);
+            drawCane(&pixelCane);
             al_flip_display();
             dessin = false;
         }
     }
 
-
-
     al_destroy_event_queue(fifo);
     al_destroy_timer(timer);
-    al_destroy_bitmap("../Images/pixelBoat.png");
-    al_destroy_bitmap("../Images/Cane.png");
-    al_destroy_display(fenetre);
+    al_destroy_display(window);
     return 0;
 }
 

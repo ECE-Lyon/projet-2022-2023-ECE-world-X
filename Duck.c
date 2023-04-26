@@ -4,16 +4,16 @@
 
 #include <stdlib.h>
 #include <allegro5/allegro.h>
-#include "test.h"
+#include "Duck.h"
 #include "constantes.h"
 
-void init_Duck(Coin *ducks) {
+void init_Duck(Coin ducks[]) {
     int i = 0;
     for (i = 0; i < NB_MAX_ENNEMIS; i++) {
         ducks[i].vitesse = 2 + rand() % 3;
         ducks[i].actif = 0;
-        ducks[i].width = 10 + rand() % 20;
-        ducks[i].height = ducks[i].width * 2 / 3;
+        ducks[i].width = 10;
+        ducks[i].height = ducks[i].width;
         ducks[i].duckimage = al_load_bitmap("../Images/Duck.png");
     }
 }
@@ -23,7 +23,6 @@ void printDuck(Coin *ducks) {
     int i = 0;
     for (i = 0; i < NB_MAX_ENNEMIS; i++) {
         if (ducks[i].actif) {
-            printf("%d\n%d\n" , ducks[i].x, ducks[i].y);
             al_draw_bitmap(ducks[i].duckimage, ducks[i].x, ducks[i].y, ALLEGRO_FLIP_HORIZONTAL);
         }
     }
@@ -59,4 +58,13 @@ void duckReposition(Coin* ducks) {
     if(ducks[i].y < 0) { ducks[i].y = 0; }
     if(ducks[i].x+ducks[i].largeur > LARGEUR) { ducks[i].x = LARGEUR - ducks[i].largeur; }
     if(ducks[i].y+ducks[i].hauteur > HAUTEUR) { ducks[i].y = HAUTEUR - ducks[i].hauteur; }
+}
+
+bool cane_on_duck(int x, int y, int x1, int y1, int x2, int y2){
+    printf("%d >= %d && %d <= %d && %d >= %d && %d < %d\n", x, x1, x, x2, y, y1, y, y2);
+    return x >= x1 && x <= x2 && y >= y1 && y < y2;
+}
+
+bool cane_active(int x, int y, Coin* ducks) {
+    return cane_on_duck(x, y, ducks->x, ducks->y, ducks->x + ducks->largeur, ducks->y + ducks->hauteur);
 }
