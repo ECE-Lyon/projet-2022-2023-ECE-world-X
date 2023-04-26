@@ -23,11 +23,11 @@ void canePos(Cane* pixelCane, int lar, int haut) {
 
 void drawCane(Cane* pixelCane) {
     al_draw_bitmap(pixelCane->imageCane ,pixelCane->x,pixelCane->y,0);
-    printf("%d\n%d",pixelCane->x,pixelCane->y);
+    printf("%d\n\n%d",pixelCane->x,pixelCane->y);
 }
 
 bool cursWind(int x, int y, int x1, int y1, int x2, int y2) {
-    return x >= 0 && x <= LARGEUR && y >= 0 && y < HAUTEUR;
+    return x >= x1 && x <= x2 && y >= y1 && y < y2;
 }
 
 bool cursEstDansWIND(int x, int y, Cane* pixelCane) {

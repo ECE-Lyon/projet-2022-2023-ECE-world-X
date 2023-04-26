@@ -7,13 +7,13 @@
 #include "Duck.h"
 #include "constantes.h"
 
-void init_Duck(Coin ducks[]) {
+void init_Duck(Coin *ducks) {
     int i = 0;
     for (i = 0; i < NB_MAX_ENNEMIS; i++) {
         ducks[i].vitesse = 2 + rand() % 3;
         ducks[i].actif = 0;
-        ducks[i].width = 10;
-        ducks[i].height = ducks[i].width;
+        ducks[i].largeur = 10;
+        ducks[i].hauteur = ducks[i].width;
         ducks[i].duckimage = al_load_bitmap("../Images/Duck.png");
     }
 }
@@ -61,7 +61,7 @@ void duckReposition(Coin* ducks) {
 }
 
 bool cane_on_duck(int x, int y, int x1, int y1, int x2, int y2){
-    printf("%d >= %d && %d <= %d && %d >= %d && %d < %d\n", x, x1, x, x2, y, y1, y, y2);
+    printf("x >= %d && %d <= %d && %d >= %d && %d < %d\n", x, x1, x, x2, y, y1, y, y2);
     return x >= x1 && x <= x2 && y >= y1 && y < y2;
 }
 
