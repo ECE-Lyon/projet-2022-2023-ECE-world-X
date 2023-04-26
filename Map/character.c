@@ -43,18 +43,22 @@ void animation(Perso* player, int Keys[NBKEYS]) {
     int v1 = -1;
     int v2 = -1;
     if (Keys[HAUT] == 1) {
+        player->direction = T1;
         v1 = T2;
         v2 = T3;
     }
     else if (Keys[GAUCHE] == 1) {
+        player->direction = L1;
         v1 = L2;
         v2 = L3;
     }
     else if (Keys[DROITE] == 1){
+        player->direction = R1;
         v1 = R2;
         v2 = R3;
     }
     else if (Keys[BAS] == 1) {
+        player->direction = B1;
         v1 = B2;
         v2 = B3;
     }

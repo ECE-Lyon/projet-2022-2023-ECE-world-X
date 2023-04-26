@@ -44,14 +44,19 @@ void reset_keys(int Keys[NBKEYS]) {
 void menu(){
     ALLEGRO_DISPLAY* display=setting();
     int isEnd=0;
+
     ALLEGRO_EVENT_QUEUE*queue;
 
-    char lst_collision[COLLISIONWI][COLLISIONHEI];
-    load_file_collision(lst_collision);
     Perso player1;
     init_Luke(&player1);
     Background bar;
     init_bg(&bar);
+
+    char lst_collision[COLLISIONWI][COLLISIONHEI];
+    load_file_collision(lst_collision);
+    Mapcollision poscollision;
+    update_map_pos(&poscollision, bar);
+
 
     //Créer un timer si nécéssaire
     ALLEGRO_TIMER*timer=al_create_timer(1/FPS);
@@ -128,11 +133,15 @@ void menu(){
             case ALLEGRO_EVENT_TIMER :
                 al_clear_to_color(al_map_rgb(0,0,0));
                 print_background(bar);
+                check_collision(player1, poscollision, lst_collision);
                 if (al_get_timer_count(timer)%3 == 0) {
                     animation(&player1, Keys);
                     //printf("x:%d y:%d\n", bar.x, bar.y);
                 }
+                //printf("barx:%d, bary:%d\n", bar.x, bar.y);
+                //printf("x:%d, y:%d\n", poscollision.posmapx, poscollision.posmapy);
                 move_bg(&bar, Keys);
+                update_map_pos(&poscollision, bar);
                 print_character(player1);
                 al_flip_display();
                 break;
