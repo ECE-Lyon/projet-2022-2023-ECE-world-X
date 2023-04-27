@@ -17,15 +17,15 @@ void init_ships(Ship ships[]) {
         ships[i].size = (rand() % 3) + 1;
         if (ships[i].size == 1) {
             ships->ship1 = al_load_bitmap("../Pictures/ship100.png");
-            ships->explosion = al_load_bitmap("../Pictures/explosion100");
+            ships->explosion1 = al_load_bitmap("../Pictures/explosion100");
             ships->width = ships->length = 100;
         } else if (ships[i].size == 2) {
             ships->ship2 = al_load_bitmap("../Pictures/ship75.png");
-            ships->explosion = al_load_bitmap("../Pictures/explosion75");
+            ships->explosion2 = al_load_bitmap("../Pictures/explosion75");
             ships->width = ships->length = 75;
         } else if (ships[i].size == 3) {
             ships->ship3 = al_load_bitmap("../Pictures/ship50.png");
-            ships->explosion = al_load_bitmap("../Pictures/explosion50");
+            ships->explosion3 = al_load_bitmap("../Pictures/explosion50");
             ships->width = ships->length = 50;
         }
     }
@@ -90,16 +90,16 @@ void move_ships(Ship ships[]) {
         if (ships[i].destroyed == 0) {
             direction = rand() % 4;
             switch (direction) {
-                case 0: // move up
+                case 0:
                     ships[i].y -= ships[i].speed;
                     break;
-                case 1: // move down
+                case 1:
                     ships[i].y += ships[i].speed;
                     break;
-                case 2: // move left
+                case 2:
                     ships[i].x -= ships[i].speed;
                     break;
-                case 3: // move right
+                case 3:
                     ships[i].x += ships[i].speed;
                     break;
             }
