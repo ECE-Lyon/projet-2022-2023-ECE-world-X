@@ -46,6 +46,11 @@ int main() {
         fprintf(stderr, "Failed to reserve samples!\n");
         return -1;
     }
+    ALLEGRO_BITMAP* circle = al_load_bitmap("C:/Users/benja/CLionProjects/ECE_World_X/projet-2022-2023-ECE-world-X/design/circle.png");
+    if (circle == NULL) {
+        fprintf(stderr, "Failed to load image.\n");
+        return -1;
+    }
 
     int difficulty = 0;
     while (difficulty <= 0 && difficulty <= 10) {
@@ -84,7 +89,7 @@ int main() {
             al_clear_to_color(al_map_rgb(0, 0, 0));
         }
 
-        printArr(printedArr);
+        printArr(printedArr, circle);
 
         al_wait_for_event(queue, &event);
         switch (event.type) {

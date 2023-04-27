@@ -3,23 +3,12 @@
 #include "ingame.h"
 
 #define MAXHITOBJECT 5000
-#define MAX_TIMING 1000000000
 
-void removeFirst(XYT arr[], int size) {
-    for (int i = 0; i < size - 1; i++) {
-        arr[i] = arr[i + 1];
-    }
-    arr[size - 1].x = 0;
-    arr[size - 1].y = 0;
-    arr[size - 1].timing = MAX_TIMING;
-}
-
-
-void printArr(XYT arr[]) {
+void printArr(XYT arr[], ALLEGRO_BITMAP* circle) {
     int i;
     for (i = 0; i < 20; i++) {
         if (arr[i].timing != 0) {
-            al_draw_filled_circle(arr[i].x, arr[i].y, 10, al_map_rgb(255, 0, 0));
+            al_draw_bitmap(circle, arr[i].x, arr[i].y, 0);
         }
     }
     al_flip_display();

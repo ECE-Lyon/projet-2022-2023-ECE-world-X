@@ -10,7 +10,7 @@
 
 void removeFirst(XYT tab[], int size);
 
-void printArr(XYT arr[]);
+void printArr(XYT arr[], ALLEGRO_BITMAP* circle);
 
 void addToPrintedArr(XYT source[], XYT dest[], int current_point);
 
