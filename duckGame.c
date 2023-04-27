@@ -3,9 +3,6 @@
 //
 
 #include "constantes.h"
-#include "Duck.h"
-#include "boat.h"
-#include "cane.h"
 
 int dessin = false;
 int i, xMouse, yMouse, offsetXduck, offsetYduck, offsetXcursor, offsetYcursor;

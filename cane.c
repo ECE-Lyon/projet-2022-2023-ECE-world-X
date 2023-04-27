@@ -2,9 +2,6 @@
 // Created by Félix Pignal on 14/04/2023.
 //
 
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_image.h>
-#include "cane.h"
 #include "constantes.h"
 
 void init_Cane(Cane *pixelCane){

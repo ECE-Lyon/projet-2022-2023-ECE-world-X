@@ -2,9 +2,6 @@
 // Created by Félix Pignal on 18/04/2023.
 //
 
-#include <stdlib.h>
-#include <allegro5/allegro.h>
-#include "Duck.h"
 #include "constantes.h"
 
 void init_Duck(Coin *ducks) {

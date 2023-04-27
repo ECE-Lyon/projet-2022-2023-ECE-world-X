@@ -5,10 +5,15 @@
 #ifndef PROJET_CONSTANTES_H
 #define PROJET_CONSTANTES_H
 
+#include <stdlib.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_image.h>
 #include <assert.h>
+#include "Duck.h"
+#include "duckGame.h"
+#include "cane.h"
+#include "boat.h"
 
 #define BTN_LEFT 1
 #define LARGEUR 1200*2
