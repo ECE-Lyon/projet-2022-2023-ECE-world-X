@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.24)
 project(osu C)
 set(CMAKE_C_STANDARD 99)
 
-add_executable(osu main.c beatmap.c beatmap.h beatmap.c music.c music.h music.c music.c ingame.c ingame.h)
+add_executable(osu main.c beatmap.c beatmap.h beatmap.c music.c music.h music.c music.c ingame.c ingame.h menu.c menu.h includes.h)
 IF(WIN32)
     target_link_libraries(osu -lmingw32 -lallegro-5.0.10-monolith-md-debug)
 ELSE()

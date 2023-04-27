@@ -4,9 +4,6 @@
 #define LINES 1024
 #define MAXHITOBJECT 5000
 
-#include <stdio.h>
-#include <wchar.h>
-
 typedef struct {
     int time;
     double beatLength;

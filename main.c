@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <math.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_audio.h>
@@ -9,72 +8,56 @@
 #include "music.h"
 #include "time.h"
 #include "ingame.h"
+#include <allegro5/allegro_image.h>
+#include "menu.h"
+#include <allegro5/allegro_ttf.h>
 
 
 int main() {
-    if (!al_init()) {
-        printf((const char *) stderr, "Error with (!al_init)\n");
-    }
 
+    al_init();
+    al_install_audio();
+    al_init_acodec_addon();
+    al_reserve_samples(1);
+    al_init_image_addon();
+    al_init_font_addon();
+    al_init_ttf_addon();
+    al_init_primitives_addon();
+    ALLEGRO_SAMPLE *sample = NULL;
     ALLEGRO_DISPLAY *display = al_create_display(1200, 600);
-    if (!display) {
-        printf((const char *) stderr, "Error with al_create_display");
-    }
-
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
-    if (!queue) {
-        printf((const char *) stderr, "Error with event queue init");
-        al_destroy_display(display);
-    }
-
     ALLEGRO_TIMER *timer = al_create_timer(1.0 / 60.0); //fps
-    if (!timer) {
-        printf((const char *) stderr, "Error with timer init");
-    }
+    ALLEGRO_FONT* font = al_load_ttf_font("../design/space_font.ttf", 24, 0);
+    ALLEGRO_BITMAP *circle = al_load_bitmap("../design/circle.png");
+    al_register_event_source(queue, al_get_timer_event_source(timer));
+    al_register_event_source(queue, al_get_display_event_source(display));
+    al_register_event_source(queue, al_get_timer_event_source(timer));
+    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_flip_display();
+    ALLEGRO_EVENT event;
+    al_install_mouse();
+    al_set_new_display_flags(ALLEGRO_WINDOWED);
+    ALLEGRO_MOUSE_STATE mouseState;
+    al_get_mouse_state(&mouseState);
 
-    if (!al_install_audio()) {
-        fprintf(stderr, "Failed to initialize audio!\n");
-        return -1;
-    }
-
-    if (!al_init_acodec_addon()) {
-        fprintf(stderr, "Failed to initialize audio codecs!\n");
-        return -1;
-    }
-
-    if (!al_reserve_samples(1)) {
-        fprintf(stderr, "Failed to reserve samples!\n");
-        return -1;
-    }
-    ALLEGRO_BITMAP* circle = al_load_bitmap("C:/Users/benja/CLionProjects/ECE_World_X/projet-2022-2023-ECE-world-X/design/circle.png");
-    if (circle == NULL) {
-        fprintf(stderr, "Failed to load image.\n");
-        return -1;
-    }
-
+    int selected_item = 0;
     int difficulty = 0;
-    while (difficulty <= 0 && difficulty <= 10) {
+    selected_item = inTheMenu(font, queue, selected_item, display);
+    printf("%d", selected_item);
+    int circle_radius = al_get_bitmap_width(circle) / 2;
+    printf("%d\n", circle_radius);
+    while (difficulty < 0 && difficulty < 10) {
         printf("Choose your difficulty (warning it is exponential)\n");
         scanf("%d", &difficulty);
     }
-    al_register_event_source(queue, al_get_timer_event_source(timer));
-    al_init_primitives_addon();
-    ALLEGRO_SAMPLE *sample = NULL;
+
 
     XYT tabXYT[MAXHITOBJECT] = {0};
     XYT printedArr[20] = {0};
     int numHitObjects;
     numHitObjects = getXYTime(difficulty, tabXYT);
 
-    al_register_event_source(queue, al_get_display_event_source(display));
-    al_register_event_source(queue, al_get_timer_event_source(timer));
-    al_clear_to_color(al_map_rgb(0, 0, 0));
-    al_flip_display();
 
-
-    al_clear_to_color(al_map_rgb(0, 0, 0)); // move clear call here
-    al_flip_display();
-    ALLEGRO_EVENT event;
     bool running = true;
     al_start_timer(timer);
     play_music(difficulty, sample);
@@ -83,7 +66,7 @@ int main() {
 
     while (running) {
         // add new points to printedArr
-        while (tabXYT[current_point].timing+500 <= clock() - 1900) { //problème avec l'offbeat inconstant
+        while (tabXYT[current_point].timing + 500 <= clock() - 1900) { //problème avec l'offbeat inconstant
             addToPrintedArr(tabXYT, printedArr, current_point);
             current_point++;
             al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -101,7 +84,6 @@ int main() {
                 break;
         }
     }
-
 
 
     al_destroy_timer(timer);
