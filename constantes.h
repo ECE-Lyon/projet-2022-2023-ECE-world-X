@@ -10,6 +10,7 @@
 #include <allegro5/allegro_image.h>
 #include <assert.h>
 
+#define BTN_LEFT 1
 #define LARGEUR 1200*2
 #define HAUTEUR 600*2
 #define HAUTEURMAX 500*2
