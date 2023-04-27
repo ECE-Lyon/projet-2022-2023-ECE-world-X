@@ -98,7 +98,7 @@ int launchGame(){
             }
         }
         if (dessin) {
-            al_clear_to_color(BLANC);
+            al_clear_to_color(BLEU);
             printDuck(ducks);
             printBoat(&smallBoat);
             drawCane(&pixelCane);
