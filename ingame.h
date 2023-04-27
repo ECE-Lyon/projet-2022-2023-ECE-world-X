@@ -14,4 +14,6 @@ void printArr(XYT arr[]);
 
 void addToPrintedArr(XYT source[], XYT dest[], int current_point);
 
+void shiftLeft(XYT arr[]);
+
 #endif //OSU_INGAME_H

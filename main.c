@@ -56,7 +56,7 @@ int main() {
     al_init_primitives_addon();
     ALLEGRO_SAMPLE *sample = NULL;
 
-    XYT tabXYT[MAXHITOBJECT];
+    XYT tabXYT[MAXHITOBJECT] = {0};
     XYT printedArr[20] = {0};
     int numHitObjects;
     numHitObjects = getXYTime(difficulty, tabXYT);
@@ -67,20 +67,28 @@ int main() {
     al_flip_display();
 
 
-    int current_point = 0;
+    al_clear_to_color(al_map_rgb(0, 0, 0)); // move clear call here
+    al_flip_display();
     ALLEGRO_EVENT event;
     bool running = true;
     al_start_timer(timer);
     play_music(difficulty, sample);
+    int current_point = 0;
+    printf("%ld", clock());
+
     while (running) {
+        // add new points to printedArr
+        while (tabXYT[current_point].timing+500 <= clock() - 1900) { //problème avec l'offbeat inconstant
+            addToPrintedArr(tabXYT, printedArr, current_point);
+            current_point++;
+            al_clear_to_color(al_map_rgb(0, 0, 0));
+        }
+
+        printArr(printedArr);
+
         al_wait_for_event(queue, &event);
         switch (event.type) {
             case ALLEGRO_EVENT_TIMER:
-                while (tabXYT[current_point].timing + 400 < clock()) {
-                    addToPrintedArr(tabXYT, printedArr, current_point); //tous les points sont affichés
-                    current_point++;
-                }
-                printArr(printedArr);
                 break;
 
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
@@ -88,6 +96,8 @@ int main() {
                 break;
         }
     }
+
+
 
     al_destroy_timer(timer);
     al_destroy_event_queue(queue);
