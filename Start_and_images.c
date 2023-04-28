@@ -27,15 +27,17 @@ void init_images(FPSdisplay turret, Crosshair crosshair) {
     crosshair.crosshair = al_load_bitmap("../Pictures/crosshair.png");
 }
 
-void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALLEGRO_FONT *fontBig) {
+void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALLEGRO_FONT *fontBig, int timerP1, int timerP2) {
     if (P1.turn) {
         al_draw_textf(fontBig, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
                       SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBig), ALLEGRO_ALIGN_CENTER, "C'est au tour de %s",
                       P1.name);
+        al_start_timer(timerP1);
     } else if (P2.turn) {
         al_draw_textf(fontBig, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
                       SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBig), ALLEGRO_ALIGN_CENTER, "C'est au tour de %s",
                       P2.name);
+        al_start_timer(timerP2);
     }
     al_rest(2);
     al_clear_to_color(al_map_rgb(0, 0, 0));

@@ -18,6 +18,7 @@ typedef struct {
     char name;
     float score;
     int turn;
+    int tickets;
 }Player;
 
 #endif //PROJET_ECE_WORLD_PLAYER_CROSSHAIR_H

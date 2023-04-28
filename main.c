@@ -11,9 +11,8 @@
 #include <allegro5/allegro_image.h>
 
 int main() {
-    int endgame = 0, gameover = 0, pause = 0, start = 0, quit = 0, ingame = 0, destroyedShips = 0, scoreP1 = 0, scoreP2 = 0;
+    int endgame = 0, gameover = 0, pause = 0, quit = 0, ingame = 0, destroyedShips = 0, scoreP1 = 0, scoreP2 = 0;
     int wait = -1;
-    printf("%d", start);
     FPSdisplay turret;
     Ship ships[NB_SHIPS];
     Crosshair crosshair;
@@ -99,14 +98,12 @@ int main() {
                 case ALLEGRO_KEY_ESCAPE:
                     endgame = 1;
                     break;
-
-                case ALLEGRO_KEY_SPACE:
-                    if (ingame == 0) {
-                        display_turret(turret);
-                        start_game(P1, P2, turret, fontBangers60, fontBangers160);
-                        ingame = 1;
-                        break;
-                    }
+            }
+        } else if (event.type == ALLEGRO_EVENT_KEY_UP && !pause && wait == -1) {
+            switch (event.keyboard.keycode) {
+                case ALLEGRO_KEY_P:
+                    pause = 0;
+                    break;
             }
         } else if (event.type == ALLEGRO_EVENT_TIMER && ingame == 1) {
 
@@ -124,20 +121,21 @@ int main() {
                     droite(&vaisseau);
                 }
 
-                if (start == 1) {
+                if (ingame == 0) {
+                    display_turret(turret);
+                    start_game(P1, P2, turret, fontBangers60, fontBangers160);
                     spawn_ships(ships);
-                    if (P1.turn){
-                        al_start_timer(timerP1);
-                    } else if (P2.turn){
-                        al_start_timer(timerP2);
-                    }
-                    start = 0;
+                    ingame = 1;
+                    break;
                 }
+
                 for (int i = 0; i < NB_SHIPS; ++i) {
                     if (ships[i].destroyed == 1) {
                         destroyedShips++;
                     }
                 }
+                scoreP1 = timerP1;
+                scoreP2 = timerP2;
 
                 display_turret(turret);
                 display_ships(ships);
@@ -148,57 +146,59 @@ int main() {
 
                 if (destroyedShips == NB_SHIPS) {
                     if (P1.turn) {
-                        scoreP1 = timerP1;
-                        start = 1;
+                        P1.score = scoreP1;
+                        P1.turn = 0;
                         P2.turn = 1;
+                        ingame = 0;
                     } else if (P2.turn) {
-                        scoreP2 = timerP2;
+                        P1.score = scoreP2;
                         gameover = 1;
                     }
                 }
             }
         }
 
-        if (gameOver) {
-            if (waitInMilliseconds == -1) {
-                waitInMilliseconds = 5 * 60;
-            } else if (waitInMilliseconds == 0) {
-                vaisseau.vie = 3;
-                vaisseau.score = 0;
-                gameOver = 0;
-                key[UP] = 0;
-                key[DOWN] = 0;
-                key[LEFT] = 0;
-                key[RIGHT] = 0;
-                waitInMilliseconds = -1;
+        if (gameover) {
+            if (P1.score > P2.score) {
+                P2.tickets -= 1;
+                P1.tickets += 1;
+                al_draw_textf(fontBangers160, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
+                              SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBangers160), ALLEGRO_ALIGN_CENTER,
+                              "Player 1 wins");
+            } else if (P1.score < P2.score) {
+                P2.tickets += 1;
+                P1.tickets -= 1;
+                al_draw_textf(fontBangers160, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
+                              SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBangers160), ALLEGRO_ALIGN_CENTER,
+                              "Player 2 wins");
             }
+            endgame = 1;
         }
 
-        if (dessin && al_is_event_queue_empty(queue)) {
-            al_clear_to_color(NOIR);
-            affiche_etoiles(etoiles);
-            affiche_ennemis(ennemis);
-            affiche_missiles(missiles);
-            affiche_vaisseau(&vaisseau);
-            affiche_infos(vaisseau, fontBangers60, fontBangers160);
-
+        if (al_is_event_queue_empty(queue)) {
             if (pause) {
                 al_draw_textf(fontBangers160, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
                               SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBangers160), ALLEGRO_ALIGN_CENTER, "Pause");
             }
-
-            if (gameOver) {
-                al_draw_textf(fontBangers60, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
-                              SCREEN_HEIGHT - al_get_font_ascent(fontBangers160) - 20, ALLEGRO_ALIGN_CENTER,
-                              (waitInMilliseconds / 60) + 1 > 1 ? "Nouvelle partie dans %d secondes..."
-                                                                : "Nouvelle partie dans %d seconde...",
-                              (waitInMilliseconds / 60) + 1);
-            }
-
             al_flip_display();
         }
 
     } while (!endgame);
+
+    al_destroy_bitmap(ships->explosion1);
+    al_destroy_bitmap(ships->explosion2);
+    al_destroy_bitmap(ships->explosion3);
+    al_destroy_bitmap(ships->ship1);
+    al_destroy_bitmap(ships->ship2);
+    al_destroy_bitmap(ships->ship3);
+    al_destroy_bitmap(turret.turretdisplay);
+    al_destroy_bitmap(turret.backgrounddisplay);
+
+    al_destroy_font(fontBangers60);
+    al_destroy_font(fontBangers160);
+    al_destroy_event_queue(queue);
+    al_destroy_display(display);
+    al_destroy_timer(timer);
 
     return 0;
 }
