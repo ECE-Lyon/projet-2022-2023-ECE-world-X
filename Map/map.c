@@ -5,6 +5,7 @@
 #include "constante.h"
 #include "background.h"
 #include "collision.h"
+#include "dialog.h"
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
@@ -12,6 +13,8 @@
 #include <allegro5/allegro_native_dialog.h>
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 #include <assert.h>
 #include <stdlib.h>
 #include <time.h>
@@ -31,6 +34,8 @@ ALLEGRO_DISPLAY* setting(){
     assert(al_install_keyboard());
     assert(al_install_audio());
     assert(al_init_acodec_addon());
+    al_init_font_addon();
+    assert(al_init_ttf_addon());
     al_set_window_title(display,"Title");
     al_set_window_position(display,200,100);
     al_flip_display();
@@ -61,6 +66,9 @@ void menu(){
     Mapcollision poscollision;
     update_map_pos(&poscollision, bar);
 
+    ALLEGRO_FONT* police;
+    init_font(&police);
+
     ALLEGRO_SAMPLE *maintheme = al_load_sample("../Map/cantina.wav");
 
     al_reserve_samples(1);
@@ -69,7 +77,6 @@ void menu(){
     }
     else {
         al_play_sample(maintheme, 1.0f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_LOOP, 0);
-
     }
     //Créer un timer si nécéssaire
     ALLEGRO_TIMER*timer=al_create_timer(1/FPS);

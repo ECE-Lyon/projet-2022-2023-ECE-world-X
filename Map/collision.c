@@ -48,16 +48,19 @@ void check_eventmap(Perso player,Mapcollision poscollision,Background *bar, int 
         bar->y += ENTERBAR;
     }
     else if(Keys[ENTER] == 1 && player.direction == T1 && lst_collision[poscollision.posmapy][poscollision.posmapx] == QUATRE) {
-        bar->y += ENTERBAR;
+        bar->y += ENTERSHIP;
     }
     else if(Keys[ENTER] == 1 && player.direction == B1 && lst_collision[poscollision.posmapy][poscollision.posmapx] == CINQ) {
-        bar->y -= ENTERBAR;
+        bar->y -= ENTERSHIP;
     }
     else if(Keys[ENTER] == 1 && player.direction == T1 && lst_collision[poscollision.posmapy][poscollision.posmapx] == SIX) {
         bar->y += ENTERTOILET;
     }
     else if(Keys[ENTER] == 1 && player.direction == B1 && lst_collision[poscollision.posmapy][poscollision.posmapx] == SEPT) {
         bar->y -= ENTERTOILET;
+    }
+    else if (Keys[ENTER] == 1 && lst_collision[poscollision.posmapy][poscollision.posmapx] == HUIT) {
+
     }
 
 }

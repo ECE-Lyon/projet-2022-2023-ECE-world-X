@@ -27,6 +27,7 @@ enum{HAUT, DROITE, BAS, GAUCHE, ENTER, NBKEYS};
 
 #define ENTERBAR 150
 #define ENTERTOILET 125
+#define ENTERSHIP 150
 
 #define ZERO 48
 #define UN 49
@@ -36,6 +37,7 @@ enum{HAUT, DROITE, BAS, GAUCHE, ENTER, NBKEYS};
 #define CINQ 53
 #define SIX 54
 #define SEPT 55
+#define HUIT 56
 
 
 #endif //PROJET_CONSTANTE_H
