@@ -4,7 +4,7 @@
 #include "constantes.h"
 
 void init_boat(Boat* smallBoat){
-   smallBoat -> boaty =  al_load_bitmap("../Images/pixelBoat.png");
+   smallBoat -> boaty = al_load_bitmap("../Images/pixelBoat.png");;
    smallBoat -> x = 40;
    smallBoat -> y = 20;
    smallBoat -> score = 0;

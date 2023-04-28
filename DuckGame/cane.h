@@ -5,11 +5,7 @@
 #ifndef PROJET_CANE_H
 #define PROJET_CANE_H
 
-#include <stdlib.h>
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_primitives.h>
-#include <allegro5/allegro_image.h>
-#include <assert.h>
+#include "constantes.h"
 
 typedef struct {
     int x, y, largeur, hauteur;
@@ -27,5 +23,7 @@ void caneRepos(Cane* pixelCane);
 bool cursEstDansWIND(int x, int y, Cane* pixelCane);
 
 bool cursWind(int x, int y, int x1, int y1, int x2, int y2);
+
+bool caneDuck(int x, int y, Cane *pixelCane);
 
 #endif //PROJET_CANE_H

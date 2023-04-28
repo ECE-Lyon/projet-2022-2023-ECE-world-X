@@ -11,9 +11,9 @@
 #include <allegro5/allegro_image.h>
 #include <assert.h>
 #include "Duck.h"
-#include "duckGame.h"
 #include "cane.h"
 #include "boat.h"
+#include "duckGame.h"
 
 #define BTN_LEFT 1
 #define LARGEUR 1200*2

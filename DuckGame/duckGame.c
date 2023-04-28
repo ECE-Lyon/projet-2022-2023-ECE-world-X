@@ -17,7 +17,6 @@ Boat smallBoat;
 Cane pixelCane;
 Coin ducks[NB_MAX_ENNEMIS];
 
-
 int launchGame(){
 
     assert(al_init());
@@ -48,18 +47,21 @@ int launchGame(){
     al_start_timer(timer);
     while(!end) {
         al_wait_for_event(fifo, &event);
+        al_get_mouse_state(&mouse_state);
         switch(event.type) {
             case ALLEGRO_EVENT_DISPLAY_CLOSE: {
                 end = true;
                 break;
             }
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN: {
+                printf("Mouse button down event triggered\n");
                 if(event.mouse.button == BTN_LEFT) {
                     for(i=0; i<NB_MAX_ENNEMIS; i++){
                         if(cane_active(event.mouse.x, event.mouse.y, &ducks[i])) {
                             duckSelect = i;
                             offsetXduck = event.mouse.x - ducks[i].x;
                             offsetYduck = event.mouse.y - ducks[i].y;
+                            printf("Duck selected: %d\n", i);
                         }
                     }
                 }
@@ -71,27 +73,17 @@ int launchGame(){
                 }
                 break;
             }
-            case ALLEGRO_EVENT_MOUSE_AXES: {
-                /*if(cursEstDansWIND(event.mouse.x, event.mouse.y, &pixelCane)) {
-                    offsetXcursor = event.mouse.x - pixelCane.x;
-                    offsetYcursor = event.mouse.y - pixelCane.y;
-                }*/
-                xMouse = event.mouse.x;
-                yMouse = event.mouse.y;
-                if(duckSelect != -1){
-                    ducks[duckSelect].x = xMouse - offsetXduck;
-                    ducks[duckSelect].y = yMouse - offsetYduck;
-                    dessin = true;
-                }
-                break;
-            }
             case ALLEGRO_EVENT_TIMER: {
                 al_get_mouse_state(&mouse_state);
                 pixelCane.x = mouse_state.x - 80;
                 pixelCane.y = mouse_state.y - 80;
+                if(duckSelect != -1 ){
+                    ducks[duckSelect].x = mouse_state.x - offsetXduck;
+                    ducks[duckSelect].y = mouse_state.y - offsetYduck;
+                    printf("Duck %d position: x = %d, y = %d\n", duckSelect, ducks[duckSelect].x, ducks[duckSelect].y);
+                    dessin = true;
+                }
                 apparitionDuck(ducks);
-                printDuck(ducks);
-                moveDuck(ducks);
                 duckReposition(ducks);
                 dessin = true;
                 break;
@@ -102,9 +94,11 @@ int launchGame(){
             printDuck(ducks);
             printBoat(&smallBoat);
             drawCane(&pixelCane);
+            moveDuck(ducks);
             al_flip_display();
             dessin = false;
         }
+
     }
 
     al_destroy_event_queue(fifo);

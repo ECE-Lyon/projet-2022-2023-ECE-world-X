@@ -6,17 +6,13 @@
 #define PROJET_TEST_H
 
 #define NB_MAX_ENNEMIS 5
-#include <stdlib.h>
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_primitives.h>
-#include <allegro5/allegro_image.h>
-#include <assert.h>
+#include "constantes.h"
+#include "duckGame.h"
 
 typedef struct {
-    int x, y, z, hauteur, largeur;
+    int x, y, hauteur, largeur;
     int vitesse;
     int actif;
-    int width, height;
     ALLEGRO_BITMAP *duckimage;
 } Coin;
 
