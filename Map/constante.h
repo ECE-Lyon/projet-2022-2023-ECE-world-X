@@ -5,7 +5,7 @@
 #ifndef PROJET_CONSTANTE_H
 #define PROJET_CONSTANTE_H
 
-enum{HAUT, DROITE, BAS, GAUCHE, NBKEYS};
+enum{HAUT, DROITE, BAS, GAUCHE, ENTER, NBKEYS};
 
 
 #define WIDTH 1200
@@ -23,6 +23,19 @@ enum{HAUT, DROITE, BAS, GAUCHE, NBKEYS};
 
 #define COLLISIONWI 87
 #define COLLISIONHEI 70
-#define SIZECOLLISION 13
+#define SIZECOLLISION 13.8f
+
+#define ENTERBAR 150
+#define ENTERTOILET 125
+
+#define ZERO 48
+#define UN 49
+#define DEUX 50
+#define TROIS 51
+#define QUATRE 52
+#define CINQ 53
+#define SIX 54
+#define SEPT 55
+
 
 #endif //PROJET_CONSTANTE_H

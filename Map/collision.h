@@ -13,7 +13,10 @@ typedef struct {
 }Mapcollision;
 
 void update_map_pos(Mapcollision* poscollision, Background bar);
-void load_file_collision(char lst_collision[COLLISIONWI][COLLISIONHEI]);
-int check_collision(Perso player, Mapcollision poscollision, char lst_collision[COLLISIONWI][COLLISIONHEI]);
+void load_file_collision(int lst_collision[COLLISIONHEI][COLLISIONWI]);
+int check_collision(Perso player, Mapcollision poscollision, int lst_collision[COLLISIONHEI][COLLISIONWI], int Keys[NBKEYS]);
+void check_eventmap(Perso player,Mapcollision poscollision,Background *bar, int lst_collision[COLLISIONHEI][COLLISIONWI], int Keys[NBKEYS]);
+
+
 
 #endif //PROJET_COLLISION_H

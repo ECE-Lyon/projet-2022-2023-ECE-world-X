@@ -10,6 +10,8 @@
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_native_dialog.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 #include <assert.h>
 #include <stdlib.h>
 #include <time.h>
@@ -27,6 +29,8 @@ ALLEGRO_DISPLAY* setting(){
     assert(al_init_image_addon());
     assert(al_init_primitives_addon());
     assert(al_install_keyboard());
+    assert(al_install_audio());
+    assert(al_init_acodec_addon());
     al_set_window_title(display,"Title");
     al_set_window_position(display,200,100);
     al_flip_display();
@@ -52,12 +56,21 @@ void menu(){
     Background bar;
     init_bg(&bar);
 
-    char lst_collision[COLLISIONWI][COLLISIONHEI];
+    int lst_collision[COLLISIONHEI][COLLISIONWI];
     load_file_collision(lst_collision);
     Mapcollision poscollision;
     update_map_pos(&poscollision, bar);
 
+    ALLEGRO_SAMPLE *maintheme = al_load_sample("../Map/cantina.wav");
 
+    al_reserve_samples(1);
+    if (maintheme == NULL) {
+        printf("Music doesn't load");
+    }
+    else {
+        al_play_sample(maintheme, 1.0f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_LOOP, 0);
+
+    }
     //Créer un timer si nécéssaire
     ALLEGRO_TIMER*timer=al_create_timer(1/FPS);
     al_start_timer(timer);
@@ -86,19 +99,27 @@ void menu(){
                         break;
                     case ALLEGRO_KEY_UP :
                         reset_keys(Keys);
+                        player1.direction = T1;
+
                         Keys[HAUT] = 1;
                         break;
                     case ALLEGRO_KEY_LEFT :
                         reset_keys(Keys);
                         Keys[GAUCHE] = 1;
+                        player1.direction = L1;
                         break;
                     case ALLEGRO_KEY_RIGHT :
                         reset_keys(Keys);
                         Keys[DROITE] = 1;
+                        player1.direction = R1;
                         break;
                     case ALLEGRO_KEY_DOWN :
                         reset_keys(Keys);
                         Keys[BAS] = 1;
+                        player1.direction = B1;
+                        break;
+                    case ALLEGRO_KEY_ENTER :
+                        Keys[ENTER] = 1;
                         break;
                 }
                 break;
@@ -128,23 +149,29 @@ void menu(){
                             player1.img = player1.anim[B1];
                             break;
                         }
+                    case ALLEGRO_KEY_ENTER :
+                        Keys[ENTER] = 0;
+                        break;
                 }
                 break;
             case ALLEGRO_EVENT_TIMER :
-                al_clear_to_color(al_map_rgb(0,0,0));
-                print_background(bar);
-                check_collision(player1, poscollision, lst_collision);
-                if (al_get_timer_count(timer)%3 == 0) {
-                    animation(&player1, Keys);
-                    //printf("x:%d y:%d\n", bar.x, bar.y);
+                if (check_collision(player1, poscollision, lst_collision, Keys) == 0) {
+                    check_eventmap(player1,poscollision,&bar, lst_collision, Keys);
+                    al_clear_to_color(al_map_rgb(0,0,0));
+                    print_background(bar);
+                    if (al_get_timer_count(timer)%3 == 0) {
+                        animation(&player1, Keys);
+                        //printf("x:%d y:%d\n", bar.x, bar.y);
+                    }
+                    update_map_pos(&poscollision, bar);
+                    //printf("x:%d, y:%d\n", poscollision.posmapx, poscollision.posmapy);
+                    move_bg(&bar, Keys);
+                    print_character(player1);
+                    al_flip_display();
+
+                    break;
                 }
-                //printf("barx:%d, bary:%d\n", bar.x, bar.y);
-                //printf("x:%d, y:%d\n", poscollision.posmapx, poscollision.posmapy);
-                move_bg(&bar, Keys);
-                update_map_pos(&poscollision, bar);
-                print_character(player1);
-                al_flip_display();
-                break;
+
         }
     }
     al_destroy_event_queue(queue);
