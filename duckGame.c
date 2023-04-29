@@ -13,6 +13,7 @@ ALLEGRO_EVENT_QUEUE* fifo = NULL;
 ALLEGRO_TIMER* timer = NULL;
 ALLEGRO_EVENT event;
 ALLEGRO_MOUSE_STATE mouse_state;
+ALLEGRO_FONT *jedi;
 Boat smallBoat;
 Cane pixelCane;
 Coin ducks[NB_MAX_ENNEMIS];
@@ -23,6 +24,8 @@ int launchGame(){
     assert(al_init_primitives_addon());
     assert(al_install_mouse());
     assert(al_init_image_addon());
+    assert(al_init_font_addon());
+    assert(al_init_ttf_addon());
 
     canePos(&pixelCane, 80, 50);
 
@@ -39,6 +42,8 @@ int launchGame(){
     al_register_event_source(fifo, al_get_mouse_event_source());
     al_register_event_source(fifo, al_get_timer_event_source(timer));
 
+    jedi = al_load_ttf_font("../Fonts/Starjedi.ttf",50,0);
+    assert(jedi);
     init_Duck(ducks);
     init_boat(&smallBoat);
     init_Cane(&pixelCane);
@@ -80,7 +85,17 @@ int launchGame(){
                 if(duckSelect != -1 ){
                     ducks[duckSelect].x = mouse_state.x - offsetXduck;
                     ducks[duckSelect].y = mouse_state.y - offsetYduck;
-                    printf("Duck %d position: x = %d, y = %d\n", duckSelect, ducks[duckSelect].x, ducks[duckSelect].y);
+                    //printf("Duck %d position: x = %d, y = %d\n", duckSelect, ducks[duckSelect].x, ducks[duckSelect].y);
+                    dessin = true;
+                }
+                if(duckSelect != -1 && duckOnBoat(&smallBoat, &ducks[duckSelect])){
+                    if (ducks[duckSelect].compte != true){
+                        smallBoat.score++;
+                        ducks[duckSelect].actif = 0;
+                        ducks[duckSelect].compte = true;
+                        printf("score: %d\n",smallBoat.score);
+                        duckSelect = -1;
+                    }
                     dessin = true;
                 }
                 apparitionDuck(ducks);
@@ -91,8 +106,9 @@ int launchGame(){
         }
         if (dessin) {
             al_clear_to_color(BLEU);
-            printDuck(ducks);
+            al_draw_textf(jedi,NOIR,50,50,0,"Score: %d",smallBoat.score);
             printBoat(&smallBoat);
+            printDuck(ducks);
             drawCane(&pixelCane);
             moveDuck(ducks);
             al_flip_display();
@@ -101,6 +117,7 @@ int launchGame(){
 
     }
 
+    al_destroy_font(jedi);
     al_destroy_event_queue(fifo);
     al_destroy_timer(timer);
     al_destroy_display(window);

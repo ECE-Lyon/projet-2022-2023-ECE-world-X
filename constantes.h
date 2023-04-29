@@ -9,6 +9,8 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 #include <assert.h>
 #include "Duck.h"
 #include "cane.h"
@@ -20,6 +22,7 @@
 #define HAUTEUR 600*2
 #define HAUTEURMAX 500*2
 #define BLEU al_map_rgb(128, 197, 222)
+#define NOIR al_map_rgb(0,0,0)
 #define FPS 60.0
 
 #endif //PROJET_CONSTANTES_H

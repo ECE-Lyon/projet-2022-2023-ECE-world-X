@@ -6,7 +6,7 @@
 #define PROJET_BOAT_H
 
 typedef struct {
-    int x, y;
+    int x, y, h, l;
     int score;
     ALLEGRO_BITMAP *boaty;
 } Boat;
@@ -15,7 +15,6 @@ void printBoat(Boat* smallBoat);
 
 void init_boat(Boat* smallBoat);
 
-void counterBoat(Boat* smallBoat);
 
 
 #endif //PROJET_BOAT_H

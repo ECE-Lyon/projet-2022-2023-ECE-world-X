@@ -18,12 +18,4 @@ void init_Cane(Cane* pixelCane);
 
 void canePos(Cane* pixelCane, int lar, int haut) ;
 
-void caneRepos(Cane* pixelCane);
-
-bool cursEstDansWIND(int x, int y, Cane* pixelCane);
-
-bool cursWind(int x, int y, int x1, int y1, int x2, int y2);
-
-bool caneDuck(int x, int y, Cane *pixelCane);
-
 #endif //PROJET_CANE_H
