@@ -92,7 +92,7 @@ int bordure(Body* player, Damier board) {
             }
             break;
         case DROITE :
-            if(player->x+board.widthsquare > WIGAME+STARTX) {
+            if(player->x+board.widthsquare >= WIGAME+STARTX) {
                 return 0;
             }
             break;
