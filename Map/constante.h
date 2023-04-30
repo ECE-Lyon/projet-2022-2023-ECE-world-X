@@ -7,10 +7,8 @@
 
 enum{HAUT, DROITE, BAS, GAUCHE, ENTER, NBKEYS};
 
-
 #define WIDTH 1200
 #define HEIGHT 600
-
 
 #define STARTX WIDTH/2
 #define STARTY HEIGHT/2
@@ -39,5 +37,6 @@ enum{HAUT, DROITE, BAS, GAUCHE, ENTER, NBKEYS};
 #define SEPT 55
 #define HUIT 56
 
+#define MAXCH 50
 
 #endif //PROJET_CONSTANTE_H

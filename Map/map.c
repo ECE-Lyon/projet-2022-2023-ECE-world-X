@@ -53,6 +53,8 @@ void reset_keys(int Keys[NBKEYS]) {
 void menu(){
     ALLEGRO_DISPLAY* display=setting();
     int isEnd=0;
+    int dialog_state = 0;
+    int choosepnj = 0;
 
     ALLEGRO_EVENT_QUEUE*queue;
 
@@ -67,7 +69,10 @@ void menu(){
     update_map_pos(&poscollision, bar);
 
     ALLEGRO_FONT* police;
-    init_font(&police);
+    police = init_font();
+    Choose bb8;
+    init_bb8(&bb8);
+
 
     ALLEGRO_SAMPLE *maintheme = al_load_sample("../Map/cantina.wav");
 
@@ -107,10 +112,10 @@ void menu(){
                     case ALLEGRO_KEY_UP :
                         reset_keys(Keys);
                         player1.direction = T1;
-
                         Keys[HAUT] = 1;
                         break;
                     case ALLEGRO_KEY_LEFT :
+                        if(dialog_state)
                         reset_keys(Keys);
                         Keys[GAUCHE] = 1;
                         player1.direction = L1;
@@ -163,17 +168,22 @@ void menu(){
                 break;
             case ALLEGRO_EVENT_TIMER :
                 if (check_collision(player1, poscollision, lst_collision, Keys) == 0) {
-                    check_eventmap(player1,poscollision,&bar, lst_collision, Keys);
-                    al_clear_to_color(al_map_rgb(0,0,0));
-                    print_background(bar);
-                    if (al_get_timer_count(timer)%3 == 0) {
-                        animation(&player1, Keys);
-                        //printf("x:%d y:%d\n", bar.x, bar.y);
+                    if (choosepnj == 0) {
+                        choosepnj = check_eventmap(player1,poscollision,&bar, lst_collision, Keys);
+                        al_clear_to_color(al_map_rgb(0,0,0));
+                        print_background(bar);
+                        if (al_get_timer_count(timer)%3 == 0) {
+                            animation(&player1, Keys);
+                            //printf("x:%d y:%d\n", bar.x, bar.y);
+                        }
+                        update_map_pos(&poscollision, bar);
+                        //printf("x:%d, y:%d\n", poscollision.posmapx, poscollision.posmapy);
+                        move_bg(&bar, Keys);
+                        print_character(player1);
                     }
-                    update_map_pos(&poscollision, bar);
-                    //printf("x:%d, y:%d\n", poscollision.posmapx, poscollision.posmapy);
-                    move_bg(&bar, Keys);
-                    print_character(player1);
+                    else {
+                        choose_event_pnj(bb8, police, choosepnj, &dialog_state);
+                    }
                     al_flip_display();
 
                     break;

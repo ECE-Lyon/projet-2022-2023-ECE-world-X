@@ -11,7 +11,7 @@
 #define PROJET_BACKGROUND_H
 
 typedef struct {
-    int x,y;
+    int x, y;
     ALLEGRO_BITMAP* img;
 }Background;
 
