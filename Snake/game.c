@@ -45,6 +45,11 @@ void game(){
     changeallowed = 1;
     ALLEGRO_EVENT_QUEUE* queue;
 
+    ALLEGRO_BITMAP* stormtrooper = al_load_bitmap("../Snake/strooperhead.png");
+    if(stormtrooper == NULL) {
+        printf("Image doesn't load\n");
+    }
+
     //Créer un timer si nécéssaire
     ALLEGRO_TIMER*timer=al_create_timer(1/fps);
     al_start_timer(timer);
@@ -135,7 +140,7 @@ void game(){
                 break;
             case ALLEGRO_EVENT_TIMER :
                 changeallowed = 1;
-                isEnd = update(player, lstchange, &pomme, bg_star, board);
+                isEnd = update(player, lstchange, &pomme, bg_star, board, stormtrooper);
                 al_flip_display();
                 break;
         }

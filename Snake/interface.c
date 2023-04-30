@@ -72,7 +72,7 @@ int collision_apple(Body* player, int coordx, int coordy) {
     collision_apple(player->next, coordx, coordy);
 }
 
-int update(Body* player,Waychange* lstchange, Food* pomme, star bg_star[NBSTAR], Damier board) {
+int update(Body* player,Waychange* lstchange, Food* pomme, star bg_star[NBSTAR], Damier board, ALLEGRO_BITMAP* stormtrooper) {
     int res, collision = 0;
 
     al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -92,7 +92,7 @@ int update(Body* player,Waychange* lstchange, Food* pomme, star bg_star[NBSTAR],
         do {
             coord(pomme, board);
         }while(collision_apple(player, pomme->x, pomme->y)==1);
-        add_body(player, lstchange, board);
+        add_body(player, lstchange, board, stormtrooper);
     }
     if (player->next != NULL) {
         collision = check_body_collision(player, player->next);

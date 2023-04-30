@@ -185,7 +185,7 @@ void move_body(Body* player, Damier board) {
     }
 }
 
-void add_body(Body* player, Waychange* lstchange, Damier board) {
+void add_body(Body* player, Waychange* lstchange, Damier board, ALLEGRO_BITMAP* stormtrooper) {
     if (player->next == NULL) {
         player->next = malloc(sizeof(Body));
         switch (player->direction) {
@@ -208,15 +208,12 @@ void add_body(Body* player, Waychange* lstchange, Damier board) {
         }
         player->next->direction = player->direction;
         player->next->nextchange = player->nextchange;
-        player->next->img[0] = al_load_bitmap("../Snake/strooperhead.png");
-        if(player->next->img[0] == NULL) {
-            printf("Image doesn't load\n");
-        }
+        player->next->img[0] = stormtrooper;
         player->next->next = NULL;
         //debug_player(player->next);
         return;
     }
-    add_body(player->next, lstchange, board);
+    add_body(player->next, lstchange, board, stormtrooper);
 }
 
 int check_body_collision(Body* playerhead, Body* playerbody) {

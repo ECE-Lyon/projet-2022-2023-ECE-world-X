@@ -14,6 +14,6 @@ typedef struct {
 }star;
 
 void create_star_list(star bg_star[NBSTAR]);
-int update(Body* player,Waychange* lstchange, Food* pomme, star bg_star[NBSTAR], Damier board);
+int update(Body* player,Waychange* lstchange, Food* pomme, star bg_star[NBSTAR], Damier board, ALLEGRO_BITMAP* stormtrooper);
 
 #endif //SNAKE_INTERFACE_H
