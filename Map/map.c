@@ -168,7 +168,6 @@ void menu(){
                 break;
             case ALLEGRO_EVENT_TIMER :
                 if (check_collision(player1, poscollision, lst_collision, Keys) == 0) {
-                    if (choosepnj == 0) {
                         choosepnj = check_eventmap(player1,poscollision,&bar, lst_collision, Keys);
                         al_clear_to_color(al_map_rgb(0,0,0));
                         print_background(bar);
@@ -180,8 +179,7 @@ void menu(){
                         //printf("x:%d, y:%d\n", poscollision.posmapx, poscollision.posmapy);
                         move_bg(&bar, Keys);
                         print_character(player1);
-                    }
-                    else {
+                    if (choosepnj !=0) {
                         choose_event_pnj(bb8, police, choosepnj, &dialog_state);
                     }
                     al_flip_display();
