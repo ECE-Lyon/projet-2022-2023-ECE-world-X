@@ -9,7 +9,7 @@
 #include <allegro5/allegro_image.h>
 
 typedef struct {
-    int crosshair_location_x, crosshair_location_y;
+    int location_x, location_y;
     int state;
     ALLEGRO_BITMAP *crosshair;
 }Crosshair;

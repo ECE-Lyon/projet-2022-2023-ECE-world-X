@@ -40,6 +40,9 @@ int main() {
     if (!al_install_keyboard()) {
         error("Keyboard download");
     }
+    if (!al_install_mouse()) {
+        error("Mouse download");
+    }
     al_init_font_addon();
     if (!al_init_ttf_addon()) {
         error("Initialisation fonts");
@@ -81,6 +84,7 @@ int main() {
     init_images(turret, crosshair);
 
     al_start_timer(timer);
+    al_hide_mouse_cursor(display);
 
     printf("Press SPACE to start the game");
 
@@ -89,7 +93,12 @@ int main() {
 
         if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
             endgame = 1;
-        } else if (event.type == ALLEGRO_EVENT_KEY_DOWN && !pause && wait == -1) {
+        } else if (event.type == ALLEGRO_EVENT_MOUSE_AXES) {
+            crosshair.location_x = event.mouse.x;
+            crosshair.location_y = event.mouse.y;
+        } else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN && event.mouse.button & 1) {
+            shoot_turret(ships, crosshair, destroyedShips);
+        } else if (event.type == ALLEGRO_EVENT_KEY_DOWN && !pause) {
             switch (event.keyboard.keycode) {
                 case ALLEGRO_KEY_P:
                     pause = 1;
@@ -99,44 +108,25 @@ int main() {
                     endgame = 1;
                     break;
             }
-        } else if (event.type == ALLEGRO_EVENT_KEY_UP && !pause && wait == -1) {
+        } else if (event.type == ALLEGRO_EVENT_KEY_UP && !pause) {
             switch (event.keyboard.keycode) {
                 case ALLEGRO_KEY_P:
                     pause = 0;
                     break;
             }
-        } else if (event.type == ALLEGRO_EVENT_TIMER && ingame == 1) {
+        } else if (event.type == ALLEGRO_EVENT_TIMER) {
 
             if (!pause) {
-                if (key[UP]) {
-                    monte(&vaisseau);
-                }
-                if (key[DOWN]) {
-                    descend(&vaisseau);
-                }
-                if (key[LEFT]) {
-                    gauche(&vaisseau);
-                }
-                if (key[RIGHT]) {
-                    droite(&vaisseau);
-                }
-
                 if (ingame == 0) {
                     display_turret(turret);
-                    start_game(P1, P2, turret, fontBangers60, fontBangers160);
+                    start_game(P1, P2, turret, fontBangers60, fontBangers160, timerP1, timerP2);
                     spawn_ships(ships);
                     ingame = 1;
-                    break;
                 }
+                //scoreP1 = timerP1;
+                //scoreP2 = timerP2;
 
-                for (int i = 0; i < NB_SHIPS; ++i) {
-                    if (ships[i].destroyed == 1) {
-                        destroyedShips++;
-                    }
-                }
-                scoreP1 = timerP1;
-                scoreP2 = timerP2;
-
+                al_draw_bitmap(crosshair.crosshair, crosshair.location_x, crosshair.location_y, 0);
                 display_turret(turret);
                 display_ships(ships);
                 move_ships(ships);
@@ -193,6 +183,7 @@ int main() {
     al_destroy_bitmap(ships->ship3);
     al_destroy_bitmap(turret.turretdisplay);
     al_destroy_bitmap(turret.backgrounddisplay);
+    al_destroy_bitmap(crosshair.crosshair);
 
     al_destroy_font(fontBangers60);
     al_destroy_font(fontBangers160);

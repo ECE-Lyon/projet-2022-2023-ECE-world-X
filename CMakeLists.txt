@@ -3,7 +3,7 @@ project(PROJET C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(PROJET main.c const.h Display_all.c Player_crosshair.h Ship.h Ships.c Start_and_images.c Start_and_images.h Winner.c)
+add_executable(PROJET main.c const.h Player_crosshair.h Ship.h Ships.c Start_and_images.c Start_and_images.h Winner.c)
 
 IF(WIN32)
     target_link_libraries(PROJET -lmingw32 -lallegro-5.0.10-monolith-md-debug)

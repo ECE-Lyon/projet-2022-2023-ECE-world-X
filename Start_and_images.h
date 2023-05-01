@@ -25,8 +25,8 @@ void display_turret(FPSdisplay turret);
 
 void display_timer(ALLEGRO_TIMER *timer, int scoreP1, int scoreP2);
 
-void shoot_turret(FPSdisplay turret, Ship ships[], Crosshair crosshair);
+int shoot_turret(Ship ships[], Crosshair crosshair, int destroyed_ships);
 
-void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALLEGRO_FONT *fontBig, int timerP1, int timerP2);
+void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALLEGRO_FONT *fontBig, ALLEGRO_TIMER *timerP1, ALLEGRO_TIMER *timerP2);
 
 #endif //PROJET_ECE_WORLD_TURRET_AND_TIMER_H

@@ -23,11 +23,10 @@ void display_turret(FPSdisplay turret) {
 void init_images(FPSdisplay turret, Crosshair crosshair) {
     turret.turretdisplay = al_load_bitmap("../Pictures/POV_Ship.png");
     turret.backgrounddisplay = al_load_bitmap("../Picture/background.png");
-    //turrettimerdisplay;
     crosshair.crosshair = al_load_bitmap("../Pictures/crosshair.png");
 }
 
-void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALLEGRO_FONT *fontBig, int timerP1, int timerP2) {
+void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALLEGRO_FONT *fontBig, ALLEGRO_TIMER *timerP1, ALLEGRO_TIMER *timerP2) {
     if (P1.turn) {
         al_draw_textf(fontBig, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
                       SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBig), ALLEGRO_ALIGN_CENTER, "C'est au tour de %s",
@@ -64,4 +63,21 @@ void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALL
     al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
                   SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBig), ALLEGRO_ALIGN_CENTER, "GAME START !");
 
+}
+
+int shoot_turret(Ship ships[], Crosshair crosshair, int destroyed_ships){
+    for (int i = 0; i < NB_SHIPS; ++i) {
+        if(crosshair.location_x >= ships[i].x && crosshair.location_x <= (ships[i].x + ships[i].width)
+        && crosshair.location_y >= ships[i].y && crosshair.location_y <= (ships[i].y + ships[i].length)){
+            if (ships[i].size == 1) {
+                al_draw_bitmap(ships[i].explosion1, ships[i].x, ships[i].y, 0);
+            } else if (ships[i].size == 2) {
+                al_draw_bitmap(ships[i].explosion2, ships[i].x, ships[i].y, 0);
+            } else if (ships[i].size == 3) {
+                al_draw_bitmap(ships[i].explosion3, ships[i].x, ships[i].y, 0);
+            }
+            destroyed_ships++;
+        }
+    }
+    return destroyed_ships
 }
