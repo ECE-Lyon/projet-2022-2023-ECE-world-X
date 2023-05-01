@@ -21,7 +21,6 @@
 #include <stdio.h>
 
 
-#define FPS 30.0
 
 ALLEGRO_DISPLAY* setting(){
     assert(al_init());
@@ -53,7 +52,7 @@ void reset_keys(int Keys[NBKEYS]) {
 void menu(){
     ALLEGRO_DISPLAY* display=setting();
     int isEnd=0;
-    int dialog_state = 0;
+    int res = 0;
     int choosepnj = 0;
 
     ALLEGRO_EVENT_QUEUE*queue;
@@ -81,7 +80,7 @@ void menu(){
         printf("Music doesn't load");
     }
     else {
-        al_play_sample(maintheme, 1.0f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_LOOP, 0);
+        //al_play_sample(maintheme, 1.0f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_LOOP, 0);
     }
     //Créer un timer si nécéssaire
     ALLEGRO_TIMER*timer=al_create_timer(1/FPS);
@@ -115,7 +114,6 @@ void menu(){
                         Keys[HAUT] = 1;
                         break;
                     case ALLEGRO_KEY_LEFT :
-                        if(dialog_state)
                         reset_keys(Keys);
                         Keys[GAUCHE] = 1;
                         player1.direction = L1;
@@ -180,10 +178,43 @@ void menu(){
                         move_bg(&bar, Keys);
                         print_character(player1);
                     if (choosepnj !=0) {
-                        choose_event_pnj(bb8, police, choosepnj, &dialog_state);
+                        res = anim_text(queue, bb8, police, player1, bar, choosepnj);
+                        Keys[ENTER] = 0;
                     }
+                    switch (res) {
+                        case -1 :
+                            isEnd = 1;
+                            break;
+                        case PECHE :
+                            printf("Peche\n");
+                            //Lancer la peche au canard
+                            break;
+                        case SNAKE :
+                            printf("Snake\n");
+                            //Lancer le snake
+                            break;
+                        case SHIP :
+                            printf("Vaisseau\n");
+                            break;
+                        case OSU :
+                            printf("Osu\n");
+                            break;
+                        case TAPETAUPE :
+                            printf("Tape taupe\n");
+                            break;
+                        case COURSE :
+                            printf("Course\n");
+                            break;
+                        case BARMAN :
+                            //Donner les tickets / expliquer le jeu
+                            printf("ticket/regles\n");
+                            break;
+                        case STAT :
+                            printf("Stat\n");
+                            break;
+                    }
+                    res = 0;
                     al_flip_display();
-
                     break;
                 }
 

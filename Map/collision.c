@@ -17,7 +17,7 @@ void update_map_pos(Mapcollision* poscollision, Background bar) {
 }
 
 void load_file_collision(int lst_collision[COLLISIONHEI][COLLISIONWI]) {
-    FILE* fp = fopen("../Map/collision.txt", "r");
+    FILE *fp = fopen("../Map/collision.txt", "r");
 
     // vérifier si le fichier a été ouvert avec succès
     if (fp == NULL) {
@@ -41,15 +41,6 @@ void load_file_collision(int lst_collision[COLLISIONHEI][COLLISIONWI]) {
     }*/
 }
 
-void choose_event_pnj (Choose bb8, ALLEGRO_FONT* police, int res, int* dialogstate) {
-    switch (res) {
-        case 1 :
-            set_text(bb8, police, "Pêche au canard ?");
-            *dialogstate=1;
-            break;
-    }
-}
-
 int check_eventmap(Perso player,Mapcollision poscollision,Background *bar, int lst_collision[COLLISIONHEI][COLLISIONWI], int Keys[NBKEYS]) {
     if(Keys[ENTER] == 1 && player.direction == B1 && lst_collision[poscollision.posmapy][poscollision.posmapx] == DEUX) {
         bar->y -= ENTERBAR;
@@ -70,7 +61,28 @@ int check_eventmap(Perso player,Mapcollision poscollision,Background *bar, int l
         bar->y -= ENTERTOILET;
     }
     else if (Keys[ENTER] == 1 && lst_collision[poscollision.posmapy][poscollision.posmapx] == HUIT) {
-        return 1;
+        return PECHE;
+    }
+    else if (Keys[ENTER] == 1 && lst_collision[poscollision.posmapy][poscollision.posmapx] == S) {
+        return SNAKE;
+    }
+    else if (Keys[ENTER] == 1 && lst_collision[poscollision.posmapy][poscollision.posmapx] == C) {
+        return SHIP;
+    }
+    else if (Keys[ENTER] == 1 && lst_collision[poscollision.posmapy][poscollision.posmapx] == M) {
+        return OSU;
+    }
+    else if (Keys[ENTER] == 1 && lst_collision[poscollision.posmapy][poscollision.posmapx] == YODA) {
+        return TAPETAUPE;
+    }
+    else if (Keys[ENTER] == 1 && lst_collision[poscollision.posmapy][poscollision.posmapx] == NEUF) {
+        return COURSE;
+    }
+    else if (Keys[ENTER] == 1 && lst_collision[poscollision.posmapy][poscollision.posmapx] == W) {
+        return BARMAN;
+    }
+    else if (Keys[ENTER] == 1 && lst_collision[poscollision.posmapy][poscollision.posmapx] == P) {
+        return STAT;
     }
     return 0;
 }

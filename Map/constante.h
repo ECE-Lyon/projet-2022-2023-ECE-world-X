@@ -7,6 +7,8 @@
 
 enum{HAUT, DROITE, BAS, GAUCHE, ENTER, NBKEYS};
 
+#define FPS 30.0
+
 #define WIDTH 1200
 #define HEIGHT 600
 
@@ -27,6 +29,15 @@ enum{HAUT, DROITE, BAS, GAUCHE, ENTER, NBKEYS};
 #define ENTERTOILET 125
 #define ENTERSHIP 150
 
+#define PECHE 1
+#define SNAKE 2
+#define SHIP 3
+#define OSU 4
+#define TAPETAUPE 5
+#define COURSE 6
+#define BARMAN 7
+#define STAT 8
+
 #define ZERO 48
 #define UN 49
 #define DEUX 50
@@ -36,7 +47,13 @@ enum{HAUT, DROITE, BAS, GAUCHE, ENTER, NBKEYS};
 #define SIX 54
 #define SEPT 55
 #define HUIT 56
-
-#define MAXCH 50
+#define NEUF 57
+#define S 83
+#define C 67
+#define M 77
+#define YODA 89
+#define W 87
+#define P 80
+#define MAXCH 70
 
 #endif //PROJET_CONSTANTE_H
