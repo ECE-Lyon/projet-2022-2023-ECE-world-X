@@ -26,15 +26,15 @@ void init_images(FPSdisplay turret, Crosshair crosshair) {
     crosshair.crosshair = al_load_bitmap("../Pictures/crosshair.png");
 }
 
-void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALLEGRO_FONT *fontBig, ALLEGRO_TIMER *timerP1, ALLEGRO_TIMER *timerP2) {
+void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALLEGRO_TIMER *timerP1, ALLEGRO_TIMER *timerP2) {
     if (P1.turn) {
-        al_draw_textf(fontBig, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
-                      SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBig), ALLEGRO_ALIGN_CENTER, "C'est au tour de %s",
+        al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
+                      SCREEN_HEIGHT / 2 - al_get_font_ascent(font), ALLEGRO_ALIGN_CENTER, "C'est au tour de %s",
                       P1.name);
         al_start_timer(timerP1);
     } else if (P2.turn) {
-        al_draw_textf(fontBig, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
-                      SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBig), ALLEGRO_ALIGN_CENTER, "C'est au tour de %s",
+        al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
+                      SCREEN_HEIGHT / 2 - al_get_font_ascent(font), ALLEGRO_ALIGN_CENTER, "C'est au tour de %s",
                       P2.name);
         al_start_timer(timerP2);
     }
@@ -43,25 +43,25 @@ void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALL
     al_draw_bitmap(turret.backgrounddisplay, 0, 0, 0);
     al_draw_bitmap(turret.turretdisplay, 0, 159, 0);
     al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
-                  SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBig), ALLEGRO_ALIGN_CENTER, "3");
+                  SCREEN_HEIGHT / 2 - al_get_font_ascent(font), ALLEGRO_ALIGN_CENTER, "3");
     al_rest(1);
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_draw_bitmap(turret.backgrounddisplay, 0, 0, 0);
     al_draw_bitmap(turret.turretdisplay, 0, 159, 0);
     al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
-                  SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBig), ALLEGRO_ALIGN_CENTER, "2");
+                  SCREEN_HEIGHT / 2 - al_get_font_ascent(font), ALLEGRO_ALIGN_CENTER, "2");
     al_rest(1);
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_draw_bitmap(turret.backgrounddisplay, 0, 0, 0);
     al_draw_bitmap(turret.turretdisplay, 0, 159, 0);
     al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
-                  SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBig), ALLEGRO_ALIGN_CENTER, "1");
+                  SCREEN_HEIGHT / 2 - al_get_font_ascent(font), ALLEGRO_ALIGN_CENTER, "1");
     al_rest(1);
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_draw_bitmap(turret.backgrounddisplay, 0, 0, 0);
     al_draw_bitmap(turret.turretdisplay, 0, 159, 0);
     al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
-                  SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBig), ALLEGRO_ALIGN_CENTER, "GAME START !");
+                  SCREEN_HEIGHT / 2 - al_get_font_ascent(font), ALLEGRO_ALIGN_CENTER, "GAME START !");
 
 }
 
@@ -79,5 +79,9 @@ int shoot_turret(Ship ships[], Crosshair crosshair, int destroyed_ships){
             destroyed_ships++;
         }
     }
-    return destroyed_ships
+    return destroyed_ships;
+}
+
+void display_timer(ALLEGRO_TIMER *timer, int scoreP1, int scoreP2){
+
 }

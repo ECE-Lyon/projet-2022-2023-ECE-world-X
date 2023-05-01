@@ -11,8 +11,7 @@
 #include <allegro5/allegro_image.h>
 
 int main() {
-    int endgame = 0, gameover = 0, pause = 0, quit = 0, ingame = 0, destroyedShips = 0, scoreP1 = 0, scoreP2 = 0;
-    int wait = -1;
+    int endgame = 0, gameover = 0, pause = 0, ingame = 0, destroyedShips = 0, scoreP1 = 0, scoreP2 = 0;
     FPSdisplay turret;
     Ship ships[NB_SHIPS];
     Crosshair crosshair;
@@ -28,8 +27,7 @@ int main() {
     ALLEGRO_TIMER *timer = NULL;
     ALLEGRO_TIMER *timerP1 = NULL;
     ALLEGRO_TIMER *timerP2 = NULL;
-    ALLEGRO_FONT *fontBangers60 = NULL;
-    ALLEGRO_FONT *fontBangers160 = NULL;
+    ALLEGRO_FONT *font = NULL;
     ALLEGRO_EVENT event;
 
     srand(time(NULL));
@@ -61,16 +59,14 @@ int main() {
     timer = al_create_timer(1.0 / 60.0);
     if (!timer) {
         al_destroy_display(display);
-        al_destroy_font(fontBangers60);
-        al_destroy_font(fontBangers160);
+        al_destroy_font(font);
         error("Timer creation");
     }
 
     queue = al_create_event_queue();
     if (!queue) {
         al_destroy_display(display);
-        al_destroy_font(fontBangers60);
-        al_destroy_font(fontBangers160);
+        al_destroy_font(font);
         al_destroy_timer(timer);
         error("Event queue creation");
     }
@@ -86,7 +82,8 @@ int main() {
     al_start_timer(timer);
     al_hide_mouse_cursor(display);
 
-    printf("Press SPACE to start the game");
+    al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
+                  SCREEN_HEIGHT / 2 - al_get_font_ascent(font), ALLEGRO_ALIGN_CENTER, "Press SPACE to start");
 
     do {
         al_wait_for_event(queue, &event);
@@ -119,7 +116,7 @@ int main() {
             if (!pause) {
                 if (ingame == 0) {
                     display_turret(turret);
-                    start_game(P1, P2, turret, fontBangers60, fontBangers160, timerP1, timerP2);
+                    start_game(P1, P2, turret, font, timerP1, timerP2);
                     spawn_ships(ships);
                     ingame = 1;
                 }
@@ -152,14 +149,14 @@ int main() {
             if (P1.score > P2.score) {
                 P2.tickets -= 1;
                 P1.tickets += 1;
-                al_draw_textf(fontBangers160, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
-                              SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBangers160), ALLEGRO_ALIGN_CENTER,
+                al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
+                              SCREEN_HEIGHT / 2 - al_get_font_ascent(font), ALLEGRO_ALIGN_CENTER,
                               "Player 1 wins");
             } else if (P1.score < P2.score) {
                 P2.tickets += 1;
                 P1.tickets -= 1;
-                al_draw_textf(fontBangers160, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
-                              SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBangers160), ALLEGRO_ALIGN_CENTER,
+                al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
+                              SCREEN_HEIGHT / 2 - al_get_font_ascent(font), ALLEGRO_ALIGN_CENTER,
                               "Player 2 wins");
             }
             endgame = 1;
@@ -167,8 +164,8 @@ int main() {
 
         if (al_is_event_queue_empty(queue)) {
             if (pause) {
-                al_draw_textf(fontBangers160, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
-                              SCREEN_HEIGHT / 2 - al_get_font_ascent(fontBangers160), ALLEGRO_ALIGN_CENTER, "Pause");
+                al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
+                              SCREEN_HEIGHT / 2 - al_get_font_ascent(font), ALLEGRO_ALIGN_CENTER, "Pause");
             }
             al_flip_display();
         }
@@ -185,8 +182,7 @@ int main() {
     al_destroy_bitmap(turret.backgrounddisplay);
     al_destroy_bitmap(crosshair.crosshair);
 
-    al_destroy_font(fontBangers60);
-    al_destroy_font(fontBangers160);
+    al_destroy_font(font);
     al_destroy_event_queue(queue);
     al_destroy_display(display);
     al_destroy_timer(timer);
