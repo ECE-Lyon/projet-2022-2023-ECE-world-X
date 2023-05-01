@@ -5,12 +5,14 @@
 #include "constantes.h"
 
 int dessin = false;
-int i, xMouse, yMouse, offsetXduck, offsetYduck, offsetXcursor, offsetYcursor;
+int i, offsetXduck, offsetYduck;
+int tempsRestant = 20;
 int duckSelect = -1;
 bool end = false;
 ALLEGRO_DISPLAY* window = NULL;
 ALLEGRO_EVENT_QUEUE* fifo = NULL;
 ALLEGRO_TIMER* timer = NULL;
+ALLEGRO_TIMER* timerPartie = NULL;
 ALLEGRO_EVENT event;
 ALLEGRO_MOUSE_STATE mouse_state;
 ALLEGRO_FONT *jedi;
@@ -34,6 +36,7 @@ int launchGame(){
     al_set_window_title(window, "CoinCoin");
 
     timer = al_create_timer(1.0/FPS);
+    timerPartie = al_create_timer(1.0);
     assert(timer);
 
     fifo = al_create_event_queue();
@@ -41,8 +44,9 @@ int launchGame(){
     al_register_event_source(fifo, al_get_display_event_source(window));
     al_register_event_source(fifo, al_get_mouse_event_source());
     al_register_event_source(fifo, al_get_timer_event_source(timer));
+    al_register_event_source(fifo, al_get_timer_event_source(timerPartie));
 
-    jedi = al_load_ttf_font("../Fonts/Starjedi.ttf",50,0);
+    jedi = al_load_ttf_font("../Fonts/Starjhol.ttf",50,0);
     assert(jedi);
     init_Duck(ducks);
     init_boat(&smallBoat);
@@ -50,6 +54,7 @@ int launchGame(){
     //al_hide_mouse_cursor(window);
 
     al_start_timer(timer);
+    al_start_timer(timerPartie);
     while(!end) {
         al_wait_for_event(fifo, &event);
         al_get_mouse_state(&mouse_state);
@@ -79,13 +84,18 @@ int launchGame(){
                 break;
             }
             case ALLEGRO_EVENT_TIMER: {
+                if(event.timer.source == timerPartie){
+                    tempsRestant--;
+                    if(tempsRestant == 0){
+                        end = true;
+                    }
+                }
                 al_get_mouse_state(&mouse_state);
                 pixelCane.x = mouse_state.x - 80;
                 pixelCane.y = mouse_state.y - 80;
                 if(duckSelect != -1 ){
                     ducks[duckSelect].x = mouse_state.x - offsetXduck;
                     ducks[duckSelect].y = mouse_state.y - offsetYduck;
-                    //printf("Duck %d position: x = %d, y = %d\n", duckSelect, ducks[duckSelect].x, ducks[duckSelect].y);
                     dessin = true;
                 }
                 if(duckSelect != -1 && duckOnBoat(&smallBoat, &ducks[duckSelect])){
@@ -93,6 +103,7 @@ int launchGame(){
                         smallBoat.score++;
                         ducks[duckSelect].actif = 0;
                         ducks[duckSelect].compte = true;
+                        ducks[duckSelect].compte = false;
                         printf("score: %d\n",smallBoat.score);
                         duckSelect = -1;
                     }
@@ -107,6 +118,7 @@ int launchGame(){
         if (dessin) {
             al_clear_to_color(BLEU);
             al_draw_textf(jedi,NOIR,50,50,0,"Score: %d",smallBoat.score);
+            al_draw_textf(jedi,NOIR,50,1000,0,"temps: %d",tempsRestant);
             printBoat(&smallBoat);
             printDuck(ducks);
             drawCane(&pixelCane);
