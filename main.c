@@ -1,10 +1,6 @@
-#include "Snake/game.h"
-/*#include "Map/map.h"
-#include "Map/character.h"*/
-
-
+#include "Map/map.h"
 
 int main() {
-    game();
+    menu();
     return 0;
 }
