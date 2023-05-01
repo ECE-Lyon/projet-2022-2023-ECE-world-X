@@ -17,25 +17,8 @@
 #include "miam.h"
 #include "game.h"
 
-ALLEGRO_DISPLAY* setting(){
-    assert(al_init());
-    ALLEGRO_DISPLAY*display=NULL;
-    display=al_create_display(WIDTH, HEIGHT);
-    assert(display!=NULL);
-    //Initialiser avec assert le reste
-    assert(al_init_image_addon());
-    assert(al_init_primitives_addon());
-    assert(al_install_keyboard());
-    al_set_window_title(display,"Title");
-    al_set_window_position(display,200,100);
-    al_flip_display();
-    srand(time(NULL));
-    return display;
 
-}
-
-void game(){
-    ALLEGRO_DISPLAY* display=setting();
+void game(ALLEGRO_DISPLAY* display){
     int isEnd=0;
     float fps;
     int changeallowed;

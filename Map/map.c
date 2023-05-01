@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
+#include "../Snake/game.h"
 
 
 
@@ -190,7 +191,7 @@ void menu(){
                             //Lancer la peche au canard
                             break;
                         case SNAKE :
-                            printf("Snake\n");
+                            game(display);
                             //Lancer le snake
                             break;
                         case SHIP :

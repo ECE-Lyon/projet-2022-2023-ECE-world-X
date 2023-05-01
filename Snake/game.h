@@ -5,7 +5,6 @@
 #ifndef PROJET_GAME_H
 #define PROJET_GAME_H
 
-void game();
-ALLEGRO_DISPLAY* setting();
+void game(ALLEGRO_DISPLAY* display);
 
 #endif //PROJET_GAME_H

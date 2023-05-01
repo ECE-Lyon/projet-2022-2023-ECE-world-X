@@ -5,8 +5,8 @@ set(CMAKE_C_STANDARD 99)
 
 
 
-add_executable(PROJET main.c Map/character.c Map/map.c Map/constante.h Map/background.h Map/background.c Map/collision.h Map/collision.c Map/dialog.h Map/dialog.c 
-               Snake/interface.c Snake/snake.c Snake/miam.h Snake/miam.c Snake/plateau.c Snake/plateau.h Snake/game.c Snake/game.c Snake/interface.c Snake/miam.c Snake/plateau.c)
+add_executable(PROJET main.c Map/character.c Map/map.c Map/constante.h Map/background.h Map/background.c Map/collision.h Map/collision.c Map/dialog.h Map/dialog.c
+        Snake/interface.c Snake/snake.c Snake/miam.h Snake/miam.c Snake/plateau.c Snake/plateau.h Snake/game.c Snake/game.c Snake/interface.c Snake/miam.c Snake/plateau.c)
 
 
 IF(WIN32)
