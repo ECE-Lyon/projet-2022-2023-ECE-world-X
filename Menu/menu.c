@@ -1,0 +1,249 @@
+//
+// Created by trist on 01/05/2023.
+//
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+#include <assert.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
+#include <string.h>
+
+#include "../Map/map.h"
+#include <stdio.h>
+
+
+#define WIDTH 1200
+#define HEIGHT 600
+
+#define WILOGO 50
+#define HEILOGO 500
+
+
+#include "../Map/character.h"
+
+
+ALLEGRO_DISPLAY* setting(){
+    assert(al_init());
+    ALLEGRO_DISPLAY*display=NULL;
+    display=al_create_display(WIDTH, HEIGHT);
+    assert(display!=NULL);
+    //Initialiser avec assert le reste
+    assert(al_init_image_addon());
+    assert(al_install_mouse());
+    assert(al_init_primitives_addon());
+    assert(al_install_keyboard());
+    assert(al_install_audio());
+    assert(al_init_acodec_addon());
+    al_init_font_addon();
+    assert(al_init_ttf_addon());
+    al_set_window_title(display,"Title");
+    al_set_window_position(display,200,100);
+    al_flip_display();
+    srand(time(NULL));
+    return display;
+
+}
+
+void draw_select_character (ALLEGRO_BITMAP* bg, ALLEGRO_BITMAP* p1, ALLEGRO_BITMAP* p2, int pos) {
+    al_draw_bitmap(bg, 0,0,0);
+    al_draw_bitmap(p2, 200,150, 0);
+    al_draw_bitmap(p1, 800,150, 0);
+    if (pos == 0) {
+        al_draw_filled_rectangle(0, 0, WIDTH / 2, HEIGHT, al_map_rgb(0, 0, 0));
+    }
+    else if (pos == 1) {
+        al_draw_filled_rectangle(WIDTH/2, 0, WIDTH, HEIGHT, al_map_rgb(0,0,0));
+    }
+}
+
+
+int select_character(ALLEGRO_DISPLAY* display) {
+    int close = 0;
+    int end = 0;
+
+    int pos = -1;
+    int dessiner = 0;
+    ALLEGRO_BITMAP* background = al_load_bitmap("../Menu/lukevadorselect.jpg");
+    ALLEGRO_BITMAP* perso1 = al_load_bitmap("../Menu/luke2.png");
+    ALLEGRO_BITMAP* perso2 = al_load_bitmap("../Menu/Vador1.png");
+
+    ALLEGRO_TIMER* timer = al_create_timer(1/FPS);
+    al_start_timer(timer);
+    assert(background!=NULL);
+    assert(perso1!=NULL);
+    assert(perso2!=NULL);
+
+    ALLEGRO_EVENT_QUEUE*queue;
+    queue = al_create_event_queue();
+    assert(queue);
+
+    al_register_event_source(queue,al_get_display_event_source(display));
+    al_register_event_source(queue,al_get_keyboard_event_source());
+    al_register_event_source(queue, al_get_mouse_event_source());
+    al_register_event_source(queue, al_get_timer_event_source(timer));
+
+    al_draw_bitmap(background, 0,0,0);
+    al_draw_bitmap(perso2, 200,150, 0);
+    al_draw_bitmap(perso1, 800,150, 0);
+    al_flip_display();
+
+    while(!end){
+        ALLEGRO_EVENT event={0};
+        al_wait_for_event(queue,&event);//on pioche un événement dès qu'il y en a un
+        switch(event.type){//en fonction de son type (événement de souris,du clavier...),on agit
+            case ALLEGRO_EVENT_DISPLAY_CLOSE:
+                end=1;
+                return 0;
+            case ALLEGRO_EVENT_MOUSE_AXES :
+                if (event.mouse.x > HEIGHT-100) {
+                    if (pos != 0) {
+                        pos = 0;
+                        dessiner = 1;
+                    }
+                }
+                else if (event.mouse.x < HEIGHT+100){
+                    if (pos != 1) {
+                        pos = 1;
+                        dessiner = 1;
+                    }
+                }
+
+                break;
+            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN :
+                if (pos == 1) {
+                    printf("Dark side\n");
+                }
+                else if (pos == 0) {
+                    printf("Light side\n");
+                }
+                break;
+            case ALLEGRO_EVENT_TIMER :
+                if (dessiner == 1) {
+                    al_map_rgb(0,0,0);
+                    draw_select_character(background, perso1, perso2, pos);
+                    dessiner = 0;
+                    al_flip_display();
+                }
+        }
+    }
+}
+
+int set_name(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* police) {
+    int close = 0;
+    int end = 0;
+    int unichar;
+    int name[MAXCHAR];
+    int indice = 0;
+    char* letter;
+    letter = malloc(sizeof(char*));
+    ALLEGRO_EVENT_QUEUE*queue;
+    queue = al_create_event_queue();
+    assert(queue);
+
+    ALLEGRO_TIMER* timer = al_create_timer(1/60.0);
+    al_start_timer(timer);
+    assert(timer);
+
+    al_register_event_source(queue,al_get_display_event_source(display));
+    al_register_event_source(queue,al_get_keyboard_event_source());
+    al_register_event_source(queue, al_get_timer_event_source(timer));
+
+    while (end == 0) {
+        ALLEGRO_EVENT event={0};
+        al_wait_for_event(queue,&event);
+        switch(event.type) {
+            case ALLEGRO_EVENT_DISPLAY_CLOSE :
+                return 1;
+            case ALLEGRO_EVENT_KEY_CHAR:
+                unichar = event.keyboard.unichar;
+                if (unichar >= 32 || unichar == 8) {
+                    if (unichar == 8) {
+                        if (indice >= 1) {
+                            indice -=1;
+                        }
+                    }
+                    else {
+                        unichar = event.keyboard.unichar;
+                        name[indice] = unichar;
+                        indice +=1;
+                    }
+                    if (indice>=1) {
+                        letter = (char*) realloc(letter, indice*sizeof(char*));
+                        letter[indice] = '-';
+                    }
+
+                    for(int i=0; i<indice; i++) {
+                        letter[i] = (char) name[i];
+                    }
+                }
+                break;
+            case ALLEGRO_EVENT_TIMER :
+                al_clear_to_color(al_map_rgb(0,0,0));
+                al_draw_text(police, al_map_rgb(255,239,56), WIDTH/2, HEIGHT/2, 0,  letter);
+                al_flip_display();
+        }
+    }
+}
+
+
+
+void menu() {
+    int close = 0;
+    int isEnd=0;
+
+    ALLEGRO_DISPLAY* display = setting();
+    ALLEGRO_BITMAP* background = al_load_bitmap("../Menu/menubackground.jpg");
+    ALLEGRO_BITMAP* logo = al_load_bitmap("../Menu/logogame.png");
+    ALLEGRO_BITMAP* touch = al_load_bitmap("../Menu/logotouch2.png");
+
+    assert(background!=NULL);
+    assert(logo!=NULL);
+    assert(touch!=NULL);
+
+    ALLEGRO_EVENT_QUEUE*queue;
+    queue = al_create_event_queue();
+    assert(queue);
+
+    //Ajouter tous les types d'événements souhaités
+    al_register_event_source(queue,al_get_display_event_source(display));
+    al_register_event_source(queue, al_get_keyboard_event_source());
+
+    ALLEGRO_SAMPLE* menusample = al_load_sample("../Menu/menumusic.wav"); //Extension .wav reconnu par acodec
+    ALLEGRO_FONT* police = al_load_ttf_font("../Map/star_jedi/starjedi/Starjedi.ttf", 23, 0);
+
+    assert(menusample!=NULL);
+    al_reserve_samples(2);
+    al_draw_bitmap(background, 0,0,0);
+    al_draw_bitmap(logo, WILOGO, HEILOGO,0);
+    al_draw_bitmap(touch, 50, 150,0);
+    al_flip_display();
+    al_play_sample(menusample, 1.0f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_LOOP, 0);
+
+    while(!isEnd){
+        ALLEGRO_EVENT event={0};
+        al_wait_for_event(queue,&event);//on pioche un événement dès qu'il y en a un
+        switch(event.type){//en fonction de son type (événement de souris,du clavier...),on agit
+            case ALLEGRO_EVENT_DISPLAY_CLOSE:
+                isEnd=1;
+                break;
+            case ALLEGRO_EVENT_KEY_DOWN://Si on arrive ici, c'est qu'on a pioché un événement du clavier de type touche  enfoncée
+                al_clear_to_color(al_map_rgb(0,0,0));
+                //al_destroy_sample(menusample);
+                close  = select_character(display);
+                if (close != 1) {
+                    close = set_name(display, police);
+                }
+                break;
+            }
+        if (close == 1) {
+            isEnd = 1;
+        }
+        }
+    al_destroy_event_queue(queue);
+}
