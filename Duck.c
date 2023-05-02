@@ -9,7 +9,7 @@ void init_Duck(Coin *ducks) {
     for (i = 0; i < NB_MAX_ENNEMIS; i++) {
         ducks[i].x = 0;
         ducks[i].y = 0;
-        ducks[i].vitesse = 2 + rand() % 3;
+        ducks[i].vitesse = 5 + rand() % 10;
         ducks[i].actif = 0;
         ducks[i].compte = false;
         ducks[i].duckimage = al_load_bitmap("../Images/Duck.png");

@@ -17,5 +17,4 @@ void canePos(Cane* pixelCane, int lar, int haut) {
 
 void drawCane(Cane* pixelCane) {
     al_draw_bitmap(pixelCane->imageCane ,pixelCane->x,pixelCane->y,0);
-    //printf("X: %d\n\nY: %d",pixelCane->x,pixelCane->y);
 }

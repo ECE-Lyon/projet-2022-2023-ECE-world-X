@@ -6,7 +6,7 @@
 
 int dessin = false;
 int i, offsetXduck, offsetYduck;
-int tempsRestant = 20;
+int tempsRestant = 90;
 int duckSelect = -1;
 bool end = false;
 ALLEGRO_DISPLAY* window = NULL;
@@ -16,11 +16,14 @@ ALLEGRO_TIMER* timerPartie = NULL;
 ALLEGRO_EVENT event;
 ALLEGRO_MOUSE_STATE mouse_state;
 ALLEGRO_FONT *jedi;
+ALLEGRO_FONT *jediout;
+ALLEGRO_SAMPLE *backgoundMusic;
 Boat smallBoat;
 Cane pixelCane;
 Coin ducks[NB_MAX_ENNEMIS];
 
 int launchGame(){
+
 
     assert(al_init());
     assert(al_init_primitives_addon());
@@ -28,8 +31,12 @@ int launchGame(){
     assert(al_init_image_addon());
     assert(al_init_font_addon());
     assert(al_init_ttf_addon());
+    assert(al_install_audio());
+    assert(al_init_acodec_addon());
 
-    canePos(&pixelCane, 80, 50);
+    al_reserve_samples(1);
+    backgoundMusic = al_load_sample("../Audio/AcrosstheStars.ogg");
+    assert(backgoundMusic);
 
     window = al_create_display(LARGEUR, HAUTEUR);
     assert(window);
@@ -46,7 +53,9 @@ int launchGame(){
     al_register_event_source(fifo, al_get_timer_event_source(timer));
     al_register_event_source(fifo, al_get_timer_event_source(timerPartie));
 
-    jedi = al_load_ttf_font("../Fonts/Starjhol.ttf",50,0);
+    canePos(&pixelCane, 80, 50);
+    jedi = al_load_ttf_font("../Fonts/Starjedi.ttf",50,0);
+    jediout = al_load_ttf_font("../Fonts/Starjout.ttf",50,0);
     assert(jedi);
     init_Duck(ducks);
     init_boat(&smallBoat);
@@ -55,6 +64,7 @@ int launchGame(){
 
     al_start_timer(timer);
     al_start_timer(timerPartie);
+    al_play_sample(backgoundMusic,1.0,0.0,1.0,ALLEGRO_PLAYMODE_LOOP,0);
     while(!end) {
         al_wait_for_event(fifo, &event);
         al_get_mouse_state(&mouse_state);
@@ -118,7 +128,7 @@ int launchGame(){
         if (dessin) {
             al_clear_to_color(BLEU);
             al_draw_textf(jedi,NOIR,50,50,0,"Score: %d",smallBoat.score);
-            al_draw_textf(jedi,NOIR,50,1000,0,"temps: %d",tempsRestant);
+            al_draw_textf(jediout,NOIR,50,1000,0,"temps: %d",tempsRestant);
             printBoat(&smallBoat);
             printDuck(ducks);
             drawCane(&pixelCane);
@@ -129,6 +139,7 @@ int launchGame(){
 
     }
 
+    al_destroy_sample(backgoundMusic);
     al_destroy_font(jedi);
     al_destroy_event_queue(fifo);
     al_destroy_timer(timer);
