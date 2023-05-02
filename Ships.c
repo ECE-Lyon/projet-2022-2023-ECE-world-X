@@ -35,13 +35,13 @@ void spawn_ships(Ship ships[NB_SHIPS]) {
     int i = 0;
     for (i = 0; i < NB_SHIPS; i++) {
         if (ships[i].destroyed == 0) {
-            ships[i].y = 10 + rand() % 350;
-            if (ships[i].y >= 10 && ships[i].y <= 150) {
-                ships[i].x = 10 + (rand() % (SCREEN_WIDTH - 100));
-            } else if (ships[i].y > 150 && ships[i].y <= 250) {
-                ships[i].x = 225 + (rand() % (SCREEN_WIDTH - 500));
-            } else if (ships[i].y > 250 && ships[i].y <= 360) {
-                ships[i].x = 350 + (rand() % (SCREEN_WIDTH - 750));
+            ships[i].y = 10 + rand() % (400 - ships[i].length);
+            if (ships[i].y >= 10 && ships[i].y <= 185) {
+                ships[i].x = 65 + (rand() % (SCREEN_WIDTH - (65 + ships[i].width)));
+            } else if (ships[i].y > 185 && ships[i].y <= 335) {
+                ships[i].x = 250 + (rand() % (SCREEN_WIDTH - (250 + ships[i].width)));
+            } else if (ships[i].y > 335 && ships[i].y <= 410) {
+                ships[i].x = 350 + (rand() % (SCREEN_WIDTH - (350 + ships[i].width)));
             }
         }
     }
@@ -51,8 +51,8 @@ void display_ships(Ship ships[NB_SHIPS]) {
     int i = 0;
     for (i = 0; i < NB_SHIPS; i++) {
         if (ships[i].destroyed == 0) {
-            if (ships[i].y >= 10 && ships[i].y <= 150 + ships[i].length && ships[i].x >= 10 &&
-                ships[i].x <= (SCREEN_WIDTH - 100) + ships[i].width) {
+            if (ships[i].y >= 10 && ships[i].y <= (185 - ships[i].length) && ships[i].x >= 65 &&
+                ships[i].x <= (1135 - (ships[i].width + ships[i].width))) {
                 if (ships[i].size == 1) {
                     al_draw_bitmap(ships->ship1, ships[i].x, ships[i].y, 0);
                 } else if (ships[i].size == 2) {
@@ -60,8 +60,8 @@ void display_ships(Ship ships[NB_SHIPS]) {
                 } else if (ships[i].size == 3) {
                     al_draw_bitmap(ships->ship3, ships[i].x, ships[i].y, 0);
                 }
-            } else if (ships[i].y > 150 && ships[i].y <= 250 + ships[i].length && ships[i].x >= 225 &&
-                       ships[i].x <= (SCREEN_WIDTH - 500) + ships[i].width) {
+            } else if (ships[i].y > 185 && ships[i].y <= (335 - ships[i].length) && ships[i].x >= 250 &&
+                       ships[i].x <= (950 - (ships[i].width + ships[i].width))) {
                 if (ships[i].size == 1) {
                     al_draw_bitmap(ships->ship1, ships[i].x, ships[i].y, 0);
                 } else if (ships[i].size == 2) {
@@ -69,8 +69,8 @@ void display_ships(Ship ships[NB_SHIPS]) {
                 } else if (ships[i].size == 3) {
                     al_draw_bitmap(ships->ship3, ships[i].x, ships[i].y, 0);
                 }
-            } else if (ships[i].y > 250 && ships[i].y <= 360 + ships[i].length && ships[i].x >= 350 &&
-                       ships[i].x <= (SCREEN_WIDTH - 750) + ships[i].width) {
+            } else if (ships[i].y > 335 && ships[i].y <= (410 - ships[i].length) && ships[i].x >= 350 &&
+                       ships[i].x <= (850 - (ships[i].width + ships[i].width))) {
                 if (ships[i].size == 1) {
                     al_draw_bitmap(ships->ship1, ships[i].x, ships[i].y, 0);
                 } else if (ships[i].size == 2) {
@@ -78,6 +78,8 @@ void display_ships(Ship ships[NB_SHIPS]) {
                 } else if (ships[i].size == 3) {
                     al_draw_bitmap(ships->ship3, ships[i].x, ships[i].y, 0);
                 }
+            } else{
+                printf("b");
             }
         }
     }
@@ -104,41 +106,58 @@ void move_ships(Ship ships[NB_SHIPS]) {
                     ships[i].x += ships[i].speed;
                     break;
             }
-            if (ships[i].x < 0 || ships[i].x > SCREEN_WIDTH || ships[i].y < 0 || ships[i].y > SCREEN_HEIGHT) {
-                ships[i].x = rand() % (SCREEN_WIDTH - ships[i].width);
-                ships[i].y = rand() % (SCREEN_HEIGHT - ships[i].length);
+            if (ships[i].x < 65 && ships[i].y > 10 && ships[i].y < 185) {
+                ships[i].x = 1135 - ships[i].width;
+
+            } else if (ships[i].x > (1135 - ships[i].width) && ships[i].y > 10 && ships[i].y < 185) {
+                ships[i].x = 65;
+
+            } else if (ships[i].x < 250 && ships[i].y > 185 && ships[i].y < 335) {
+                ships[i].x = 950 - ships[i].width;
+
+            } else if (ships[i].x > (950 - ships[i].width) && ships[i].y > 185 && ships[i].y < 335) {
+                ships[i].x = 250;
+
+            } else if (ships[i].x < 350 && ships[i].y > 335 && ships[i].y < 410) {
+                ships[i].x = 850 - ships[i].width;
+
+            } else if (ships[i].x > (850 - ships[i].width) && ships[i].y > 335 && ships[i].y < 410) {
+                ships[i].x = 350;
+
+            } else if (ships[i].y < 10) {
+                if (ships[i].x > 65 && ships[i].x < 250) {
+                    ships[i].y = 185;
+
+                } else if (ships[i].x<(1135 - ships[i].width) && ships[i].x>(950 - ships[i].width)) {
+                    ships[i].y = 185;
+
+                } else if (ships[i].x > 250 && ships[i].x < 350) {
+                    ships[i].y = 335;
+
+                } else if (ships[i].x<(950 - ships[i].width) && ships[i].x>(850 - ships[i].width)) {
+                    ships[i].y = 335;
+
+                } else if (ships[i].x > 350 && ships[i].x < 850) {
+                    ships[i].y = 410;
+
+                }
+
+            } else if (ships[i].y > 185 && ships[i].x > 65 && ships[i].x < 250) {
+                ships[i].y = 10;
+
+            } else if (ships[i].y > 185 && ships[i].x<(1135 - ships[i].width) && ships[i].x>(950 - ships[i].width)) {
+                ships[i].y = 10;
+
+            } else if (ships[i].y > 335 && ships[i].x > 250 && ships[i].x < 350) {
+                ships[i].y = 10;
+
+            } else if (ships[i].y > 335 && ships[i].x<(950 - ships[i].width) && ships[i].x>(850 - ships[i].width)) {
+                ships[i].y = 10;
+
+            } else if (ships[i].y > 410 && ships[i].x > 350 && ships[i].x < 850) {
+                ships[i].y = 10;
+
             }
-
-
-            if (ships[i].y < 10 && ships[i].y > 150 + ships[i].length && ships[i].x < 10 &&
-                ships[i].x > (SCREEN_WIDTH - 100) + ships[i].width) {
-                if (ships[i].size == 1) {
-                    al_draw_bitmap(ships->ship1, ships[i].x, ships[i].y, 0);
-                } else if (ships[i].size == 2) {
-                    al_draw_bitmap(ships->ship2, ships[i].x, ships[i].y, 0);
-                } else if (ships[i].size == 3) {
-                    al_draw_bitmap(ships->ship3, ships[i].x, ships[i].y, 0);
-                }
-            } else if (ships[i].y < 150 && ships[i].y > 250 + ships[i].length && ships[i].x < 225 &&
-                       ships[i].x > (SCREEN_WIDTH - 500) + ships[i].width) {
-                if (ships[i].size == 1) {
-                    al_draw_bitmap(ships->ship1, ships[i].x, ships[i].y, 0);
-                } else if (ships[i].size == 2) {
-                    al_draw_bitmap(ships->ship2, ships[i].x, ships[i].y, 0);
-                } else if (ships[i].size == 3) {
-                    al_draw_bitmap(ships->ship3, ships[i].x, ships[i].y, 0);
-                }
-            } else if (ships[i].y < 250 && ships[i].y > 360 + ships[i].length && ships[i].x < 350 &&
-                       ships[i].x > (SCREEN_WIDTH - 750) + ships[i].width) {
-                if (ships[i].size == 1) {
-                    al_draw_bitmap(ships->ship1, ships[i].x, ships[i].y, 0);
-                } else if (ships[i].size == 2) {
-                    al_draw_bitmap(ships->ship2, ships[i].x, ships[i].y, 0);
-                } else if (ships[i].size == 3) {
-                    al_draw_bitmap(ships->ship3, ships[i].x, ships[i].y, 0);
-                }
-            }
-
         }
     }
 }

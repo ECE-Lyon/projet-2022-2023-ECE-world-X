@@ -4,8 +4,5 @@
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 600
 #define NB_SHIPS 25
-#define SHIP_50 50
-#define SHIP_75 75
-#define SHIP_100 100
 
 #endif //PROJET_ECE_WORLD_CONST_H
