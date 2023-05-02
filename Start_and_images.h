@@ -3,6 +3,7 @@
 
 #include "Ship.h"
 #include "Player_crosshair.h"
+#include "const.h"
 
 #include <stdio.h>
 #include <allegro5/allegro.h>
@@ -19,14 +20,14 @@ typedef struct {
 
 void error(const char *txt);
 
-void init_images(FPSdisplay turret, Crosshair crosshair);
+void init_images(FPSdisplay *turret, Crosshair *crosshair);
 
 void display_turret(FPSdisplay turret);
 
 void display_timer(ALLEGRO_TIMER *timer, int scoreP1, int scoreP2);
 
-int shoot_turret(Ship ships[], Crosshair crosshair, int destroyed_ships);
+int shoot_turret(Ship ships[NB_SHIPS], Crosshair crosshair, int destroyed_ships);
 
-void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALLEGRO_TIMER *timerP1, ALLEGRO_TIMER *timerP2);
+void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALLEGRO_FONT *fontBig, ALLEGRO_TIMER *count);
 
 #endif //PROJET_ECE_WORLD_TURRET_AND_TIMER_H

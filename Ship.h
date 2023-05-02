@@ -1,6 +1,8 @@
 #ifndef PROJET_ECE_WORLD_SHIP_H
 #define PROJET_ECE_WORLD_SHIP_H
 
+#include "const.h"
+
 #include <stdio.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
@@ -18,12 +20,12 @@ typedef struct {
     ALLEGRO_BITMAP *explosion1, *explosion2, *explosion3;
 }Ship;
 
-void init_ships(Ship ships[]);
+void init_ships(Ship ships[NB_SHIPS]);
 
-void display_ships(Ship ships[]);
+void display_ships(Ship ships[NB_SHIPS]);
 
-void move_ships(Ship ships[]);
+void move_ships(Ship ships[NB_SHIPS]);
 
-void spawn_ships(Ship ships[]);
+void spawn_ships(Ship ships[NB_SHIPS]);
 
 #endif //PROJET_ECE_WORLD_SHIP_H
