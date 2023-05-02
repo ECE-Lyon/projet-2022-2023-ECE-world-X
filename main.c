@@ -48,8 +48,7 @@ int main() {
     while (difficulty <= 0) {
         difficulty = inTheMenu(font, queue, selected_item, display);
     }
-    difficulty += 1;
-    printf("%d\n", selected_item);
+    printf("%d\n", difficulty);
     int circle_radius = al_get_bitmap_width(circle) / 2;
     printf("%d\n", circle_radius);
 
