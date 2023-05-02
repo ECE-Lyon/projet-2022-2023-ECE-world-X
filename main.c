@@ -11,7 +11,7 @@
 #include <allegro5/allegro_image.h>
 #include "menu.h"
 #include <allegro5/allegro_ttf.h>
-
+#include <allegro5/mouse.h>
 
 int main() {
 
@@ -23,33 +23,35 @@ int main() {
     al_init_font_addon();
     al_init_ttf_addon();
     al_init_primitives_addon();
+    al_install_mouse();
     ALLEGRO_SAMPLE *sample = NULL;
     ALLEGRO_DISPLAY *display = al_create_display(1200, 600);
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_TIMER *timer = al_create_timer(1.0 / 60.0); //fps
-    ALLEGRO_FONT* font = al_load_ttf_font("../design/space_font.ttf", 24, 0);
+    ALLEGRO_FONT *font = al_load_ttf_font("../design/space_font.ttf", 24, 0);
     ALLEGRO_BITMAP *circle = al_load_bitmap("../design/circle.png");
     al_register_event_source(queue, al_get_timer_event_source(timer));
     al_register_event_source(queue, al_get_display_event_source(display));
-    al_register_event_source(queue, al_get_timer_event_source(timer));
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_flip_display();
     ALLEGRO_EVENT event;
-    al_install_mouse();
+    al_install_keyboard();
     al_set_new_display_flags(ALLEGRO_WINDOWED);
     ALLEGRO_MOUSE_STATE mouseState;
     al_get_mouse_state(&mouseState);
+    al_register_event_source(queue, al_get_mouse_event_source());
+    al_register_event_source(queue, al_get_keyboard_event_source());
+
 
     int selected_item = 0;
     int difficulty = 0;
-    selected_item = inTheMenu(font, queue, selected_item, display);
-    printf("%d", selected_item);
+    while (difficulty <= 0) {
+        difficulty = inTheMenu(font, queue, selected_item, display);
+    }
+    difficulty += 1;
+    printf("%d\n", selected_item);
     int circle_radius = al_get_bitmap_width(circle) / 2;
     printf("%d\n", circle_radius);
-    while (difficulty < 0 && difficulty < 10) {
-        printf("Choose your difficulty (warning it is exponential)\n");
-        scanf("%d", &difficulty);
-    }
 
 
     XYT tabXYT[MAXHITOBJECT] = {0};
@@ -62,11 +64,11 @@ int main() {
     al_start_timer(timer);
     play_music(difficulty, sample);
     int current_point = 0;
-    printf("%ld", clock());
+    const int off_beat = clock();
 
     while (running) {
         // add new points to printedArr
-        while (tabXYT[current_point].timing + 500 <= clock() - 1900) { //problème avec l'offbeat inconstant
+        while (tabXYT[current_point].timing + 500 <= clock() - off_beat) { //problème avec l'offbeat inconstant
             addToPrintedArr(tabXYT, printedArr, current_point);
             current_point++;
             al_clear_to_color(al_map_rgb(0, 0, 0));
