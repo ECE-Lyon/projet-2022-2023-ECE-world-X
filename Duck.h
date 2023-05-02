@@ -12,10 +12,12 @@
 
 typedef struct {
     int x, y, hauteur, largeur;
-    int vitesse;
-    int actif;
+    int vitesse,actif,imageFrame;
     bool compte;
-    ALLEGRO_BITMAP *duckimage;
+    ALLEGRO_BITMAP *Jarjar1;
+    ALLEGRO_BITMAP *Jarjar2;
+    ALLEGRO_BITMAP *Jarjar3;
+    ALLEGRO_BITMAP *Jarjar4;
 } Coin;
 
 void init_Duck(Coin *ducks);

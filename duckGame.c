@@ -8,6 +8,7 @@ int dessin = false;
 int i, offsetXduck, offsetYduck;
 int tempsRestant = 90;
 int duckSelect = -1;
+bool gamePause = false;
 bool end = false;
 ALLEGRO_DISPLAY* window = NULL;
 ALLEGRO_EVENT_QUEUE* fifo = NULL;
@@ -17,6 +18,7 @@ ALLEGRO_EVENT event;
 ALLEGRO_MOUSE_STATE mouse_state;
 ALLEGRO_FONT *jedi;
 ALLEGRO_FONT *jediout;
+ALLEGRO_FONT *jedihol;
 ALLEGRO_SAMPLE *backgoundMusic;
 Boat smallBoat;
 Cane pixelCane;
@@ -33,6 +35,7 @@ int launchGame(){
     assert(al_init_ttf_addon());
     assert(al_install_audio());
     assert(al_init_acodec_addon());
+    assert(al_install_keyboard());
 
     al_reserve_samples(1);
     backgoundMusic = al_load_sample("../Audio/AcrosstheStars.ogg");
@@ -45,17 +48,21 @@ int launchGame(){
     timer = al_create_timer(1.0/FPS);
     timerPartie = al_create_timer(1.0);
     assert(timer);
+    assert(timerPartie);
 
     fifo = al_create_event_queue();
     assert(fifo);
     al_register_event_source(fifo, al_get_display_event_source(window));
     al_register_event_source(fifo, al_get_mouse_event_source());
+    al_register_event_source(fifo, al_get_keyboard_event_source());
     al_register_event_source(fifo, al_get_timer_event_source(timer));
     al_register_event_source(fifo, al_get_timer_event_source(timerPartie));
 
     canePos(&pixelCane, 80, 50);
+
     jedi = al_load_ttf_font("../Fonts/Starjedi.ttf",50,0);
     jediout = al_load_ttf_font("../Fonts/Starjout.ttf",50,0);
+    jedihol = al_load_ttf_font("../Fonts/Starjhol.ttf",100,0);
     assert(jedi);
     init_Duck(ducks);
     init_boat(&smallBoat);
@@ -73,15 +80,32 @@ int launchGame(){
                 end = true;
                 break;
             }
+            case ALLEGRO_EVENT_KEY_DOWN:{
+                if (event.keyboard.keycode == ALLEGRO_KEY_P) {
+                    gamePause = !gamePause;
+                    if (gamePause) {
+                        al_stop_timer(timerPartie);
+                        al_stop_timer(timer);
+                        al_draw_text(jedihol, JAUNE, LARGEUR /2, HAUTEUR/4, ALLEGRO_ALIGN_CENTER, "Game Paused");
+                        al_draw_text(jedi, JAUNE, LARGEUR /2, HAUTEUR/2, ALLEGRO_ALIGN_CENTER, "press P to resume");
+                        al_flip_display();
+                    } else {
+                        al_start_timer(timer);
+                        al_start_timer(timerPartie);
+                    }
+                }
+                if(event.keyboard.keycode == ALLEGRO_KEY_ESCAPE){
+                    end = true;
+                }
+                break;
+            }
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN: {
-                printf("Mouse button down event triggered\n");
                 if(event.mouse.button == BTN_LEFT) {
                     for(i=0; i<NB_MAX_ENNEMIS; i++){
                         if(cane_active(event.mouse.x, event.mouse.y, &ducks[i])) {
                             duckSelect = i;
                             offsetXduck = event.mouse.x - ducks[i].x;
                             offsetYduck = event.mouse.y - ducks[i].y;
-                            printf("Duck selected: %d\n", i);
                         }
                     }
                 }
@@ -100,7 +124,6 @@ int launchGame(){
                         end = true;
                     }
                 }
-                al_get_mouse_state(&mouse_state);
                 pixelCane.x = mouse_state.x - 80;
                 pixelCane.y = mouse_state.y - 80;
                 if(duckSelect != -1 ){
@@ -136,7 +159,6 @@ int launchGame(){
             al_flip_display();
             dessin = false;
         }
-
     }
 
     al_destroy_sample(backgoundMusic);

@@ -12,21 +12,54 @@ void init_Duck(Coin *ducks) {
         ducks[i].vitesse = 5 + rand() % 10;
         ducks[i].actif = 0;
         ducks[i].compte = false;
-        ducks[i].duckimage = al_load_bitmap("../Images/Duck.png");
-        ducks[i].largeur = al_get_bitmap_width(ducks[i].duckimage);
-        ducks[i].hauteur = al_get_bitmap_height(ducks[i].duckimage);
+        ducks[i].Jarjar1 = al_load_bitmap("../Images/JarJar1.png");
+        ducks[i].Jarjar2 = al_load_bitmap("../Images/JarJar2.png");
+        ducks[i].Jarjar3 = al_load_bitmap("../Images/JarJar3.png");
+        ducks[i].Jarjar4 = al_load_bitmap("../Images/JarJar4.png");
+        ducks[i].largeur = al_get_bitmap_width(ducks[i].Jarjar1);
+        ducks[i].hauteur = al_get_bitmap_height(ducks[i].Jarjar1);
+        ducks[i].imageFrame = 0;
+
     }
 }
 
 
 void printDuck(Coin *ducks) {
     int i = 0;
+    int fps = 0;
     for (i = 0; i < NB_MAX_ENNEMIS; i++) {
         if (ducks[i].actif) {
-            al_draw_bitmap(ducks[i].duckimage, ducks[i].x, ducks[i].y, ALLEGRO_FLIP_HORIZONTAL);
+            fps ++;
+            if(fps >=5){
+                ducks[i].imageFrame++;
+                fps = 0;
+            }
+            switch (ducks[i].imageFrame) {
+                case 0:{
+                    al_draw_bitmap(ducks[i].Jarjar1,ducks[i].x,ducks[i].y,ALLEGRO_FLIP_HORIZONTAL);
+                    ducks[i].imageFrame+=1;
+                    break;
+                }
+                case 1:{
+                    al_draw_bitmap(ducks[i].Jarjar2,ducks[i].x,ducks[i].y,ALLEGRO_FLIP_HORIZONTAL);
+                    ducks[i].imageFrame+=1;
+                    break;
+                }
+                case 2:{
+                    al_draw_bitmap(ducks[i].Jarjar3,ducks[i].x,ducks[i].y,ALLEGRO_FLIP_HORIZONTAL);
+                    ducks[i].imageFrame+=1;
+                    break;
+                }
+                case 3:{
+                    al_draw_bitmap(ducks[i].Jarjar4,ducks[i].x,ducks[i].y,ALLEGRO_FLIP_HORIZONTAL);
+                    ducks[i].imageFrame = 0;
+                    break;
+                }
+            }
         }
     }
 }
+
 
 void moveDuck(Coin *ducks) {
     int i = 0;
