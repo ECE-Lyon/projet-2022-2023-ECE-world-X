@@ -40,3 +40,24 @@ void shiftLeft(XYT arr[]) {
     arr[20 - 1].timing = 0;
 
 }
+
+
+void checkForKeyboardInput(ALLEGRO_EVENT_QUEUE* event_queue)
+{
+    ALLEGRO_EVENT event;
+    while (al_get_next_event(event_queue, &event))
+    {
+        if (event.type == ALLEGRO_EVENT_KEY_DOWN)
+        {
+            switch (event.keyboard.keycode)
+            {
+                case ALLEGRO_KEY_Q:
+                case ALLEGRO_KEY_S:
+                    printf("a\n");
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+}

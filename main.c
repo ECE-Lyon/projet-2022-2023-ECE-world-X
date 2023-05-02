@@ -12,6 +12,7 @@
 #include "menu.h"
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/mouse.h>
+#include "countdown.h"
 
 int main() {
 
@@ -48,16 +49,14 @@ int main() {
     while (difficulty <= 0) {
         difficulty = inTheMenu(font, queue, selected_item, display);
     }
-    printf("%d\n", difficulty);
     int circle_radius = al_get_bitmap_width(circle) / 2;
-    printf("%d\n", circle_radius);
 
 
     XYT tabXYT[MAXHITOBJECT] = {0};
     XYT printedArr[20] = {0};
     int numHitObjects;
     numHitObjects = getXYTime(difficulty, tabXYT);
-
+    countdown(font);
 
     bool running = true;
     al_start_timer(timer);
@@ -67,8 +66,9 @@ int main() {
 
     while (running) {
         // add new points to printedArr
-        while (tabXYT[current_point].timing + 500 <= clock() - off_beat) { //problème avec l'offbeat inconstant
+        while (tabXYT[current_point].timing <= clock() - off_beat+400) { //problème avec l'offbeat inconstant
             addToPrintedArr(tabXYT, printedArr, current_point);
+            checkForKeyboardInput(queue);
             current_point++;
             al_clear_to_color(al_map_rgb(0, 0, 0));
         }

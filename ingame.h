@@ -14,4 +14,5 @@ void addToPrintedArr(XYT source[], XYT dest[], int current_point);
 
 void shiftLeft(XYT arr[]);
 
+void checkForKeyboardInput(ALLEGRO_EVENT_QUEUE* event_queue);
 #endif //OSU_INGAME_H
