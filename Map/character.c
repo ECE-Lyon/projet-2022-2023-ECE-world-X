@@ -35,6 +35,32 @@ void init_Luke(Perso* player) {
     }
 }
 
+void init_vador(Perso* player) {
+    player->x = STARTX;
+    player->y = STARTY;
+    player->direction = B1;
+    player->state = 0;
+    player->anim[B1] = al_load_bitmap("../sprites/Vador/Vador1.png");
+    player->anim[B2] = al_load_bitmap("../sprites/Vador/Vador2.png");
+    player->anim[B3] = al_load_bitmap("../sprites/Vador/Vador3.png");
+    player->anim[L1] = al_load_bitmap("../sprites/Vador/Vador4.png");
+    player->anim[L2] = al_load_bitmap("../sprites/Vador/Vador5.png");
+    player->anim[L3] = al_load_bitmap("../sprites/Vador/Vador6.png");
+    player->anim[R1] = al_load_bitmap("../sprites/Vador/Vador7.png");
+    player->anim[R2] = al_load_bitmap("../sprites/Vador/Vador8.png");
+    player->anim[R3] = al_load_bitmap("../sprites/Vador/Vador9.png");
+    player->anim[T1] = al_load_bitmap("../sprites/Vador/Vador10.png");
+    player->anim[T2] = al_load_bitmap("../sprites/Vador/Vador11.png");
+    player->anim[T3] = al_load_bitmap("../sprites/Vador/Vador12.png");
+    player->img = player->anim[B1];
+    player->ticket = NBTICKET;
+    for(int i=0; i<NBANIMATION; i++) {
+        if(player->anim[i] == NULL) {
+            printf("Erreur chargement image Luke\n");
+        }
+    }
+}
+
 void print_character(Perso player) {
     al_draw_bitmap(player.img, player.x, player.y, 0);
 }

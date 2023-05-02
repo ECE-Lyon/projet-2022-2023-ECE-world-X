@@ -21,37 +21,13 @@
 #include <stdio.h>
 #include "../Snake/game.h"
 
-
-
-ALLEGRO_DISPLAY* setting(){
-    assert(al_init());
-    ALLEGRO_DISPLAY*display=NULL;
-    display=al_create_display(WIDTH, HEIGHT);
-    assert(display!=NULL);
-    //Initialiser avec assert le reste
-    assert(al_init_image_addon());
-    assert(al_init_primitives_addon());
-    assert(al_install_keyboard());
-    assert(al_install_audio());
-    assert(al_init_acodec_addon());
-    al_init_font_addon();
-    assert(al_init_ttf_addon());
-    al_set_window_title(display,"Title");
-    al_set_window_position(display,200,100);
-    al_flip_display();
-    srand(time(NULL));
-    return display;
-
-}
-
 void reset_keys(int Keys[NBKEYS]) {
     for(int i=0; i<NBKEYS; i++) {
         Keys[i] = 0;
     }
 }
 
-void menu(){
-    ALLEGRO_DISPLAY* display=setting();
+int mapgame(ALLEGRO_DISPLAY* display){
     int isEnd=0;
     int res = 0;
     int choosepnj = 0;
@@ -59,7 +35,8 @@ void menu(){
     ALLEGRO_EVENT_QUEUE*queue;
 
     Perso player1;
-    init_Luke(&player1);
+    init_vador(&player1);
+    //init_Luke(&player1);
     Background bar;
     init_bg(&bar);
 
@@ -76,12 +53,12 @@ void menu(){
 
     ALLEGRO_SAMPLE *maintheme = al_load_sample("../Map/cantina.wav");
 
-    al_reserve_samples(1);
+    //al_reserve_samples(1);
     if (maintheme == NULL) {
         printf("Music doesn't load");
     }
     else {
-        //al_play_sample(maintheme, 1.0f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_LOOP, 0);
+        al_play_sample(maintheme, 1.0f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_LOOP, 0);
     }
     //Créer un timer si nécéssaire
     ALLEGRO_TIMER*timer=al_create_timer(1/FPS);
@@ -103,12 +80,9 @@ void menu(){
         switch(event.type) {//en fonction de son type (événement de souris,du clavier...),on agit
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
                 isEnd = 1;
-                break;
+                return 1;
             case ALLEGRO_EVENT_KEY_DOWN://Si on arrive ici, c'est qu'on a pioché un événement du clavier de type touche  enfoncée
                 switch (event.keyboard.keycode) {//On vérifie de quelle touche il s'agit
-                    case ALLEGRO_KEY_ESCAPE://on ne gère quel cas où la touche enfoncée est ECHAP
-                        isEnd = 1;
-                        break;
                     case ALLEGRO_KEY_UP :
                         reset_keys(Keys);
                         player1.direction = T1;
@@ -192,6 +166,7 @@ void menu(){
                             break;
                         case SNAKE :
                             game(display);
+                            al_flush_event_queue(queue);
                             //Lancer le snake
                             break;
                         case SHIP :
@@ -222,5 +197,6 @@ void menu(){
         }
     }
     al_destroy_event_queue(queue);
+    return 0;
 }
 

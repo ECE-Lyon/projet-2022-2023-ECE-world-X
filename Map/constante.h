@@ -15,7 +15,7 @@ enum{HAUT, DROITE, BAS, GAUCHE, ENTER, NBKEYS};
 #define STARTX WIDTH/2
 #define STARTY HEIGHT/2
 
-#define NBTICKET 5
+#define NBTICKET 0
 
 #define BGX 0
 #define BGY 0
