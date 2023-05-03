@@ -6,7 +6,7 @@
 #include "cane.h"
 
 void init_Cane(Cane *pixelCane){
-    pixelCane->imageCane = al_load_bitmap("../Images/fishingRod.png");;
+    pixelCane->imageCane = al_load_bitmap("../JarJar/Images/fishingRod.png");;
 }
 
 void canePos(Cane* pixelCane, int lar, int haut) {

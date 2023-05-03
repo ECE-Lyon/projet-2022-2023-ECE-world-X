@@ -31,10 +31,10 @@ void init_lauchGame(Game *jeux){
     jeux->timer = al_create_timer(1.0/FPS);
     jeux->timerPartie = al_create_timer(1.0);
     jeux->mouse_state;
-    jeux->jedi = al_load_ttf_font("../Fonts/Starjedi.ttf",50,0);
-    jeux->jediout = al_load_ttf_font("../Fonts/Starjout.ttf",50,0);
-    jeux->jedihol = al_load_ttf_font("../Fonts/Starjhol.ttf",100,0);
-    jeux->backgoundMusic = al_load_sample("../Audio/AcrosstheStars.ogg");
+    jeux->jedi = al_load_ttf_font("../JarJar/Fonts/Starjedi.ttf",50,0);
+    jeux->jediout = al_load_ttf_font("../JarJar/Fonts/Starjout.ttf",50,0);
+    jeux->jedihol = al_load_ttf_font("../JarJar/Fonts/Starjhol.ttf",100,0);
+    jeux->backgoundMusic = al_load_sample("../JarJar/Audio/AcrosstheStars.ogg");
     init_boat(&jeux->smallBoat);
     init_Cane(&jeux->pixelCane);
     init_Duck(jeux->ducks);

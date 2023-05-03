@@ -5,7 +5,7 @@
 #include "boat.h"
 
 void init_boat(Boat* smallBoat){
-   smallBoat -> boaty = al_load_bitmap("../Images/pixelBoat.png");
+   smallBoat -> boaty = al_load_bitmap("../JarJar/Images/pixelBoat.png");
    smallBoat -> x = 975;
    smallBoat -> y = 950;
    smallBoat -> h = al_get_bitmap_height(smallBoat->boaty);

@@ -13,10 +13,10 @@ void init_Duck(Coin *ducks) {
         ducks[i].vitesse = 5 + rand() % 10;
         ducks[i].actif = 0;
         ducks[i].compte = false;
-        ducks[i].Jarjar1 = al_load_bitmap("../Images/JarJar1.png");
-        ducks[i].Jarjar2 = al_load_bitmap("../Images/JarJar2.png");
-        ducks[i].Jarjar3 = al_load_bitmap("../Images/JarJar3.png");
-        ducks[i].Jarjar4 = al_load_bitmap("../Images/JarJar4.png");
+        ducks[i].Jarjar1 = al_load_bitmap("../JarJar/Images/JarJar1.png");
+        ducks[i].Jarjar2 = al_load_bitmap("../JarJar/Images/JarJar2.png");
+        ducks[i].Jarjar3 = al_load_bitmap("../JarJar/Images/JarJar3.png");
+        ducks[i].Jarjar4 = al_load_bitmap("../JarJar/Images/JarJar4.png");
         ducks[i].largeur = al_get_bitmap_width(ducks[i].Jarjar1);
         ducks[i].hauteur = al_get_bitmap_height(ducks[i].Jarjar4);
         ducks[i].imageFrame = 0;
