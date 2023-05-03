@@ -20,20 +20,21 @@ void init_Duck(Coin *ducks) {
         ducks[i].largeur = al_get_bitmap_width(ducks[i].Jarjar1);
         ducks[i].hauteur = al_get_bitmap_height(ducks[i].Jarjar4);
         ducks[i].imageFrame = 0;
+        ducks[i].fps = 0;
 
     }
 }
 
 
-void printDuck(Coin *ducks, int*fps) {
+void printDuck(Coin *ducks) {
     int i = 0;
     for (i = 0; i < NB_MAX_JARJAR; i++) {
         if (ducks[i].actif) {
-            *fps += 1;
-            if(*fps >= 30){
+            ducks[i].fps += 1;
+            if(ducks[i].fps >= 20){
                 ducks[i].imageFrame+=1;
                 printf("frame:%d\n",ducks[i].imageFrame);
-                *fps = 0;
+                ducks[i].fps = 0;
             }
             switch (ducks[i].imageFrame) {
                 case 0:{

@@ -10,7 +10,7 @@
 
 typedef struct {
     int x, y, hauteur, largeur;
-    int vitesse,actif,imageFrame;
+    int vitesse,actif,imageFrame,fps;
     bool compte;
     ALLEGRO_BITMAP *Jarjar1;
     ALLEGRO_BITMAP *Jarjar2;
@@ -20,7 +20,7 @@ typedef struct {
 
 void init_Duck(Coin *ducks);
 
-void printDuck(Coin *ducks, int*fps);
+void printDuck(Coin *ducks);
 
 void moveDuck(Coin *ducks);
 

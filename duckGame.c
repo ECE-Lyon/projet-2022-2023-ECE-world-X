@@ -146,7 +146,7 @@ int launchGame(Game *jeux){
             al_draw_textf(jeux->jedi,NOIR,50,50,0,"Score: %d",jeux->smallBoat.score);
             al_draw_textf(jeux->jediout,NOIR,50,1000,0,"temps: %d",jeux->tempsRestant);
             printBoat(&jeux->smallBoat);
-            printDuck(jeux->ducks, &fps);
+            printDuck(jeux->ducks);
             drawCane(&jeux->pixelCane);
             moveDuck(jeux->ducks);
             al_flip_display();
