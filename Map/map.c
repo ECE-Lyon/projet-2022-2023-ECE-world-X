@@ -43,6 +43,7 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
         init_vador(&player1);
         init_Luke(&player2);
     }
+    Perso playeractive = player1;
     Background bar;
     init_bg(&bar);
 
@@ -119,25 +120,25 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                     case ALLEGRO_KEY_UP :
                         if (Keys[HAUT] == 1) {
                             Keys[HAUT] = 0;
-                            player1.img = player1.anim[T1];
+                            player1.img = playeractive.anim[T1];
                         }
                         break;
                     case ALLEGRO_KEY_LEFT :
                         if (Keys[GAUCHE] == 1) {
                             Keys[GAUCHE] = 0;
-                            player1.img = player1.anim[L1];
+                            player1.img = playeractive.anim[L1];
                             break;
                         }
                     case ALLEGRO_KEY_RIGHT :
                         if (Keys[DROITE] == 1) {
                             Keys[DROITE] = 0;
-                            player1.img = player1.anim[R1];
+                            player1.img = playeractive.anim[R1];
                             break;
                         }
                     case ALLEGRO_KEY_DOWN :
                         if (Keys[BAS] == 1) {
                             Keys[BAS] = 0;
-                            player1.img = player1.anim[B1];
+                            player1.img = playeractive.anim[B1];
                             break;
                         }
                     case ALLEGRO_KEY_ENTER :
@@ -146,20 +147,20 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                 }
                 break;
             case ALLEGRO_EVENT_TIMER :
-                if (check_collision(player1, poscollision, lst_collision, Keys) == 0) {
-                        choosepnj = check_eventmap(player1,poscollision,&bar, lst_collision, Keys);
+                if (check_collision(playeractive, poscollision, lst_collision, Keys) == 0) {
+                        choosepnj = check_eventmap(playeractive,poscollision,&bar, lst_collision, Keys);
                         al_clear_to_color(al_map_rgb(0,0,0));
                         print_background(bar);
                         if (al_get_timer_count(timer)%3 == 0) {
-                            animation(&player1, Keys);
+                            animation(&playeractive, Keys);
                             //printf("x:%d y:%d\n", bar.x, bar.y);
                         }
                         update_map_pos(&poscollision, bar);
                         //printf("x:%d, y:%d\n", poscollision.posmapx, poscollision.posmapy);
                         move_bg(&bar, Keys);
-                        print_character(player1);
+                        print_character(playeractive);
                     if (choosepnj !=0) {
-                        res = anim_text(queue, bb8, police, player1, bar, choosepnj);
+                        res = anim_text(queue, bb8, police, playeractive, bar, choosepnj);
                         Keys[ENTER] = 0;
                     }
                     switch (res) {
@@ -173,6 +174,7 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                         case SNAKE :
                             game(display);
                             al_flush_event_queue(queue);
+                            playeractive = player2;
                             //Lancer le snake
                             break;
                         case SHIP :

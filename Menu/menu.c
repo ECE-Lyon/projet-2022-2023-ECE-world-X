@@ -138,7 +138,7 @@ int set_name(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* police, Perso player, int r
     int close = 0;
     int end = 0;
     int unichar;
-    int lettre[MAXCHAR];
+    int lettre[MAXCH];
     int indice = 0;
     char* name;
     name = (char*) malloc(sizeof (char));
