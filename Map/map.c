@@ -27,16 +27,22 @@ void reset_keys(int Keys[NBKEYS]) {
     }
 }
 
-int mapgame(ALLEGRO_DISPLAY* display){
+int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
     int isEnd=0;
     int res = 0;
     int choosepnj = 0;
 
     ALLEGRO_EVENT_QUEUE*queue;
+    printf("side : %d", player1.side);
 
-    Perso player1;
-    init_vador(&player1);
-    //init_Luke(&player1);
+    if (player1.side == 0) {
+        init_Luke(&player1);
+        init_vador(&player2);
+    }
+    else if (player1.side == 1) {
+        init_vador(&player1);
+        init_Luke(&player2);
+    }
     Background bar;
     init_bg(&bar);
 

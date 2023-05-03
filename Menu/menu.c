@@ -63,15 +63,14 @@ void draw_select_character (ALLEGRO_BITMAP* bg, ALLEGRO_BITMAP* p1, ALLEGRO_BITM
 }
 
 
-int select_character(ALLEGRO_DISPLAY* display) {
+int select_character(ALLEGRO_DISPLAY* display, ALLEGRO_BITMAP* perso1, ALLEGRO_BITMAP* perso2) {
     int close = 0;
     int end = 0;
 
     int pos = -1;
     int dessiner = 0;
     ALLEGRO_BITMAP* background = al_load_bitmap("../Menu/lukevadorselect.jpg");
-    ALLEGRO_BITMAP* perso1 = al_load_bitmap("../Menu/luke2.png");
-    ALLEGRO_BITMAP* perso2 = al_load_bitmap("../Menu/Vador1.png");
+
 
     ALLEGRO_TIMER* timer = al_create_timer(1/FPS);
     al_start_timer(timer);
@@ -98,8 +97,7 @@ int select_character(ALLEGRO_DISPLAY* display) {
         al_wait_for_event(queue,&event);//on pioche un événement dès qu'il y en a un
         switch(event.type){//en fonction de son type (événement de souris,du clavier...),on agit
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
-                end=1;
-                return 0;
+                return 1;
             case ALLEGRO_EVENT_MOUSE_AXES :
                 if (event.mouse.x > HEIGHT-100) {
                     if (pos != 0) {
@@ -118,9 +116,11 @@ int select_character(ALLEGRO_DISPLAY* display) {
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN :
                 if (pos == 1) {
                     printf("Dark side\n");
+                    return 0;
                 }
                 else if (pos == 0) {
                     printf("Light side\n");
+                    return -1;
                 }
                 break;
             case ALLEGRO_EVENT_TIMER :
@@ -134,14 +134,16 @@ int select_character(ALLEGRO_DISPLAY* display) {
     }
 }
 
-int set_name(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* police) {
+int set_name(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* police, Perso player, int res, ALLEGRO_BITMAP* img, char* side) {
     int close = 0;
     int end = 0;
     int unichar;
-    int name[MAXCHAR];
+    int lettre[MAXCHAR];
     int indice = 0;
-    char* letter;
-    letter = malloc(sizeof(char*));
+    char* name;
+    name = (char*) malloc(sizeof (char));
+    name[indice] = ' ';
+    name[indice+1] = '\0';
     ALLEGRO_EVENT_QUEUE*queue;
     queue = al_create_event_queue();
     assert(queue);
@@ -162,7 +164,7 @@ int set_name(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* police) {
                 return 1;
             case ALLEGRO_EVENT_KEY_CHAR:
                 unichar = event.keyboard.unichar;
-                if (unichar >= 32 || unichar == 8) {
+                if ((unichar >= 32 && unichar <= 127) || unichar == 8) {
                     if (unichar == 8) {
                         if (indice >= 1) {
                             indice -=1;
@@ -170,37 +172,49 @@ int set_name(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* police) {
                     }
                     else {
                         unichar = event.keyboard.unichar;
-                        name[indice] = unichar;
+                        lettre[indice] = unichar;
                         indice +=1;
                     }
                     if (indice>=1) {
-                        letter = (char*) realloc(letter, indice*sizeof(char*));
-                        letter[indice] = '-';
+                        realloc(name,(indice+1)*sizeof(char));
+                        name[indice] = ' ';
+                        name[indice+1] = '\0';
                     }
-
                     for(int i=0; i<indice; i++) {
-                        letter[i] = (char) name[i];
+                        name[i] = (char) lettre[i];
                     }
+                }
+                break;
+            case ALLEGRO_EVENT_KEY_DOWN :
+                switch(event.keyboard.keycode) {
+                    case ALLEGRO_KEY_ENTER :
+                        strcpy(player.name, name);
+                        return 0;
                 }
                 break;
             case ALLEGRO_EVENT_TIMER :
                 al_clear_to_color(al_map_rgb(0,0,0));
-                al_draw_text(police, al_map_rgb(255,239,56), WIDTH/2, HEIGHT/2, 0,  letter);
+                al_draw_bitmap(img, 50,50, 0);
+                al_draw_text(police, al_map_rgb(255,239,56), 130, 70, 0,side);
+                al_draw_text(police, al_map_rgb(255,239,56), WIDTH/4-100, HEIGHT/2, 0, "entrez votre nom : ");
+                al_draw_text(police, al_map_rgb(255,239,56), WIDTH/2, HEIGHT/2, 0,  name);
+                al_draw_text(police, al_map_rgb(255,239,56), WIDTH/3, HEIGHT/2+50, 0, "appuyez sur entree pour valider");
                 al_flip_display();
         }
     }
 }
 
 
-
 void menu() {
-    int close = 0;
+    int res = 0;
     int isEnd=0;
 
     ALLEGRO_DISPLAY* display = setting();
     ALLEGRO_BITMAP* background = al_load_bitmap("../Menu/menubackground.jpg");
     ALLEGRO_BITMAP* logo = al_load_bitmap("../Menu/logogame.png");
     ALLEGRO_BITMAP* touch = al_load_bitmap("../Menu/logotouch2.png");
+    ALLEGRO_BITMAP* perso1 = al_load_bitmap("../Menu/luke2.png");
+    ALLEGRO_BITMAP* perso2 = al_load_bitmap("../Menu/Vador1.png");
 
     assert(background!=NULL);
     assert(logo!=NULL);
@@ -225,23 +239,55 @@ void menu() {
     al_flip_display();
     al_play_sample(menusample, 1.0f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_LOOP, 0);
 
+    Perso player1;
+    Perso player2;
+
     while(!isEnd){
         ALLEGRO_EVENT event={0};
         al_wait_for_event(queue,&event);//on pioche un événement dès qu'il y en a un
         switch(event.type){//en fonction de son type (événement de souris,du clavier...),on agit
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
                 isEnd=1;
+                res = 1;
                 break;
             case ALLEGRO_EVENT_KEY_DOWN://Si on arrive ici, c'est qu'on a pioché un événement du clavier de type touche  enfoncée
                 al_clear_to_color(al_map_rgb(0,0,0));
-                //al_destroy_sample(menusample);
-                close  = select_character(display);
-                if (close != 1) {
-                    close = set_name(display, police);
+                res  = select_character(display, perso1, perso2);
+                if (res != 1) {
+                    if (res == 0) {
+                        res = set_name(display, police, player1, res, perso2, "joueur 1 du cote obscure");
+                        player1.side = 1;
+                        if (res == 1) {
+                            isEnd = 1;
+                        }
+                        else {
+                            res = set_name(display, police, player2, res, perso1, "joueur 2 du cote lumineux");
+                            player2.side = 0;
+                        }
+                    }
+                    else if (res == -1) {
+                        res = set_name(display, police, player1, res, perso1, "joueur 1 du cote lumineux");
+                        player1.side = 0;
+                        if (res == 1) {
+                            isEnd = 1;
+                        }
+                        else {
+                            res = set_name(display, police, player2, res, perso2, "joueur 2 du cote obscure");
+                            player2.side = 0;
+                        }
+                    }
                 }
+                al_flush_event_queue(queue);
                 break;
             }
-        if (close == 1) {
+        if (res == 1) {
+            isEnd = 1;
+        }
+        else {
+            al_destroy_sample(menusample);
+            res = mapgame(display, player1, player2);
+        }
+        if (res == 1) {
             isEnd = 1;
         }
         }
