@@ -5,9 +5,9 @@
 #include "duckGame.h"
 
 int main() {
-    Game jeux;
-    init_lauchGame(&jeux);
-    launchGame(&jeux);
+    Game jeuxCOIN;
+    init_lauchGame(&jeuxCOIN);
+    launchGame(&jeuxCOIN);
     return 0;
 }
 

@@ -60,7 +60,7 @@ int launchGame(Game *jeux){
     al_register_event_source(jeux->fifo, al_get_timer_event_source(jeux->timerPartie));
 
     canePos(&jeux->pixelCane, 80, 50);
-    //al_hide_mouse_cursor(jeux->window);
+    al_hide_mouse_cursor(jeux->window);
 
     al_start_timer(jeux->timer);
     al_start_timer(jeux->timerPartie);
