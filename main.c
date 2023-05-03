@@ -97,8 +97,8 @@ int main() {
         if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
             endgame = 1;
         } else if (event.type == ALLEGRO_EVENT_MOUSE_AXES) {
-            crosshair.location_x = event.mouse.x + 50;
-            crosshair.location_y = event.mouse.y + 50;
+            crosshair.location_x = event.mouse.x + 19;
+            crosshair.location_y = event.mouse.y + 19;
         } else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
             switch (event.mouse.button) {
                 case 1:
@@ -148,18 +148,23 @@ int main() {
                 move_ships(ships);
                 display_timer(timer, scoreP1, scoreP2);
                 al_draw_bitmap(crosshair.crosshair, crosshair.location_x, crosshair.location_y, 0);
+                al_draw_textf(font, al_map_rgb(255, 255, 0), 65,
+                              550 - al_get_font_ascent(font), 0, "score : %d", scoreP1);
                 al_flip_display();
-
-                for (int i = 0; i < NB_SHIPS; ++i) {
-                    if (ships[i].destroyed == true){
-                        destroyed_Ships++;
-                    }
-                }
+                printf("%d\n", destroyed_Ships);
+                destroyed_Ships = ships[0].destroyed + ships[1].destroyed + ships[2].destroyed + ships[3].destroyed +
+                                  ships[4].destroyed + ships[5].destroyed + ships[6].destroyed + ships[7].destroyed +
+                                  ships[8].destroyed + ships[9].destroyed + ships[10].destroyed + ships[11].destroyed +
+                                  ships[12].destroyed + ships[13].destroyed + ships[14].destroyed +
+                                  ships[15].destroyed + ships[16].destroyed + ships[17].destroyed +
+                                  ships[18].destroyed + ships[19].destroyed + ships[20].destroyed +
+                                  ships[21].destroyed + ships[22].destroyed + ships[23].destroyed + ships[24].destroyed;
                 if (destroyed_Ships == NB_SHIPS) {
                     if (P1.turn) {
                         P1.score = scoreP1;
                         P1.turn = 0;
                         P2.turn = 1;
+                        destroyed_Ships = 0;
                         ingame = 0;
                     } else if (P2.turn) {
                         P1.score = scoreP2;
@@ -188,6 +193,7 @@ int main() {
 
         if (al_is_event_queue_empty(queue)) {
             if (pause) {
+                al_stop_timer(timer);
                 al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
                               SCREEN_HEIGHT / 2 - al_get_font_ascent(font), ALLEGRO_ALIGN_CENTER, "pause");
             }
@@ -207,6 +213,7 @@ int main() {
     al_destroy_bitmap(crosshair.crosshair);
 
     al_destroy_font(font);
+    al_destroy_font(fontBig);
     al_destroy_event_queue(queue);
     al_destroy_display(display);
     al_destroy_timer(timer);
