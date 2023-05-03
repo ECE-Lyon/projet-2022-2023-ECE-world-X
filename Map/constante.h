@@ -7,7 +7,7 @@
 
 enum{HAUT, DROITE, BAS, GAUCHE, ENTER, NBKEYS};
 
-#define FPS 30.0
+#define FPSMAP 30.0
 
 #define WIDTH 1200
 #define HEIGHT 600

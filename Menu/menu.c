@@ -72,7 +72,7 @@ int select_character(ALLEGRO_DISPLAY* display, ALLEGRO_BITMAP* perso1, ALLEGRO_B
     ALLEGRO_BITMAP* background = al_load_bitmap("../Menu/lukevadorselect.jpg");
 
 
-    ALLEGRO_TIMER* timer = al_create_timer(1/FPS);
+    ALLEGRO_TIMER* timer = al_create_timer(1/FPSMAP);
     al_start_timer(timer);
     assert(background!=NULL);
     assert(perso1!=NULL);

@@ -33,7 +33,7 @@ void printDuck(Coin *ducks) {
             ducks[i].fps += 1;
             if(ducks[i].fps >= 20){
                 ducks[i].imageFrame+=1;
-                printf("frame:%d\n",ducks[i].imageFrame);
+                //printf("frame:%d\n",ducks[i].imageFrame);
                 ducks[i].fps = 0;
             }
             switch (ducks[i].imageFrame) {

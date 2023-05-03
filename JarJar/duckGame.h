@@ -31,6 +31,6 @@ typedef struct {
 
 int launchGame(Game *jeux);
 
-void init_lauchGame(Game *jeux);
+void init_lauchGame(Game *jeux, ALLEGRO_DISPLAY* display);
 
 #endif //PROJET_DUCKGAME_H

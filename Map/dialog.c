@@ -31,7 +31,7 @@ ALLEGRO_FONT* init_font () {
 
 int anim_text(ALLEGRO_EVENT_QUEUE* queue, Choose bb8, ALLEGRO_FONT* police, Perso player, Background bar, int res) {
     int end = 0;
-    ALLEGRO_TIMER *timer = al_create_timer(1 / FPS);
+    ALLEGRO_TIMER *timer = al_create_timer(1 / FPSMAP);
     al_start_timer(timer);
     assert(queue);
     while (end == 0) {

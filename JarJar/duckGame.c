@@ -6,8 +6,8 @@
 #include "duckGame.h"
 
 
-void init_lauchGame(Game *jeux){
-    assert(al_init());
+void init_lauchGame(Game *jeux, ALLEGRO_DISPLAY* display){
+    /*assert(al_init());
     assert(al_init_primitives_addon());
     assert(al_install_mouse());
     assert(al_init_image_addon());
@@ -15,7 +15,7 @@ void init_lauchGame(Game *jeux){
     assert(al_init_ttf_addon());
     assert(al_install_audio());
     assert(al_init_acodec_addon());
-    assert(al_install_keyboard());
+    assert(al_install_keyboard());*/
 
     jeux->i = 0;
     jeux->dessin = false;
@@ -25,10 +25,10 @@ void init_lauchGame(Game *jeux){
     jeux->duckSelect = -1;
     jeux->gamePause = false;
     jeux->end = false;
-    jeux->window = al_create_display(LARGEUR, HAUTEUR);
+    jeux->window = display;
     jeux->event;
     jeux->fifo = al_create_event_queue();
-    jeux->timer = al_create_timer(1.0/FPS);
+    jeux->timer = al_create_timer(1.0/FPSCOIN);
     jeux->timerPartie = al_create_timer(1.0);
     jeux->mouse_state;
     jeux->jedi = al_load_ttf_font("../JarJar/Fonts/Starjedi.ttf",50,0);
@@ -130,7 +130,7 @@ int launchGame(Game *jeux){
                         jeux->ducks[jeux->duckSelect].actif = 0;
                         jeux->ducks[jeux->duckSelect].compte = true;
                         jeux->ducks[jeux->duckSelect].compte = false;
-                        printf("score: %d\n",jeux->smallBoat.score);
+                        //printf("score: %d\n",jeux->smallBoat.score);
                         jeux->duckSelect = -1;
                     }
                     jeux->dessin = true;

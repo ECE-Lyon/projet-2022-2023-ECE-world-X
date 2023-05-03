@@ -20,6 +20,7 @@
 #include <time.h>
 #include <stdio.h>
 #include "../Snake/game.h"
+#include "../JarJar/duckGame.h"
 
 void reset_keys(int Keys[NBKEYS]) {
     for(int i=0; i<NBKEYS; i++) {
@@ -43,7 +44,7 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
         init_vador(&player1);
         init_Luke(&player2);
     }
-    Perso playeractive = player1;
+    //Perso* player1 = &player1;
     Background bar;
     init_bg(&bar);
 
@@ -57,6 +58,7 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
     Choose bb8;
     init_bb8(&bb8);
 
+    Game jeuxCoin;
 
     ALLEGRO_SAMPLE *maintheme = al_load_sample("../Map/cantina.wav");
 
@@ -68,7 +70,7 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
         al_play_sample(maintheme, 1.0f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_LOOP, 0);
     }
     //Créer un timer si nécéssaire
-    ALLEGRO_TIMER*timer=al_create_timer(1/FPS);
+    ALLEGRO_TIMER*timer=al_create_timer(1/FPSMAP);
     al_start_timer(timer);
     queue=al_create_event_queue();
     assert(queue);
@@ -120,25 +122,25 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                     case ALLEGRO_KEY_UP :
                         if (Keys[HAUT] == 1) {
                             Keys[HAUT] = 0;
-                            player1.img = playeractive.anim[T1];
+                            player1.img = player1.anim[T1];
                         }
                         break;
                     case ALLEGRO_KEY_LEFT :
                         if (Keys[GAUCHE] == 1) {
                             Keys[GAUCHE] = 0;
-                            player1.img = playeractive.anim[L1];
+                            player1.img = player1.anim[L1];
                             break;
                         }
                     case ALLEGRO_KEY_RIGHT :
                         if (Keys[DROITE] == 1) {
                             Keys[DROITE] = 0;
-                            player1.img = playeractive.anim[R1];
+                            player1.img = player1.anim[R1];
                             break;
                         }
                     case ALLEGRO_KEY_DOWN :
                         if (Keys[BAS] == 1) {
                             Keys[BAS] = 0;
-                            player1.img = playeractive.anim[B1];
+                            player1.img = player1.anim[B1];
                             break;
                         }
                     case ALLEGRO_KEY_ENTER :
@@ -147,20 +149,20 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                 }
                 break;
             case ALLEGRO_EVENT_TIMER :
-                if (check_collision(playeractive, poscollision, lst_collision, Keys) == 0) {
-                        choosepnj = check_eventmap(playeractive,poscollision,&bar, lst_collision, Keys);
+                if (check_collision(player1, poscollision, lst_collision, Keys) == 0) {
+                        choosepnj = check_eventmap(player1, poscollision, &bar, lst_collision, Keys);
                         al_clear_to_color(al_map_rgb(0,0,0));
                         print_background(bar);
                         if (al_get_timer_count(timer)%3 == 0) {
-                            animation(&playeractive, Keys);
+                            animation(&player1, Keys);
                             //printf("x:%d y:%d\n", bar.x, bar.y);
                         }
                         update_map_pos(&poscollision, bar);
                         //printf("x:%d, y:%d\n", poscollision.posmapx, poscollision.posmapy);
                         move_bg(&bar, Keys);
-                        print_character(playeractive);
+                        print_character(player1);
                     if (choosepnj !=0) {
-                        res = anim_text(queue, bb8, police, playeractive, bar, choosepnj);
+                        res = anim_text(queue, bb8, police, player1, bar, choosepnj);
                         Keys[ENTER] = 0;
                     }
                     switch (res) {
@@ -168,13 +170,14 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                             isEnd = 1;
                             break;
                         case PECHE :
-                            printf("Peche\n");
+                            init_lauchGame(&jeuxCoin, display);
+                            launchGame(&jeuxCoin);
                             //Lancer la peche au canard
                             break;
                         case SNAKE :
                             game(display);
                             al_flush_event_queue(queue);
-                            playeractive = player2;
+                            //playeractive = &player2;
                             //Lancer le snake
                             break;
                         case SHIP :
