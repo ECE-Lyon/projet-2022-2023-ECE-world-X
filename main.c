@@ -63,26 +63,32 @@ int main() {
     play_music(difficulty, sample);
     int current_point = 0;
     const int off_beat = clock();
+    int score = 0;
+    int wombocombo = 0;
+    int life = 3;
 
     while (running) {
         // add new points to printedArr
-        while (tabXYT[current_point].timing <= clock() - off_beat+400) { //problème avec l'offbeat inconstant
+        while (tabXYT[current_point].timing <= clock() - off_beat) {
             addToPrintedArr(tabXYT, printedArr, current_point);
-            checkForKeyboardInput(queue);
             current_point++;
             al_clear_to_color(al_map_rgb(0, 0, 0));
+            printf("oui\n");
         }
 
         printArr(printedArr, circle);
 
-        al_wait_for_event(queue, &event);
-        switch (event.type) {
-            case ALLEGRO_EVENT_TIMER:
-                break;
+        al_get_next_event(queue, &event);
+        if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
+            switch (event.type) {
+                case ALLEGRO_EVENT_KEY_DOWN:
+                    IsNoteHit(current_point, tabXYT, off_beat, score, wombocombo, life);
+                    break;
+                case ALLEGRO_EVENT_DISPLAY_CLOSE:
+                    running = false;
+                    break;
 
-            case ALLEGRO_EVENT_DISPLAY_CLOSE:
-                running = false;
-                break;
+            }
         }
     }
 

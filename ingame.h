@@ -14,5 +14,9 @@ void addToPrintedArr(XYT source[], XYT dest[], int current_point);
 
 void shiftLeft(XYT arr[]);
 
-void checkForKeyboardInput(ALLEGRO_EVENT_QUEUE* event_queue);
+void checkForKeyboardInput(ALLEGRO_EVENT_QUEUE* event_queue, int current_point, XYT tabXYT[], int timing, int score, int wombocombo, int life);
+
+void IsNoteHit(int current_point, XYT tabXYT[], int timing, int score, int wombocombo, int life);
+
+void NoteMiss(int wombocombo, int life);
 #endif //OSU_INGAME_H
