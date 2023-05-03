@@ -3,9 +3,8 @@
 //
 
 // DuckGame.h
-#pragma once
 #include "constantes.h"
-#include "boat.h"
+//#include "boat.h"
 #include "cane.h"
 #include "Duck.h"
 
@@ -16,10 +15,10 @@ typedef struct {
     int dessin, i, offsetXduck, offsetYduck, tempsRestant, duckSelect;
     bool gamePause, end;
     ALLEGRO_DISPLAY* window;
-    ALLEGRO_EVENT_QUEUE* fifo;
     ALLEGRO_TIMER* timer;
     ALLEGRO_TIMER* timerPartie;
     ALLEGRO_EVENT event;
+    ALLEGRO_EVENT_QUEUE* fifo;
     ALLEGRO_MOUSE_STATE mouse_state;
     ALLEGRO_FONT *jedi;
     ALLEGRO_FONT *jediout;

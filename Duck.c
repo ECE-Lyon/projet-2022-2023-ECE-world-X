@@ -3,6 +3,7 @@
 //
 
 #include "constantes.h"
+#include "Duck.h"
 
 void init_Duck(Coin *ducks) {
     int i = 0;
@@ -24,30 +25,27 @@ void init_Duck(Coin *ducks) {
 }
 
 
-void printDuck(Coin *ducks) {
+void printDuck(Coin *ducks, int*fps) {
     int i = 0;
-    int fps = 0;
     for (i = 0; i < NB_MAX_JARJAR; i++) {
         if (ducks[i].actif) {
-            fps ++;
-            if(fps >=5){
-                ducks[i].imageFrame++;
-                fps = 0;
+            *fps += 1;
+            if(*fps >= 30){
+                ducks[i].imageFrame+=1;
+                printf("frame:%d\n",ducks[i].imageFrame);
+                *fps = 0;
             }
             switch (ducks[i].imageFrame) {
                 case 0:{
                     al_draw_bitmap(ducks[i].Jarjar1,ducks[i].x,ducks[i].y,ALLEGRO_FLIP_HORIZONTAL);
-                    ducks[i].imageFrame+=1;
                     break;
                 }
                 case 1:{
                     al_draw_bitmap(ducks[i].Jarjar2,ducks[i].x,ducks[i].y,ALLEGRO_FLIP_HORIZONTAL);
-                    ducks[i].imageFrame+=1;
                     break;
                 }
                 case 2:{
                     al_draw_bitmap(ducks[i].Jarjar3,ducks[i].x,ducks[i].y,ALLEGRO_FLIP_HORIZONTAL);
-                    ducks[i].imageFrame+=1;
                     break;
                 }
                 case 3:{
@@ -85,7 +83,7 @@ void apparitionDuck(Coin *ducks) {
 }
 
 
-void duckReposition(Coin* ducks) {
+void duckReposition(Coin *ducks) {
     int i = 0;
     for (int i = 0; i < NB_MAX_JARJAR; i++) {
         if(ducks[i].x < 0) { ducks[i].x = 0; }

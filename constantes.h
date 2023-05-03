@@ -14,12 +14,8 @@
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 #include <assert.h>
-#include "Duck.h"
-#include "cane.h"
-#include "boat.h"
-#include "duckGame.h"
 
-
+#define NB_MAX_JARJAR 5
 #define BTN_LEFT 1
 #define LARGEUR 1200*2
 #define HAUTEUR 600*2

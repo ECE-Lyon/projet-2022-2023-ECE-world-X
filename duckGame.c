@@ -3,12 +3,20 @@
 //
 
 #include "constantes.h"
+#include "duckGame.h"
 
-/*
-ALLEGRO_MOUSE_STATE mouse_state;
-*/
 
 void init_lauchGame(Game *jeux){
+    assert(al_init());
+    assert(al_init_primitives_addon());
+    assert(al_install_mouse());
+    assert(al_init_image_addon());
+    assert(al_init_font_addon());
+    assert(al_init_ttf_addon());
+    assert(al_install_audio());
+    assert(al_init_acodec_addon());
+    assert(al_install_keyboard());
+
     jeux->i = 0;
     jeux->dessin = false;
     jeux->offsetXduck = 0;
@@ -19,6 +27,7 @@ void init_lauchGame(Game *jeux){
     jeux->end = false;
     jeux->window = al_create_display(LARGEUR, HAUTEUR);
     jeux->event;
+    jeux->fifo = al_create_event_queue();
     jeux->timer = al_create_timer(1.0/FPS);
     jeux->timerPartie = al_create_timer(1.0);
     jeux->mouse_state;
@@ -28,24 +37,18 @@ void init_lauchGame(Game *jeux){
     jeux->backgoundMusic = al_load_sample("../Audio/AcrosstheStars.ogg");
     init_boat(&jeux->smallBoat);
     init_Cane(&jeux->pixelCane);
-    init_Duck(&jeux->ducks[NB_MAX_JARJAR]);
+    init_Duck(jeux->ducks);
 }
 
 int launchGame(Game *jeux){
 
-    assert(al_init());
-    assert(al_init_primitives_addon());
-    assert(al_install_mouse());
-    assert(al_init_image_addon());
-    assert(al_init_font_addon());
-    assert(al_init_ttf_addon());
-    assert(al_install_audio());
-    assert(al_init_acodec_addon());
-    assert(al_install_keyboard());
+    int fps = 0;
+
     al_reserve_samples(1);
     assert(jeux->backgoundMusic);
     assert(jeux->window);
     al_set_window_title(jeux->window, "JarJar le filou");
+
     assert(jeux->timer);
     assert(jeux->timerPartie);
     assert(jeux->fifo);
@@ -143,7 +146,7 @@ int launchGame(Game *jeux){
             al_draw_textf(jeux->jedi,NOIR,50,50,0,"Score: %d",jeux->smallBoat.score);
             al_draw_textf(jeux->jediout,NOIR,50,1000,0,"temps: %d",jeux->tempsRestant);
             printBoat(&jeux->smallBoat);
-            printDuck(jeux->ducks);
+            printDuck(jeux->ducks, &fps);
             drawCane(&jeux->pixelCane);
             moveDuck(jeux->ducks);
             al_flip_display();

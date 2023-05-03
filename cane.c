@@ -3,6 +3,7 @@
 //
 
 #include "constantes.h"
+#include "cane.h"
 
 void init_Cane(Cane *pixelCane){
     pixelCane->imageCane = al_load_bitmap("../Images/fishingRod.png");;

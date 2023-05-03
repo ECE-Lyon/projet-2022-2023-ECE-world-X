@@ -2,6 +2,7 @@
 // Created by Félix Pignal on 19/04/2023.
 //
 #include "constantes.h"
+#include "boat.h"
 
 void init_boat(Boat* smallBoat){
    smallBoat -> boaty = al_load_bitmap("../Images/pixelBoat.png");
