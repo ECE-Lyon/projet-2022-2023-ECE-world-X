@@ -26,7 +26,7 @@ void display_turret(FPSdisplay turret);
 
 void display_timer(ALLEGRO_TIMER *timer, int scoreP1, int scoreP2);
 
-int shoot_turret(Ship ships[NB_SHIPS], Crosshair crosshair, int destroyed_ships);
+void shoot_turret(Ship ships[NB_SHIPS], Crosshair crosshair, ALLEGRO_TIMER *count);
 
 void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALLEGRO_FONT *fontBig, ALLEGRO_TIMER *count);
 

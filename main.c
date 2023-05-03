@@ -11,7 +11,7 @@
 #include <allegro5/allegro_image.h>
 
 int main() {
-    int endgame = 0, gameover = 0, pause = 0, start = 0, ingame = 0, destroyedShips = 0, scoreP1 = 0, scoreP2 = 0;
+    int endgame = 0, gameover = 0, pause = 0, destroyed_Ships = 0, start = 0, ingame = 0, scoreP1 = 0, scoreP2 = 0;
     FPSdisplay turret;
     Ship ships[NB_SHIPS];
     Crosshair crosshair;
@@ -44,6 +44,9 @@ int main() {
     al_init_font_addon();
     if (!al_init_ttf_addon()) {
         error("Initialisation fonts");
+    }
+    if (!al_init_primitives_addon()) {
+        error("Initialisation primitives");
     }
     if (!al_init_image_addon()) {
         error("Initialisation images");
@@ -94,10 +97,13 @@ int main() {
         if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
             endgame = 1;
         } else if (event.type == ALLEGRO_EVENT_MOUSE_AXES) {
-            crosshair.location_x = event.mouse.x;
-            crosshair.location_y = event.mouse.y;
-        } else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN && event.mouse.button & 1) {
-            destroyedShips = shoot_turret(ships, crosshair, destroyedShips);
+            crosshair.location_x = event.mouse.x + 50;
+            crosshair.location_y = event.mouse.y + 50;
+        } else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
+            switch (event.mouse.button) {
+                case 1:
+                    shoot_turret(ships, crosshair, count);
+            }
         } else if (event.type == ALLEGRO_EVENT_KEY_DOWN && !pause) {
             switch (event.keyboard.keycode) {
                 case ALLEGRO_KEY_P:
@@ -142,9 +148,14 @@ int main() {
                 move_ships(ships);
                 display_timer(timer, scoreP1, scoreP2);
                 al_draw_bitmap(crosshair.crosshair, crosshair.location_x, crosshair.location_y, 0);
-
                 al_flip_display();
-                if (destroyedShips == NB_SHIPS) {
+
+                for (int i = 0; i < NB_SHIPS; ++i) {
+                    if (ships[i].destroyed == true){
+                        destroyed_Ships++;
+                    }
+                }
+                if (destroyed_Ships == NB_SHIPS) {
                     if (P1.turn) {
                         P1.score = scoreP1;
                         P1.turn = 0;
