@@ -6,7 +6,7 @@
 
 void init_Duck(Coin *ducks) {
     int i = 0;
-    for (i = 0; i < NB_MAX_ENNEMIS; i++) {
+    for (i = 0; i < NB_MAX_JARJAR; i++) {
         ducks[i].x = 0;
         ducks[i].y = 0;
         ducks[i].vitesse = 5 + rand() % 10;
@@ -17,7 +17,7 @@ void init_Duck(Coin *ducks) {
         ducks[i].Jarjar3 = al_load_bitmap("../Images/JarJar3.png");
         ducks[i].Jarjar4 = al_load_bitmap("../Images/JarJar4.png");
         ducks[i].largeur = al_get_bitmap_width(ducks[i].Jarjar1);
-        ducks[i].hauteur = al_get_bitmap_height(ducks[i].Jarjar1);
+        ducks[i].hauteur = al_get_bitmap_height(ducks[i].Jarjar4);
         ducks[i].imageFrame = 0;
 
     }
@@ -27,7 +27,7 @@ void init_Duck(Coin *ducks) {
 void printDuck(Coin *ducks) {
     int i = 0;
     int fps = 0;
-    for (i = 0; i < NB_MAX_ENNEMIS; i++) {
+    for (i = 0; i < NB_MAX_JARJAR; i++) {
         if (ducks[i].actif) {
             fps ++;
             if(fps >=5){
@@ -63,7 +63,7 @@ void printDuck(Coin *ducks) {
 
 void moveDuck(Coin *ducks) {
     int i = 0;
-    for (i = 0; i < NB_MAX_ENNEMIS; i++) {
+    for (i = 0; i < NB_MAX_JARJAR; i++) {
         if (ducks[i].actif) {
             ducks[i].x -= ducks[i].vitesse;
             if (ducks[i].x < 0) {
@@ -75,7 +75,7 @@ void moveDuck(Coin *ducks) {
 
 void apparitionDuck(Coin *ducks) {
     int i = 0;
-    for (i = 0; i < NB_MAX_ENNEMIS; i++) {
+    for (i = 0; i < NB_MAX_JARJAR; i++) {
         if (!ducks[i].actif) {
             ducks[i].x = LARGEUR - ducks[i].largeur;
             ducks[i].y = ducks[i].hauteur + rand() % (HAUTEURMAX - (ducks[i].hauteur * 2));
@@ -87,7 +87,7 @@ void apparitionDuck(Coin *ducks) {
 
 void duckReposition(Coin* ducks) {
     int i = 0;
-    for (int i = 0; i < NB_MAX_ENNEMIS; i++) {
+    for (int i = 0; i < NB_MAX_JARJAR; i++) {
         if(ducks[i].x < 0) { ducks[i].x = 0; }
         if(ducks[i].y < 0) { ducks[i].y = 0; }
         if(ducks[i].x+ducks[i].largeur > LARGEUR) { ducks[i].x = LARGEUR - ducks[i].largeur; }

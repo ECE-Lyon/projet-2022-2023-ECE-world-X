@@ -4,6 +4,7 @@
 #include "constantes.h"
 
 int main() {
+    init_lauchGame();
     launchGame();
     return 0;
 }

@@ -2,12 +2,12 @@
 // Created by Félix Pignal on 18/04/2023.
 //
 
-#ifndef PROJET_TEST_H
-#define PROJET_TEST_H
+#ifndef PROJET_DUCK_H
+#define PROJET_DUCK_H
 
-#define NB_MAX_ENNEMIS 5
+#define NB_MAX_JARJAR 5
 #include "constantes.h"
-#include "duckGame.h"
+//#include "duckGame.h"
 #include "boat.h"
 
 typedef struct {
@@ -34,4 +34,4 @@ bool cane_active(int x, int y, Coin* ducks);
 
 bool duckOnBoat(Boat *smallboat, Coin *duck);
 
-#endif //PROJET_TEST_H
+#endif //PROJET_DUCK_H
