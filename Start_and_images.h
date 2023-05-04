@@ -16,7 +16,7 @@ typedef struct {
     int score;
     ALLEGRO_BITMAP *turretdisplay;
     ALLEGRO_BITMAP *backgrounddisplay;
-}FPSdisplay;
+} FPSdisplay;
 
 void error(const char *txt);
 
@@ -24,10 +24,8 @@ void init_images(FPSdisplay *turret, Crosshair *crosshair);
 
 void display_turret(FPSdisplay turret);
 
-void display_timer(ALLEGRO_TIMER *timer, int scoreP1, int scoreP2);
+void shoot_turret(Ship ships[NB_SHIPS], Crosshair crosshair);
 
-void shoot_turret(Ship ships[NB_SHIPS], Crosshair crosshair, ALLEGRO_TIMER *count);
-
-void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALLEGRO_FONT *fontBig, ALLEGRO_TIMER *count);
+void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALLEGRO_FONT *fontBig);
 
 #endif //PROJET_ECE_WORLD_TURRET_AND_TIMER_H

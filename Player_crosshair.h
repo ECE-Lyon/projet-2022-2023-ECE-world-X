@@ -12,13 +12,13 @@ typedef struct {
     int location_x, location_y;
     int state;
     ALLEGRO_BITMAP *crosshair;
-}Crosshair;
+} Crosshair;
 
 typedef struct {
     char name;
     float score;
-    int turn;
+    bool turn;
     int tickets;
-}Player;
+} Player;
 
 #endif //PROJET_ECE_WORLD_PLAYER_CROSSHAIR_H

@@ -1,13 +1,8 @@
 #include "Ship.h"
-#include "Start_and_images.h"
 #include "const.h"
 
 #include <stdio.h>
 #include <allegro5/allegro.h>
-#include <allegro5/allegro_primitives.h>
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_ttf.h>
-#include <allegro5/allegro_image.h>
 
 void init_ships(Ship ships[NB_SHIPS]) {
     int i = 0;
@@ -60,7 +55,8 @@ void display_ships(Ship ships[NB_SHIPS]) {
                 } else if (ships[i].size == 3) {
                     al_draw_bitmap(ships->ship3, ships[i].x, ships[i].y, 0);
                 }
-            } else if (ships[i].y + ships[i].width > 185 && ships[i].y + ships[i].width <= 335  && ships[i].x + ships[i].width >= 250 &&
+            } else if (ships[i].y + ships[i].width > 185 && ships[i].y + ships[i].width <= 335 &&
+                       ships[i].x + ships[i].width >= 250 &&
                        ships[i].x + ships[i].width <= 950) {
                 if (ships[i].size == 1) {
                     al_draw_bitmap(ships->ship1, ships[i].x, ships[i].y, 0);
@@ -69,7 +65,8 @@ void display_ships(Ship ships[NB_SHIPS]) {
                 } else if (ships[i].size == 3) {
                     al_draw_bitmap(ships->ship3, ships[i].x, ships[i].y, 0);
                 }
-            } else if (ships[i].y + ships[i].width> 335 && ships[i].y + ships[i].length <= 410  && ships[i].x + ships[i].width>= 350 &&
+            } else if (ships[i].y + ships[i].width > 335 && ships[i].y + ships[i].length <= 410 &&
+                       ships[i].x + ships[i].width >= 350 &&
                        ships[i].x + ships[i].width <= 850) {
                 if (ships[i].size == 1) {
                     al_draw_bitmap(ships->ship1, ships[i].x, ships[i].y, 0);

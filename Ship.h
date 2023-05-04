@@ -18,7 +18,7 @@ typedef struct {
     bool destroyed;
     ALLEGRO_BITMAP *ship1, *ship2, *ship3;
     ALLEGRO_BITMAP *explosion1, *explosion2, *explosion3;
-}Ship;
+} Ship;
 
 void init_ships(Ship ships[NB_SHIPS]);
 
