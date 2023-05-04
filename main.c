@@ -61,35 +61,29 @@ int main() {
     bool running = true;
     al_start_timer(timer);
     play_music(difficulty, sample);
+    int current_point_in_arr = 0;
     int current_point = 0;
     const int off_beat = clock();
     int score = 0;
     int wombocombo = 0;
     int life = 3;
 
-    while (running) {
+    while (running && life != 0) {
         // add new points to printedArr
-        while (tabXYT[current_point].timing <= clock() - off_beat) {
-            addToPrintedArr(tabXYT, printedArr, current_point);
-            current_point++;
+        while (tabXYT[current_point_in_arr].timing <= clock() - off_beat) {
+            addToPrintedArr(tabXYT, printedArr, current_point_in_arr);
+            current_point_in_arr++;
             al_clear_to_color(al_map_rgb(0, 0, 0));
-            printf("oui\n");
-        }
-
-        printArr(printedArr, circle);
-
-        al_get_next_event(queue, &event);
-        if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
-            switch (event.type) {
-                case ALLEGRO_EVENT_KEY_DOWN:
-                    IsNoteHit(current_point, tabXYT, off_beat, score, wombocombo, life);
-                    break;
-                case ALLEGRO_EVENT_DISPLAY_CLOSE:
-                    running = false;
-                    break;
-
+            if (tabXYT[current_point].timing < clock() - off_beat - 500) {
+                NoteMiss(wombocombo, &life);
+                current_point += 1;
             }
         }
+
+        printArr(printedArr, circle, wombocombo, life);
+
+        al_get_next_event(queue, &event);
+        GetInput(current_point, tabXYT, off_beat, score, wombocombo, life, event);
     }
 
 
@@ -98,5 +92,8 @@ int main() {
     al_destroy_display(display);
     return 0;
 }
-// create circles
+/* Reste à faire :
+ * Score
+ * Sauvegarde
+ * Résolution et optimisation finale*/
 

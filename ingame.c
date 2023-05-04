@@ -1,10 +1,9 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "ingame.h"
 
 #define MAXHITOBJECT 5000
 
-void printArr(XYT arr[], ALLEGRO_BITMAP *circle) {
+void printArr(XYT arr[], ALLEGRO_BITMAP *circle, int wombocombo, int life) {
     int i;
     for (i = 0; i < 20; i++) {
         if (arr[i].timing != 0) {
@@ -13,7 +12,7 @@ void printArr(XYT arr[], ALLEGRO_BITMAP *circle) {
     }
     al_flip_display();
 
-    // remove points that are missed
+    // remove points that need to be removed
     int j = 0;
     while (j < i && arr[j].timing < clock() - 500) {
         for (; j < 20 - 1; j++) {
@@ -41,43 +40,54 @@ void shiftLeft(XYT arr[]) {
 
 }
 
+void IsNoteHit(int current_point, XYT tabXYT[], int offbeat, int score, int wombocombo, int life) {
+    if (tabXYT[current_point].timing >= clock() - offbeat - 200 ||
+        tabXYT[current_point].timing <= clock() - offbeat + 200) {
+        wombocombo += 1;
+        score += 3 * wombocombo;
+        printf("yay");
+    } else if (tabXYT[current_point].timing >= clock() - offbeat - 400 ||
+               tabXYT[current_point].timing <= clock() - offbeat + 400) {
+        wombocombo += 1;
+        score += score * wombocombo;
+        printf("mouais");
+    } else {
+        NoteMiss(wombocombo, &life);
+    }
+}
 
-void checkForKeyboardInput(ALLEGRO_EVENT_QUEUE *event_queue, int current_point, XYT tabXYT[], int timing, int score,
-                           int wombocombo, int life) {
-    ALLEGRO_EVENT event;
-    al_get_next_event(event_queue, &event);
+void NoteMiss(int wombocombo, int *life) {
+    wombocombo = 0;
+    *life -= 1;
+    printf("Nope");
+}
 
+bool IsCursorOnTarget(int current_point, XYT tabXYT[]) {
+    ALLEGRO_MOUSE_STATE mouse_state;
+    al_get_mouse_state(&mouse_state);
+    int x = mouse_state.x;
+    int y = mouse_state.y;
+    if (tabXYT[current_point].x - 64 < x && tabXYT[current_point].x + 64 > x && tabXYT[current_point].y - 64 < y &&
+        tabXYT[current_point].y + 64 > y) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+void GetInput(int current_point, XYT tabXYT[], int off_beat, int score, int wombocombo, int life, ALLEGRO_EVENT event) {
     if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
-        switch (event.keyboard.keycode) {
-            case ALLEGRO_KEY_Q:
-                IsNoteHit(current_point, tabXYT, timing, score, wombocombo, life);
-            case ALLEGRO_KEY_S:
-                printf("S\n");
-                break;
-            default:
-                break;
+        switch (event.type) {
+            case ALLEGRO_EVENT_KEY_DOWN:
+                if (IsCursorOnTarget(current_point, tabXYT)) {
+                    IsNoteHit(current_point, tabXYT, off_beat, score, wombocombo, life);
+                    break;
+                } else {
+                    NoteMiss(wombocombo, &life);
+                }
         }
     }
 }
 
-void IsNoteHit(int current_point, XYT tabXYT[], int offbeat, int score, int wombocombo, int life) {
-    printf("Hit Detected ! \n");
-    if (tabXYT[current_point].timing >= clock()-offbeat - 200 || tabXYT[current_point].timing <= clock()-offbeat + 200) {
-        wombocombo += 1;
-        score += 3 * wombocombo;
-        printf("Yay\n");
-    }
-    else if (tabXYT[current_point].timing >= clock()-offbeat - 400 || tabXYT[current_point].timing <= clock()-offbeat + 400) {
-        wombocombo += 1;
-        score += 1 * wombocombo;
-        printf("Mouais\n");
-    }
-    else{
-        NoteMiss(wombocombo, life);
-    }
-}
 
-void NoteMiss(int wombocombo, int life){
-    wombocombo = 0;
-    life-=1;
-}
