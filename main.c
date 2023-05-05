@@ -44,6 +44,9 @@ int main() {
     al_register_event_source(queue, al_get_keyboard_event_source());
 
 
+    int scoreX = al_get_display_width(display) - 100;
+    int scoreY = 20;
+    char scoreText[20];
     int selected_item = 0;
     int difficulty = 0;
     while (difficulty <= 0) {
@@ -79,10 +82,10 @@ int main() {
             }
         }
 
-        printArr(printedArr, circle, wombocombo, life);
+        printArr(printedArr, circle, &score, life, font);
 
         al_get_next_event(queue, &event);
-        GetInput(current_point, tabXYT, off_beat, score, wombocombo, life, event);
+        GetInput(current_point, tabXYT, off_beat, &score, wombocombo, life, event);
     }
 
 

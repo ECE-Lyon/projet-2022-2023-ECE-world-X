@@ -1,14 +1,18 @@
 #include <stdio.h>
 #include "ingame.h"
+#include <allegro5/allegro_font.h>
 
 #define MAXHITOBJECT 5000
 
-void printArr(XYT arr[], ALLEGRO_BITMAP *circle, int wombocombo, int life) {
+void printArr(XYT arr[], ALLEGRO_BITMAP *circle, int *score, int life, ALLEGRO_FONT *font) {
     int i;
     for (i = 0; i < 20; i++) {
         if (arr[i].timing != 0) {
             al_draw_bitmap(circle, arr[i].x, arr[i].y, 0);
         }
+        char scoreText[20];
+        sprintf(scoreText, "Score: %d", *score);
+        al_draw_text(font, al_map_rgb(255, 255, 255), 150, 20, ALLEGRO_ALIGN_RIGHT, scoreText);
     }
     al_flip_display();
 
@@ -40,19 +44,17 @@ void shiftLeft(XYT arr[]) {
 
 }
 
-void IsNoteHit(int *current_point, XYT tabXYT[], int offbeat, int score, int wombocombo, int life) {
+void IsNoteHit(int *current_point, XYT tabXYT[], int offbeat, int *score, int wombocombo, int life) {
     if (tabXYT[*current_point].timing >= clock() - offbeat - 200 ||
         tabXYT[*current_point].timing <= clock() - offbeat + 200) {
         wombocombo += 1;
-        score += 3 * wombocombo;
+        *score += (3 * wombocombo);
         (*current_point)++;
-        printf("yay");
     } else if (tabXYT[*current_point].timing >= clock() - offbeat - 400 ||
                tabXYT[*current_point].timing <= clock() - offbeat + 400) {
         wombocombo += 1;
-        score += score * wombocombo;
+        *score += wombocombo;
         (*current_point)++;
-        printf("mouais");
     } else {
         NoteMiss(&wombocombo, &life);
         (*current_point)++;
@@ -62,7 +64,6 @@ void IsNoteHit(int *current_point, XYT tabXYT[], int offbeat, int score, int wom
 void NoteMiss(int *wombocombo, int *life) {
     *wombocombo = 0;
     *life -= 1;
-    printf("Nope");
 }
 
 bool IsCursorOnTarget(int current_point, XYT tabXYT[]) {
@@ -79,7 +80,7 @@ bool IsCursorOnTarget(int current_point, XYT tabXYT[]) {
 }
 
 
-void GetInput(int current_point, XYT tabXYT[], int off_beat, int score, int wombocombo, int life, ALLEGRO_EVENT event) {
+void GetInput(int current_point, XYT tabXYT[], int off_beat, int *score, int wombocombo, int life, ALLEGRO_EVENT event) {
     if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
         switch (event.type) {
             case ALLEGRO_EVENT_KEY_DOWN:
