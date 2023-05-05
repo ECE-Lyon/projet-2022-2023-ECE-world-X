@@ -21,6 +21,8 @@
 #include <stdio.h>
 #include "../Snake/game.h"
 #include "../JarJar/duckGame.h"
+#include "../Ships/Start_and_images.h"
+
 
 void reset_keys(int Keys[NBKEYS]) {
     for(int i=0; i<NBKEYS; i++) {
@@ -181,7 +183,7 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                             //Lancer le snake
                             break;
                         case SHIP :
-                            printf("Vaisseau\n");
+                            game_ships(display);
                             break;
                         case OSU :
                             printf("Osu\n");

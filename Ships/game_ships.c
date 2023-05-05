@@ -11,7 +11,7 @@
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
 
-int game_ships() {
+int game_ships(ALLEGRO_DISPLAY* display) {
     int endgame = 0, gameover = 0, pause = 0, destroyed_Ships = 0, start = 0, ingame = 0, scoreP1 = 0, scoreP2 = 0;
     FPSdisplay turret;
     Ship ships[NB_SHIPS];
@@ -23,36 +23,11 @@ int game_ships() {
     P2.name = 23;
     P2.turn = false;
 
-    ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_EVENT_QUEUE *queue = NULL;
     ALLEGRO_TIMER *timer = NULL;
     ALLEGRO_FONT *font = NULL;
     ALLEGRO_FONT *fontBig = NULL;
     ALLEGRO_EVENT event;
-
-    srand(time(NULL));
-
-    if (!al_init()) {
-        error("Initialisation Allegro");
-    }
-    if (!al_install_keyboard()) {
-        error("Keyboard download");
-    }
-    if (!al_install_mouse()) {
-        error("Mouse download");
-    }
-    al_init_font_addon();
-    if (!al_init_ttf_addon()) {
-        error("Initialisation fonts");
-    }
-    if (!al_init_primitives_addon()) {
-        error("Initialisation primitives");
-    }
-    if (!al_init_image_addon()) {
-        error("Initialisation images");
-    }
-
-    display = al_create_display(SCREEN_WIDTH, SCREEN_HEIGHT);
 
     al_set_window_position(display, 200, 100);
     if (!display) {
