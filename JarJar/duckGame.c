@@ -25,11 +25,11 @@ void init_lauchGame(Game *jeux, ALLEGRO_DISPLAY* display){
     jeux->duckSelect = -1;
     jeux->gamePause = false;
     jeux->window = display;
-    jeux->event;
+    //jeux->event;
     jeux->fifo = al_create_event_queue();
     jeux->timer = al_create_timer(1.0/FPSCOIN);
     jeux->timerPartie = al_create_timer(1.0);
-    jeux->mouse_state;
+    //jeux->mouse_state;
     jeux->jedi = al_load_ttf_font("../JarJar/Fonts/Starjedi.ttf",30,0);
     jeux->jediout = al_load_ttf_font("../JarJar/Fonts/Starjout.ttf",30,0);
     jeux->jedihol = al_load_ttf_font("../JarJar/Fonts/Starjhol.ttf",50,0);
@@ -60,10 +60,9 @@ int launchGame(Game *jeux){
 
     canePos(&jeux->pixelCane, 80, 50);
     //al_hide_mouse_cursor(jeux->window);
-
     al_start_timer(jeux->timer);
     al_start_timer(jeux->timerPartie);
-    al_play_sample(jeux->backgoundMusic,1.0,0.0,1.0,ALLEGRO_PLAYMODE_LOOP,0);
+    al_play_sample(jeux->backgoundMusic,1.0f,0.0f,1.0f,ALLEGRO_PLAYMODE_LOOP,0);
     while(!isEnd) {
         al_wait_for_event(jeux->fifo, &jeux->event);
         al_get_mouse_state(&jeux->mouse_state);
