@@ -85,8 +85,8 @@ int main() {
 
     al_start_timer(timer);
 
-    font = al_load_ttf_font("../Pictures/Starjedi.ttf", 18, 0);
-    fontBig = al_load_ttf_font("../Pictures/Starjedi.ttf", 35, 0);
+    font = al_load_ttf_font("../Ships/Pictures/Starjedi.ttf", 18, 0);
+    fontBig = al_load_ttf_font("../Ships/Pictures/Starjedi.ttf", 35, 0);
     al_hide_mouse_cursor(display);
     al_clear_to_color(al_map_rgb(0, 0, 0));
     al_draw_bitmap(turret.backgrounddisplay, 0, 0, 0);

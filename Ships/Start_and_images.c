@@ -18,9 +18,9 @@ void display_turret(FPSdisplay turret) {
 }
 
 void init_images(FPSdisplay *turret, Crosshair *crosshair) {
-    turret->turretdisplay = al_load_bitmap("../Pictures/POV_Ship.png");
-    turret->backgrounddisplay = al_load_bitmap("../Pictures/background.png");
-    crosshair->crosshair = al_load_bitmap("../Pictures/crosshair.png");
+    turret->turretdisplay = al_load_bitmap("../Ships/Pictures/POV_Ship.png");
+    turret->backgrounddisplay = al_load_bitmap("../Ships/Pictures/background.png");
+    crosshair->crosshair = al_load_bitmap("../Ships/Pictures/crosshair.png");
 }
 
 void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALLEGRO_FONT *fontBig) {

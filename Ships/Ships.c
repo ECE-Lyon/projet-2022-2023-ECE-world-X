@@ -11,16 +11,16 @@ void init_ships(Ship ships[NB_SHIPS]) {
         ships[i].destroyed = false;
         ships[i].size = (rand() % 3) + 1;
         if (ships[i].size == 1) {
-            ships->ship1 = al_load_bitmap("../Pictures/ship100.png");
-            ships->explosion1 = al_load_bitmap("../Pictures/explosion100.png");
+            ships->ship1 = al_load_bitmap("../Ships/Pictures/ship100.png");
+            ships->explosion1 = al_load_bitmap("../Ships/Pictures/explosion100.png");
             ships[i].width = ships[i].length = 100;
         } else if (ships[i].size == 2) {
-            ships->ship2 = al_load_bitmap("../Pictures/ship75.png");
-            ships->explosion2 = al_load_bitmap("../Pictures/explosion75.png");
+            ships->ship2 = al_load_bitmap("../Ships/Pictures/ship75.png");
+            ships->explosion2 = al_load_bitmap("../Ships/Pictures/explosion75.png");
             ships[i].width = ships[i].length = 75;
         } else if (ships[i].size == 3) {
-            ships->ship3 = al_load_bitmap("../Pictures/ship50.png");
-            ships->explosion3 = al_load_bitmap("../Pictures/explosion50.png");
+            ships->ship3 = al_load_bitmap("../Ships/Pictures/ship50.png");
+            ships->explosion3 = al_load_bitmap("../Ships/Pictures/explosion50.png");
             ships[i].width = ships[i].length = 50;
         }
     }
