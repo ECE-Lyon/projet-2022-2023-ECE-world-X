@@ -28,4 +28,6 @@ void shoot_turret(Ship ships[NB_SHIPS], Crosshair crosshair);
 
 void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALLEGRO_FONT *fontBig);
 
+int game_ships();
+
 #endif //PROJET_ECE_WORLD_TURRET_AND_TIMER_H
