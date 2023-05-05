@@ -7,17 +7,12 @@
 #include <stdio.h>
 
 MenuItem menuItems[11] = {
-        {"Choose your difficulty, warning, difficulties are exponential", false},
+        {"Choose your difficulty !!! exponential", false},
         {"Meco, Star Wars Theme",               false},
-        {"Option 2",               false},
+        {"Luke Theme",               false},
         {"Cantina Band",               false},
         {"Option 4",               false},
-        {"Option 5",               false},
-        {"Option 6",               false},
-        {"Option 7",               false},
-        {"Option 8",               false},
-        {"Option 9",               false},
-        {"Option 10",              false}
+        {"Don't even try",               false},
 };
 
 void drawMenu(ALLEGRO_FONT *font, int selectedItem, ALLEGRO_DISPLAY *display) {

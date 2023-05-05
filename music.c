@@ -20,21 +20,6 @@ void play_music(int difficulty, ALLEGRO_SAMPLE *sample) {
             sample = al_load_sample("../musics/music4.wav");
             break;
         case 5:
-            sample = al_load_sample("../musics/music5.wav");
-            break;
-        case 6:
-            sample = al_load_sample("../musics/music6.wav");
-            break;
-        case 7:
-            sample = al_load_sample("../musics/music7.wav");
-            break;
-        case 8:
-            sample = al_load_sample("../musics/music8.wav");
-            break;
-        case 9:
-            sample = al_load_sample("../musics/music9.wav");
-            break;
-        case 10:
             sample = al_load_sample("../musics/music10.wav");
             break;
         default:

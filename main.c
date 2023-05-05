@@ -73,7 +73,7 @@ int main() {
         life = 10000;
     }
 
-    while (al_get_sample_instance_playing(sample) && life != 0) {
+    while (al_get_sample_instance_playing() && life != 0) {
         // add new points to printedArr
         while (tabXYT[current_point_in_arr].timing <= clock() - off_beat) {
             addToPrintedArr(tabXYT, printedArr, current_point_in_arr);

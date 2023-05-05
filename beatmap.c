@@ -13,15 +13,15 @@ int getXYTime(int difficulty, XYT tabXYT[]) {
     FILE* file;
     switch (difficulty) {
         case 1: {
-            file = fopen("../beatmaps/1castle_of_glass.osu", "r");
+            file = fopen("../beatmaps/1meco.osu", "r");
             break;
         }
         case 2: {
-            file = fopen("../beatmaps/2pokemon.osu", "r");
+            file = fopen("../beatmaps/2Luke.osu", "r");
             break;
         }
         case 3: {
-            file = fopen("../beatmaps/3canon_rock.osu", "r");
+            file = fopen("../beatmaps/3cantina_band.osu", "r");
             break;
         }
         case 4:{
@@ -29,26 +29,6 @@ int getXYTime(int difficulty, XYT tabXYT[]) {
         }
             break;
         case 5: {
-            file = fopen("../beatmaps/5faith.osu", "r");
-            break;
-        }
-        case 6: {
-            file = fopen("../beatmaps/6through_the_fire_and_flames.osu", "r");
-            break;
-        }
-        case 7: {
-            file = fopen("../beatmaps/7embraced_by_the_flames.osu", "r");
-            break;
-        }
-        case 8: {
-            file = fopen("../beatmaps/8happpy_song_dont_play_that_too_harddd.osu", "r");
-            break;
-        }
-        case 9: {
-            file = fopen("../beatmaps/9a_fool_moon_night_aaaaaaahhhhhhhh.osu", "r");
-            break;
-        }
-        case 10: {
             file = fopen("../beatmaps/10galaxy_collapse_dont_even_try_you_hear_me.osu", "r");
             break;
         }
