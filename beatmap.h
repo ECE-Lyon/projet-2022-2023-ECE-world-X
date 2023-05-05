@@ -35,3 +35,5 @@ TimingPoint timingPoints[MAX_TIMING_POINTS];
 
 
 int getXYTime(int difficulty, XYT tab[MAXHITOBJECT]);
+
+void recalculateCoords(XYT tab[], int numHitObjects);

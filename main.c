@@ -49,14 +49,13 @@ int main() {
     while (difficulty <= 0) {
         difficulty = inTheMenu(font, queue, selected_item, display);
     }
-    int circle_radius = al_get_bitmap_width(circle) / 2;
-
 
     XYT tabXYT[MAXHITOBJECT] = {0};
     XYT printedArr[20] = {0};
     int numHitObjects;
     numHitObjects = getXYTime(difficulty, tabXYT);
     countdown(font);
+    recalculateCoords(tabXYT, numHitObjects);
 
     bool running = true;
     al_start_timer(timer);
@@ -66,7 +65,7 @@ int main() {
     const int off_beat = clock();
     int score = 0;
     int wombocombo = 0;
-    int life = 3;
+    int life = 3000;
 
     while (running && life != 0) {
         // add new points to printedArr
@@ -75,7 +74,7 @@ int main() {
             current_point_in_arr++;
             al_clear_to_color(al_map_rgb(0, 0, 0));
             if (tabXYT[current_point].timing < clock() - off_beat - 500) {
-                NoteMiss(wombocombo, &life);
+                NoteMiss(&wombocombo, &life);
                 current_point += 1;
             }
         }

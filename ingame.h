@@ -16,9 +16,9 @@ void shiftLeft(XYT arr[]);
 
 void checkForKeyboardInput(ALLEGRO_EVENT_QUEUE* event_queue, int current_point, XYT tabXYT[], int timing, int score, int wombocombo, int life);
 
-void IsNoteHit(int current_point, XYT tabXYT[], int timing, int score, int wombocombo, int life);
+void IsNoteHit(int *current_point, XYT tabXYT[], int timing, int score, int wombocombo, int life);
 
-void NoteMiss(int wombocombo, int *life);
+void NoteMiss(int* wombocombo, int *life);
 
 void GetInput(int current_point, XYT tabXYT[], int off_beat, int score, int wombocombo, int life, ALLEGRO_EVENT event);
 

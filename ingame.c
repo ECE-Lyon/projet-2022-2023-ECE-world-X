@@ -40,24 +40,27 @@ void shiftLeft(XYT arr[]) {
 
 }
 
-void IsNoteHit(int current_point, XYT tabXYT[], int offbeat, int score, int wombocombo, int life) {
-    if (tabXYT[current_point].timing >= clock() - offbeat - 200 ||
-        tabXYT[current_point].timing <= clock() - offbeat + 200) {
+void IsNoteHit(int *current_point, XYT tabXYT[], int offbeat, int score, int wombocombo, int life) {
+    if (tabXYT[*current_point].timing >= clock() - offbeat - 200 ||
+        tabXYT[*current_point].timing <= clock() - offbeat + 200) {
         wombocombo += 1;
         score += 3 * wombocombo;
+        (*current_point)++;
         printf("yay");
-    } else if (tabXYT[current_point].timing >= clock() - offbeat - 400 ||
-               tabXYT[current_point].timing <= clock() - offbeat + 400) {
+    } else if (tabXYT[*current_point].timing >= clock() - offbeat - 400 ||
+               tabXYT[*current_point].timing <= clock() - offbeat + 400) {
         wombocombo += 1;
         score += score * wombocombo;
+        (*current_point)++;
         printf("mouais");
     } else {
-        NoteMiss(wombocombo, &life);
+        NoteMiss(&wombocombo, &life);
+        (*current_point)++;
     }
 }
 
-void NoteMiss(int wombocombo, int *life) {
-    wombocombo = 0;
+void NoteMiss(int *wombocombo, int *life) {
+    *wombocombo = 0;
     *life -= 1;
     printf("Nope");
 }
@@ -81,10 +84,10 @@ void GetInput(int current_point, XYT tabXYT[], int off_beat, int score, int womb
         switch (event.type) {
             case ALLEGRO_EVENT_KEY_DOWN:
                 if (IsCursorOnTarget(current_point, tabXYT)) {
-                    IsNoteHit(current_point, tabXYT, off_beat, score, wombocombo, life);
+                    IsNoteHit(&current_point, tabXYT, off_beat, score, wombocombo, life);
                     break;
                 } else {
-                    NoteMiss(wombocombo, &life);
+                    NoteMiss(&wombocombo, &life);
                 }
         }
     }

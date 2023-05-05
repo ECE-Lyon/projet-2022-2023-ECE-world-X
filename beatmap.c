@@ -99,3 +99,10 @@ int getXYTime(int difficulty, XYT tabXYT[]) {
 
     return nb;
 }
+
+void recalculateCoords(XYT tabXYT[], int numHitObjects){
+    for(int i = 0; i<numHitObjects; i++){
+        tabXYT[i].x = 300+(tabXYT[i].x/2);
+        tabXYT[i].y = 150+(tabXYT[i].y/2);
+    }
+}
