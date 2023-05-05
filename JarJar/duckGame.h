@@ -13,7 +13,7 @@
 
 typedef struct {
     int dessin, i, offsetXduck, offsetYduck, tempsRestant, duckSelect;
-    bool gamePause, end;
+    bool gamePause;
     ALLEGRO_DISPLAY* window;
     ALLEGRO_TIMER* timer;
     ALLEGRO_TIMER* timerPartie;

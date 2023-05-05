@@ -13,9 +13,9 @@ void init_lauchGame(Game *jeux, ALLEGRO_DISPLAY* display){
     assert(al_init_image_addon());
     assert(al_init_font_addon());
     assert(al_init_ttf_addon());
+    assert(al_install_keyboard());
     assert(al_install_audio());
-    assert(al_init_acodec_addon());
-    assert(al_install_keyboard());*/
+    assert(al_init_acodec_addon());*/
 
     jeux->i = 0;
     jeux->dessin = false;
@@ -24,16 +24,15 @@ void init_lauchGame(Game *jeux, ALLEGRO_DISPLAY* display){
     jeux->tempsRestant = 90;
     jeux->duckSelect = -1;
     jeux->gamePause = false;
-    jeux->end = false;
     jeux->window = display;
     jeux->event;
     jeux->fifo = al_create_event_queue();
     jeux->timer = al_create_timer(1.0/FPSCOIN);
     jeux->timerPartie = al_create_timer(1.0);
     jeux->mouse_state;
-    jeux->jedi = al_load_ttf_font("../JarJar/Fonts/Starjedi.ttf",50,0);
-    jeux->jediout = al_load_ttf_font("../JarJar/Fonts/Starjout.ttf",50,0);
-    jeux->jedihol = al_load_ttf_font("../JarJar/Fonts/Starjhol.ttf",100,0);
+    jeux->jedi = al_load_ttf_font("../JarJar/Fonts/Starjedi.ttf",30,0);
+    jeux->jediout = al_load_ttf_font("../JarJar/Fonts/Starjout.ttf",30,0);
+    jeux->jedihol = al_load_ttf_font("../JarJar/Fonts/Starjhol.ttf",50,0);
     jeux->backgoundMusic = al_load_sample("../JarJar/Audio/AcrosstheStars.ogg");
     init_boat(&jeux->smallBoat);
     init_Cane(&jeux->pixelCane);
@@ -42,7 +41,7 @@ void init_lauchGame(Game *jeux, ALLEGRO_DISPLAY* display){
 
 int launchGame(Game *jeux){
 
-    int fps = 0;
+    int isEnd = 0;
 
     al_reserve_samples(1);
     assert(jeux->backgoundMusic);
@@ -60,17 +59,17 @@ int launchGame(Game *jeux){
     al_register_event_source(jeux->fifo, al_get_timer_event_source(jeux->timerPartie));
 
     canePos(&jeux->pixelCane, 80, 50);
-    al_hide_mouse_cursor(jeux->window);
+    //al_hide_mouse_cursor(jeux->window);
 
     al_start_timer(jeux->timer);
     al_start_timer(jeux->timerPartie);
     al_play_sample(jeux->backgoundMusic,1.0,0.0,1.0,ALLEGRO_PLAYMODE_LOOP,0);
-    while(!jeux->end) {
+    while(!isEnd) {
         al_wait_for_event(jeux->fifo, &jeux->event);
         al_get_mouse_state(&jeux->mouse_state);
         switch(jeux->event.type) {
             case ALLEGRO_EVENT_DISPLAY_CLOSE: {
-                jeux->end = true;
+                isEnd = 1;
                 break;
             }
             case ALLEGRO_EVENT_KEY_DOWN:{
@@ -88,7 +87,8 @@ int launchGame(Game *jeux){
                     }
                 }
                 if(jeux->event.keyboard.keycode == ALLEGRO_KEY_ESCAPE){
-                    jeux->end = true;
+                    isEnd=1;
+                    break;
                 }
                 break;
             }
@@ -114,11 +114,12 @@ int launchGame(Game *jeux){
                 if(jeux->event.timer.source == jeux->timerPartie){
                     jeux->tempsRestant--;
                     if(jeux->tempsRestant == 0){
-                        jeux->end = true;
+                        isEnd = 1;
+                        break;
                     }
                 }
-                jeux->pixelCane.x = jeux->mouse_state.x - 80;
-                jeux->pixelCane.y = jeux->mouse_state.y - 80;
+                jeux->pixelCane.x = jeux->mouse_state.x - 20;
+                jeux->pixelCane.y = jeux->mouse_state.y - 20;
                 if(jeux->duckSelect != -1 ){
                     jeux->ducks[jeux->duckSelect].x = jeux->mouse_state.x - jeux->offsetXduck;
                     jeux->ducks[jeux->duckSelect].y = jeux->mouse_state.y - jeux->offsetYduck;
@@ -130,7 +131,6 @@ int launchGame(Game *jeux){
                         jeux->ducks[jeux->duckSelect].actif = 0;
                         jeux->ducks[jeux->duckSelect].compte = true;
                         jeux->ducks[jeux->duckSelect].compte = false;
-                        //printf("score: %d\n",jeux->smallBoat.score);
                         jeux->duckSelect = -1;
                     }
                     jeux->dessin = true;
@@ -143,8 +143,8 @@ int launchGame(Game *jeux){
         }
         if (jeux->dessin) {
             al_clear_to_color(BLEU);
-            al_draw_textf(jeux->jedi,NOIR,50,50,0,"Score: %d",jeux->smallBoat.score);
-            al_draw_textf(jeux->jediout,NOIR,50,1000,0,"temps: %d",jeux->tempsRestant);
+            al_draw_textf(jeux->jedi,NOIR,50,50,ALLEGRO_ALIGN_LEFT,"Score: %d",jeux->smallBoat.score);
+            al_draw_textf(jeux->jediout,NOIR,50,550,ALLEGRO_ALIGN_LEFT,"temps: %d",jeux->tempsRestant);
             printBoat(&jeux->smallBoat);
             printDuck(jeux->ducks);
             drawCane(&jeux->pixelCane);
@@ -159,7 +159,7 @@ int launchGame(Game *jeux){
     al_destroy_event_queue(jeux->fifo);
     al_destroy_timer(jeux->timer);
     al_destroy_timer(jeux->timerPartie);
-    al_destroy_display(jeux->window);
+    //al_destroy_display(jeux->window);
     return 0;
 
 }

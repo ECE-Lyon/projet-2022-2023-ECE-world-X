@@ -6,13 +6,13 @@
 
 void init_boat(Boat* smallBoat){
    smallBoat -> boaty = al_load_bitmap("../JarJar/Images/pixelBoat.png");
-   smallBoat -> x = 975;
-   smallBoat -> y = 950;
+   smallBoat -> x = LARGEUR/2;
+   smallBoat -> y = HAUTEUR - al_get_bitmap_height(smallBoat->boaty);
    smallBoat -> h = al_get_bitmap_height(smallBoat->boaty);
    smallBoat -> l = al_get_bitmap_width(smallBoat->boaty);
    smallBoat -> score = 0;
 }
 
 void printBoat(Boat* smallBoat){
-    al_draw_bitmap(smallBoat -> boaty, smallBoat -> x,smallBoat -> y,0);
+    al_draw_bitmap(smallBoat -> boaty, smallBoat -> x,smallBoat -> y + rand()%5,ALLEGRO_FLIP_HORIZONTAL);
 }

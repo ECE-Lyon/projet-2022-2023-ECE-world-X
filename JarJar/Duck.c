@@ -10,7 +10,7 @@ void init_Duck(Coin *ducks) {
     for (i = 0; i < NB_MAX_JARJAR; i++) {
         ducks[i].x = 0;
         ducks[i].y = 0;
-        ducks[i].vitesse = 5 + rand() % 10;
+        ducks[i].vitesse = 3 + rand() % 10;
         ducks[i].actif = 0;
         ducks[i].compte = false;
         ducks[i].Jarjar1 = al_load_bitmap("../JarJar/Images/JarJar1.png");
