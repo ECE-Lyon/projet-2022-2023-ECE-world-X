@@ -142,7 +142,7 @@ int set_name(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* police, Perso player, int r
     int indice = 0;
     char* name;
     name = (char*) malloc(sizeof (char));
-    name[indice] = ' ';
+    name[indice] = '=';
     name[indice+1] = '\0';
     ALLEGRO_EVENT_QUEUE*queue;
     queue = al_create_event_queue();
@@ -164,7 +164,7 @@ int set_name(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* police, Perso player, int r
                 return 1;
             case ALLEGRO_EVENT_KEY_CHAR:
                 unichar = event.keyboard.unichar;
-                if ((unichar >= 32 && unichar <= 127) || unichar == 8) {
+                if ((unichar >= 32 && unichar <= 122) || unichar == 8) {
                     if (unichar == 8) {
                         if (indice >= 1) {
                             indice -=1;
@@ -177,7 +177,7 @@ int set_name(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* police, Perso player, int r
                     }
                     if (indice>=1) {
                         realloc(name,(indice+1)*sizeof(char));
-                        name[indice] = ' ';
+                        name[indice] = '=';
                         name[indice+1] = '\0';
                     }
                     for(int i=0; i<indice; i++) {
@@ -188,6 +188,7 @@ int set_name(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* police, Perso player, int r
             case ALLEGRO_EVENT_KEY_DOWN :
                 switch(event.keyboard.keycode) {
                     case ALLEGRO_KEY_ENTER :
+                        name[indice] = '\0';
                         strcpy(player.name, name);
                         return 0;
                 }
