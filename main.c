@@ -68,9 +68,12 @@ int main() {
     const int off_beat = clock();
     int score = 0;
     int wombocombo = 0;
-    int life = 3000;
+    int life = 30;
+    if (difficulty == 10){
+        life = 10000;
+    }
 
-    while (running && life != 0) {
+    while (al_get_sample_instance_playing(sample) && life != 0) {
         // add new points to printedArr
         while (tabXYT[current_point_in_arr].timing <= clock() - off_beat) {
             addToPrintedArr(tabXYT, printedArr, current_point_in_arr);

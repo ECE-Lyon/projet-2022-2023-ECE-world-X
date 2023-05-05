@@ -7,10 +7,10 @@
 #include <stdio.h>
 
 MenuItem menuItems[11] = {
-        {"Choose your difficulty", false},
-        {"Option 1",               false},
+        {"Choose your difficulty, warning, difficulties are exponential", false},
+        {"Meco, Star Wars Theme",               false},
         {"Option 2",               false},
-        {"Option 3",               false},
+        {"Cantina Band",               false},
         {"Option 4",               false},
         {"Option 5",               false},
         {"Option 6",               false},
