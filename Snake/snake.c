@@ -10,6 +10,7 @@
 #include <stdlib.h>
 
 #include "constante.h"
+#include "../Map/constante.h"
 
 
 #define STARTSPEED 1

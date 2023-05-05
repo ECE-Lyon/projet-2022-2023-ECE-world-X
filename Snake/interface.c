@@ -3,6 +3,7 @@
 //
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_ttf.h>
 #include <stdio.h>
 
 #include "constante.h"
@@ -72,11 +73,13 @@ int collision_apple(Body* player, int coordx, int coordy) {
     collision_apple(player->next, coordx, coordy);
 }
 
-int update(Body* player,Waychange* lstchange, Food* pomme, star bg_star[NBSTAR], Damier board, ALLEGRO_BITMAP* stormtrooper) {
+int update(Body* player,Waychange* lstchange, Food* pomme, star bg_star[NBSTAR], Damier board, ALLEGRO_BITMAP* stormtrooper, ALLEGRO_FONT* police, char* size) {
     int res, collision = 0;
 
     al_clear_to_color(al_map_rgb(0, 0, 0));
     print_all_stars(bg_star);
+    al_draw_text(police, al_map_rgb(255,239,56), 50, 250, 0, "score");
+    al_draw_text(police, al_map_rgb(255,239,56), 100, 250, 0, size);
     create_map(board);
     res = bordure(player, board);
     if (res == 1) {

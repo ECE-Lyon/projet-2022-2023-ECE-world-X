@@ -12,8 +12,8 @@
 #include <stdio.h>
 
 void update_map_pos(Mapcollision* poscollision, Background bar) {
-    poscollision->posmapx = abs(bar.x-STARTX)/SIZECOLLISION;
-    poscollision->posmapy = abs(bar.y-STARTY)/SIZECOLLISION;
+    poscollision->posmapx = abs(bar.x-STARTXPERSO)/SIZECOLLISION;
+    poscollision->posmapy = abs(bar.y-STARTYPERSO)/SIZECOLLISION;
 }
 
 void load_file_collision(int lst_collision[COLLISIONHEI][COLLISIONWI]) {

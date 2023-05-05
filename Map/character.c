@@ -10,10 +10,11 @@
 #define MAXLETTERS 6
 
 void init_Luke(Perso* player) {
-    player->x = STARTX;
-    player->y = STARTY;
+    player->x = STARTXPERSO;
+    player->y = STARTYPERSO;
     player->direction = B1;
     player->state = 0;
+    player->score = 0;
     player->anim[B1] = al_load_bitmap("../sprites/Luke/luke2.png");
     player->anim[B2] = al_load_bitmap("../sprites/Luke/luke1.png");
     player->anim[B3] = al_load_bitmap("../sprites/Luke/luke3.png");
@@ -36,10 +37,11 @@ void init_Luke(Perso* player) {
 }
 
 void init_vador(Perso* player) {
-    player->x = STARTX;
-    player->y = STARTY;
+    player->x = STARTXPERSO;
+    player->y = STARTYPERSO;
     player->direction = B1;
     player->state = 0;
+    player->score = 0;
     player->anim[B1] = al_load_bitmap("../sprites/Vador/Vador1.png");
     player->anim[B2] = al_load_bitmap("../sprites/Vador/Vador2.png");
     player->anim[B3] = al_load_bitmap("../sprites/Vador/Vador3.png");

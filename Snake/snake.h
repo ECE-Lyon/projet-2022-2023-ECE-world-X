@@ -13,17 +13,16 @@
 #ifndef SNAKE_SNAKE_H
 #define SNAKE_SNAKE_H
 
-typedef enum{HAUT,DROITE,BAS, GAUCHE} E_direction;
 
 typedef struct Mdirec {
     int x,y;
-    E_direction direction;
+    int direction;
     struct Mdirec* next;
 } Waychange;
 
 typedef struct Part {
     int x,y;
-    E_direction direction;
+    int direction;
     ALLEGRO_BITMAP* img[NBHEAD];
     Waychange* nextchange;
     struct Part* next;

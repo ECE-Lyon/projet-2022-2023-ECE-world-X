@@ -2,6 +2,8 @@
 // Created by trist on 04/04/2023.
 //
 
+//enum{HAUT, DROITE, BAS, GAUCHE, NBKEYS};
+
 #ifndef SNAKE_CONSTANTE_H
 #define SNAKE_CONSTANTE_H
 

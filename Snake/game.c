@@ -6,6 +6,7 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_ttf.h>
 #include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -18,7 +19,7 @@
 #include "game.h"
 
 
-void game(ALLEGRO_DISPLAY* display){
+void game(ALLEGRO_DISPLAY* display, Perso* playeractive){
     int isEnd=0;
     float fps;
     int changeallowed;
@@ -48,6 +49,9 @@ void game(ALLEGRO_DISPLAY* display){
     star bg_star[NBSTAR];
     Food pomme;
     Waychange* lstchange = NULL;
+
+    ALLEGRO_FONT* police = al_load_ttf_font("../Map/star_jedi/starjedi/Starjedi.ttf", 18, 0);
+    assert(police != NULL);
 
     player = malloc(sizeof(Body));
 
@@ -123,7 +127,8 @@ void game(ALLEGRO_DISPLAY* display){
                 break;
             case ALLEGRO_EVENT_TIMER :
                 changeallowed = 1;
-                isEnd = update(player, lstchange, &pomme, bg_star, board, stormtrooper);
+                char * txtsize = (char*) size;
+                isEnd = update(player, lstchange, &pomme, bg_star, board, stormtrooper, police, txtsize);
                 al_flip_display();
                 break;
         }
@@ -132,7 +137,7 @@ void game(ALLEGRO_DISPLAY* display){
     al_destroy_timer(timer);
     al_destroy_bitmap(stormtrooper);
     size = size_snake(player, size);
-    printf("Votre taille etait de %d\n", size);
+    playeractive->score = size;
     free_snake(player);
 
 }

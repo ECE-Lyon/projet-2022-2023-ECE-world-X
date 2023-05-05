@@ -30,6 +30,15 @@ void reset_keys(int Keys[NBKEYS]) {
     }
 }
 
+int score_comparaison(Perso player1, Perso player2) {
+    if (player1.score > player2.score) {
+        return 1;
+    }
+    else if (player2.score > player1.score) {
+        return 2;
+    }
+}
+
 int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
     int isEnd=0;
     int res = 0;
@@ -172,13 +181,23 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                             isEnd = 1;
                             break;
                         case PECHE :
+                            al_destroy_sample(maintheme);
                             init_lauchGame(&jeuxCoin, display);
                             launchGame(&jeuxCoin);
                             //Lancer la peche au canard
                             break;
                         case SNAKE :
-                            game(display);
+                            game(display, &player1);
                             al_flush_event_queue(queue);
+                            game(display, &player2);
+                            al_flush_event_queue(queue);
+                            res = score_comparaison(player1, player2);
+                            if (res == 1) {
+                                printf("p1 win");
+                            }
+                            else {
+                                printf("p2 win");
+                            }
                             //playeractive = &player2;
                             //Lancer le snake
                             break;

@@ -115,11 +115,9 @@ int select_character(ALLEGRO_DISPLAY* display, ALLEGRO_BITMAP* perso1, ALLEGRO_B
                 break;
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN :
                 if (pos == 1) {
-                    printf("Dark side\n");
                     return 0;
                 }
                 else if (pos == 0) {
-                    printf("Light side\n");
                     return -1;
                 }
                 break;
