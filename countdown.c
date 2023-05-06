@@ -4,6 +4,7 @@
 
 #include "countdown.h"
 #include <allegro5/allegro_font.h>
+
 void countdown(ALLEGRO_FONT *font) {
     int countdown_duration = 3;
     int screen_w = al_get_display_width(al_get_current_display());

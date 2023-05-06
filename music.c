@@ -1,6 +1,6 @@
 #include "music.h"
 
-ALLEGRO_SAMPLE_INSTANCE* play_music(int difficulty) {
+ALLEGRO_SAMPLE_INSTANCE *play_music(int difficulty) {
     ALLEGRO_SAMPLE *sample = NULL;
     ALLEGRO_SAMPLE_INSTANCE *sampleInstance = NULL;
 

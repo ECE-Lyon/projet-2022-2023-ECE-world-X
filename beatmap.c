@@ -4,10 +4,9 @@
 #include "beatmap.h"
 
 
-
 int getXYTime(int difficulty, XYT tabXYT[]) {
     // get the difficulty and parses the map to play. It will return the Timing, X coord and Y coord
-    FILE* file;
+    FILE *file;
     switch (difficulty) {
         case 1: {
             file = fopen("../beatmaps/1meco.osu", "r");
@@ -21,7 +20,7 @@ int getXYTime(int difficulty, XYT tabXYT[]) {
             file = fopen("../beatmaps/3cantina_band.osu", "r");
             break;
         }
-        case 4:{
+        case 4: {
             file = fopen("../beatmaps/4mecoInsane.osu", "r");
         }
             break;
@@ -51,7 +50,7 @@ int getXYTime(int difficulty, XYT tabXYT[]) {
         }
     }
 
-    HitObject* hitObjects = malloc(1*sizeof(HitObject));
+    HitObject *hitObjects = malloc(1 * sizeof(HitObject));
     int nb = 0;
 
     // read the hit objects
@@ -59,13 +58,13 @@ int getXYTime(int difficulty, XYT tabXYT[]) {
         HitObject ho;
         sscanf(lines, "%d,%d,%d", &ho.x, &ho.y, &ho.time);
         hitObjects = realloc(hitObjects, (++nb) * sizeof(HitObject));
-        hitObjects[nb-1] = ho;
+        hitObjects[nb - 1] = ho;
     }
 
     fclose(file);
 
     // generate circles
-    for (int i = 0; i < nb; i++){
+    for (int i = 0; i < nb; i++) {
         HitObject ho = hitObjects[i];
         tabXYT[i].x = ho.x;
         tabXYT[i].y = ho.y;
@@ -73,13 +72,12 @@ int getXYTime(int difficulty, XYT tabXYT[]) {
     }
 
 
-
     return nb;
 }
 
-void recalculateCoords(XYT tabXYT[], int numHitObjects){
-    for(int i = 0; i<numHitObjects; i++){
-        tabXYT[i].x = 300+(tabXYT[i].x/2);
-        tabXYT[i].y = 150+(tabXYT[i].y/2);
+void recalculateCoords(XYT tabXYT[], int numHitObjects) {
+    for (int i = 0; i < numHitObjects; i++) {
+        tabXYT[i].x = 300 + (tabXYT[i].x / 2);
+        tabXYT[i].y = 150 + (tabXYT[i].y / 2);
     }
 }

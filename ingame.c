@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include "ingame.h"
 #include <allegro5/allegro_font.h>
+
 #define MAXHITOBJECT 5000
 
-void printArr(XYT arr[], ALLEGRO_BITMAP *circle, int* score, ALLEGRO_FONT* font) {
+void printArr(XYT arr[], ALLEGRO_BITMAP *circle, int *score, ALLEGRO_FONT *font) {
     int i;
     for (i = 0; i < 20; i++) {
         if (arr[i].timing != 0) {
@@ -80,8 +81,13 @@ bool IsCursorOnTarget(int current_point, XYT tabXYT[]) {
 }
 
 
-void GetInput(int current_point, XYT tabXYT[], int off_beat, int* score, int wombocombo, ALLEGRO_EVENT event) {
+void GetInput(int current_point, XYT tabXYT[], int off_beat, int *score, int wombocombo, ALLEGRO_EVENT event) {
     if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
+        ALLEGRO_MOUSE_STATE mouseState;
+        al_get_mouse_state(&mouseState);
+        int mouseX = mouseState.x;
+        int mouseY = mouseState.y;
+        al_draw_filled_circle(mouseX, mouseY, 4, al_map_rgb(255, 0, 0));
         if (IsCursorOnTarget(current_point, tabXYT)) {
             IsNoteHit(&current_point, tabXYT, off_beat, score, wombocombo);
         } else {

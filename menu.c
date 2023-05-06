@@ -11,7 +11,7 @@ MenuItem menuItems[6] = {
         {"Meco, Star Wars Theme",                  false},
         {"Luke Theme",                             false},
         {"Cantina Band",                           false},
-        {"Meco Insane",                               false},
+        {"Meco Insane",                            false},
         {"Don't even try",                         false},
 };
 
@@ -110,7 +110,9 @@ void beginning(ALLEGRO_FONT *font, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_DISPLAY *
     al_draw_bitmap(buffer, 0, 0, 0);
     al_draw_text(font, al_map_rgb(253, 245, 0), centerX, centerY, ALLEGRO_ALIGN_CENTER, name);
     int readyTextY = centerY + al_get_font_line_height(font);  // Adjust the Y position as needed
-    al_draw_text(font, al_map_rgb(253, 245, 0), centerX, readyTextY, ALLEGRO_ALIGN_CENTER, "Are you ready? Press Enter");    al_flip_display();
+    al_draw_text(font, al_map_rgb(253, 245, 0), centerX, readyTextY, ALLEGRO_ALIGN_CENTER,
+                 "Are you ready? Press Enter");
+    al_flip_display();
     ALLEGRO_EVENT_QUEUE *eventQueue = al_create_event_queue();
     al_register_event_source(eventQueue, al_get_keyboard_event_source());
 
