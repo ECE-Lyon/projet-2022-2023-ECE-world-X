@@ -1,0 +1,10 @@
+#ifndef PROJET_ECE_WORLD_CONST_H
+#define PROJET_ECE_WORLD_CONST_H
+
+#define SCREEN_WIDTH 1200
+#define SCREEN_HEIGHT 600
+#define X_ROLL1
+#define X_ROLL2
+#define X_ROLL3
+
+#endif //PROJET_ECE_WORLD_CONST_H
