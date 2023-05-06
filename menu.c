@@ -11,7 +11,7 @@ MenuItem menuItems[6] = {
         {"Meco, Star Wars Theme",                  false},
         {"Luke Theme",                             false},
         {"Cantina Band",                           false},
-        {"Option 4",                               false},
+        {"Meco Insane",                               false},
         {"Don't even try",                         false},
 };
 

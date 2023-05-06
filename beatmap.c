@@ -22,7 +22,7 @@ int getXYTime(int difficulty, XYT tabXYT[]) {
             break;
         }
         case 4:{
-            file = fopen("../beatmaps/4ratz.osu", "r");
+            file = fopen("../beatmaps/4mecoInsane.osu", "r");
         }
             break;
         case 5: {

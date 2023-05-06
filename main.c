@@ -30,6 +30,9 @@ int main() {
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_FONT *font = al_load_ttf_font("../design/space_font.ttf", 24, 0);
     ALLEGRO_BITMAP *circle = al_load_bitmap("../design/circle.png");
+    ALLEGRO_BITMAP *cursorBitmap = al_load_bitmap("../design/cursor.png");
+    ALLEGRO_MOUSE_CURSOR *cursor = al_create_mouse_cursor(cursorBitmap, 0, 0);
+    al_set_mouse_cursor(display, cursor);
 
     al_register_event_source(queue, al_get_display_event_source(display));
     al_clear_to_color(al_map_rgb(0, 0, 0));
