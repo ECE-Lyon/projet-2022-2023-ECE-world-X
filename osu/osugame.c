@@ -8,25 +8,15 @@
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/mouse.h>
 
-#include "osu/music.h"
+#include "music.h"
 #include "time.h"
-#include "osu/ingame.h"
-#include "osu/menu.h"
-#include "osu/countdown.h"
-#include "osu/endgame.h"
+#include "ingame.h"
+#include "menu.h"
+#include "countdown.h"
+#include "endgame.h"
 
-int osuGame() {
-    al_init();
-    al_install_audio();
-    al_init_acodec_addon();
-    al_reserve_samples(1);
-    al_init_image_addon();
-    al_init_font_addon();
-    al_init_ttf_addon();
-    al_init_primitives_addon();
-    al_install_mouse();
+int osuGame(ALLEGRO_DISPLAY* display) {
 
-    ALLEGRO_DISPLAY *display = al_create_display(1200, 600);
     ALLEGRO_EVENT_QUEUE *queue = al_create_event_queue();
     ALLEGRO_FONT *font = al_load_ttf_font("../osu/design/space_font.ttf", 24, 0);
     ALLEGRO_BITMAP *circle = al_load_bitmap("../osu/design/circle.png");

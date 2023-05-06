@@ -4,5 +4,5 @@
 
 #ifndef OSU_OSUGAME_H
 #define OSU_OSUGAME_H
-int osuGame();
+int osuGame(ALLEGRO_DISPLAY* display);
 #endif //OSU_OSUGAME_H

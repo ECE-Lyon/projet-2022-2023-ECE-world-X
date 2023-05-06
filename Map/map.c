@@ -22,6 +22,7 @@
 #include "../Snake/game.h"
 #include "../JarJar/duckGame.h"
 #include "../Ships/Start_and_images.h"
+#include "../osu/osugame.h"
 
 
 void reset_keys(int Keys[NBKEYS]) {
@@ -205,7 +206,8 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                             game_ships(display);
                             break;
                         case OSU :
-                            printf("Osu\n");
+                            al_destroy_sample(maintheme);
+                            osuGame(display);
                             break;
                         case TAPETAUPE :
                             printf("Tape taupe\n");
