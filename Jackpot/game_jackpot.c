@@ -9,8 +9,10 @@
 #include <allegro5/allegro_image.h>
 
 int main() {
-    int endgame = 0, gameover = 0, pause = 0, destroyed_Ships = 0, start = 0, ingame = 0, scoreP1 = 0, scoreP2 = 0;
-
+    int endgame = 0, gameover = 0, pause = 0, destroyed_Ships = 0, start = 0, ingame = 0;
+    Roll roll[NB_ROLLS];
+    Handle handle;
+    handle.down = false;
 
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_EVENT_QUEUE *queue = NULL;
@@ -70,7 +72,7 @@ int main() {
     al_register_event_source(queue, al_get_timer_event_source(timer));
     al_register_event_source(queue, al_get_mouse_event_source());
 
-
+    init_images(roll, handle);
 
     al_start_timer(timer);
 
@@ -83,9 +85,6 @@ int main() {
 
         if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
             endgame = 1;
-        } else if (event.type == ALLEGRO_EVENT_MOUSE_AXES) {
-            crosshair.location_x = event.mouse.x + 19;
-            crosshair.location_y = event.mouse.y + 19;
         } else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
             switch (event.mouse.button) {
                 case 1:

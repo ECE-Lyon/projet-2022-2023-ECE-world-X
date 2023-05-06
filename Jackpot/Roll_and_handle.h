@@ -14,6 +14,7 @@
 
 typedef struct {
     int rotation_speed;
+    int location_x;
     ALLEGRO_BITMAP *Picture1, *Picture2, *Picture3, *Picture4, *Picture5, *Picture6, *Picture7, *Picture8, *Picture9;
 } Roll;
 
@@ -24,8 +25,12 @@ typedef struct {
 
 void error(const char *txt);
 
-void init_images(Roll roll, Handle handle);
+void init_images(Roll roll[], Handle handle);
 
-int prize(Roll roll1, Roll roll2, Roll roll3, Perso P1);
+int prize(Roll roll[], Perso P1);
+
+void display_rolls(Roll roll[]);
+
+void display_Machine(Handle handle);
 
 #endif //MAIN_C_ROLL_AND_HANDLE_H
