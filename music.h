@@ -9,6 +9,7 @@
 #ifndef OSU_MUSIC_H
 #define OSU_MUSIC_H
 
-void play_music(int difficulty, ALLEGRO_SAMPLE *sample);
+ALLEGRO_SAMPLE_INSTANCE* play_music(int difficulty);
+
 
 #endif //OSU_MUSIC_H

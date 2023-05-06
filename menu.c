@@ -6,7 +6,7 @@
 #include <allegro5/allegro_font.h>
 #include <stdio.h>
 
-MenuItem menuItems[11] = {
+MenuItem menuItems[6] = {
         {"Choose your difficulty !!! exponential", false},
         {"Meco, Star Wars Theme",               false},
         {"Luke Theme",               false},
@@ -28,7 +28,7 @@ void drawMenu(ALLEGRO_FONT *font, int selectedItem, ALLEGRO_DISPLAY *display) {
     al_draw_bitmap(buffer, 0, 0, 0);
 
     int y = 100;
-    for (int i = 0; i < 11; i++) {
+    for (int i = 0; i < 6; i++) {
         if (i == selectedItem) {
             al_draw_text(font, al_map_rgb(255, 0, 0), 400, y, ALLEGRO_ALIGN_CENTER, menuItems[i].text);
         } else {
@@ -54,13 +54,13 @@ int inTheMenu(ALLEGRO_FONT *font, ALLEGRO_EVENT_QUEUE *queue, int selectedItem, 
                 case ALLEGRO_KEY_UP:
                     selectedItem--;
                     if (selectedItem < 0) {
-                        selectedItem = 10;
+                        selectedItem = 5;
                     }
                     drawMenu(font, selectedItem, display);
                     break;
                 case ALLEGRO_KEY_DOWN:
                     selectedItem++;
-                    if (selectedItem > 10) {
+                    if (selectedItem > 5) {
                         selectedItem = 0;
                     }
                     drawMenu(font, selectedItem, display);
@@ -72,7 +72,7 @@ int inTheMenu(ALLEGRO_FONT *font, ALLEGRO_EVENT_QUEUE *queue, int selectedItem, 
         } else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
             int mouseX = event.mouse.x;
             int mouseY = event.mouse.y;
-            for (int i = 0; i < 11; i++) {
+            for (int i = 0; i < 5; i++) {
                 int y = 100 + i * 30;
                 int text_width = al_get_text_width(font, menuItems[i].text);
                 int x = (screen_width - text_width) / 2;

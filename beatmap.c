@@ -1,15 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
 #include "beatmap.h"
 
 
 
 int getXYTime(int difficulty, XYT tabXYT[]) {
     // get the difficulty and parses the map to play. It will return the Timing, X coord and Y coord
-    int numHitObjects = 0;
-    int numTimingPoints = 0;
     FILE* file;
     switch (difficulty) {
         case 1: {

@@ -1,19 +1,20 @@
 #include <stdio.h>
 #include "ingame.h"
 #include <allegro5/allegro_font.h>
-
 #define MAXHITOBJECT 5000
 
-void printArr(XYT arr[], ALLEGRO_BITMAP *circle, int *score, int life, ALLEGRO_FONT *font) {
+void printArr(XYT arr[], ALLEGRO_BITMAP *circle, int* score, ALLEGRO_FONT* font) {
     int i;
     for (i = 0; i < 20; i++) {
         if (arr[i].timing != 0) {
             al_draw_bitmap(circle, arr[i].x, arr[i].y, 0);
         }
-        char scoreText[20];
-        sprintf(scoreText, "Score: %d", *score);
-        al_draw_text(font, al_map_rgb(255, 255, 255), 150, 20, ALLEGRO_ALIGN_RIGHT, scoreText);
     }
+
+    char scoreText[20];
+    sprintf(scoreText, "Score: %d", *score);
+    al_draw_text(font, al_map_rgb(255, 255, 255), 150, 20, ALLEGRO_ALIGN_RIGHT, scoreText);
+
     al_flip_display();
 
     // remove points that need to be removed
@@ -44,7 +45,7 @@ void shiftLeft(XYT arr[]) {
 
 }
 
-void IsNoteHit(int *current_point, XYT tabXYT[], int offbeat, int *score, int wombocombo, int life) {
+void IsNoteHit(int *current_point, XYT tabXYT[], int offbeat, int *score, int wombocombo) {
     if (tabXYT[*current_point].timing >= clock() - offbeat - 200 ||
         tabXYT[*current_point].timing <= clock() - offbeat + 200) {
         wombocombo += 1;
@@ -56,14 +57,13 @@ void IsNoteHit(int *current_point, XYT tabXYT[], int offbeat, int *score, int wo
         *score += wombocombo;
         (*current_point)++;
     } else {
-        NoteMiss(&wombocombo, &life);
+        NoteMiss(&wombocombo);
         (*current_point)++;
     }
 }
 
-void NoteMiss(int *wombocombo, int *life) {
+void NoteMiss(int *wombocombo) {
     *wombocombo = 0;
-    *life -= 1;
 }
 
 bool IsCursorOnTarget(int current_point, XYT tabXYT[]) {
@@ -80,18 +80,12 @@ bool IsCursorOnTarget(int current_point, XYT tabXYT[]) {
 }
 
 
-void GetInput(int current_point, XYT tabXYT[], int off_beat, int *score, int wombocombo, int life, ALLEGRO_EVENT event) {
+void GetInput(int current_point, XYT tabXYT[], int off_beat, int* score, int wombocombo, ALLEGRO_EVENT event) {
     if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
-        switch (event.type) {
-            case ALLEGRO_EVENT_KEY_DOWN:
-                if (IsCursorOnTarget(current_point, tabXYT)) {
-                    IsNoteHit(&current_point, tabXYT, off_beat, score, wombocombo, life);
-                    break;
-                } else {
-                    NoteMiss(&wombocombo, &life);
-                }
+        if (IsCursorOnTarget(current_point, tabXYT)) {
+            IsNoteHit(&current_point, tabXYT, off_beat, score, wombocombo);
+        } else {
+            NoteMiss(&wombocombo);
         }
     }
 }
-
-

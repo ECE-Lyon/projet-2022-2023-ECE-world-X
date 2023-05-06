@@ -1,10 +1,8 @@
-//
-// Created by benja on 18/04/2023.
-//
-
 #include "music.h"
 
-void play_music(int difficulty, ALLEGRO_SAMPLE *sample) {
+ALLEGRO_SAMPLE_INSTANCE* play_music(int difficulty) {
+    ALLEGRO_SAMPLE *sample = NULL;
+    ALLEGRO_SAMPLE_INSTANCE *sampleInstance = NULL;
 
     switch (difficulty) {
         case 1:
@@ -26,8 +24,23 @@ void play_music(int difficulty, ALLEGRO_SAMPLE *sample) {
             fprintf(stderr, "Invalid difficulty level!\n");
             break;
     }
+
     if (!sample) {
         fprintf(stderr, "failed to load sample!\n");
+        return NULL;
     }
-    al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+
+    sampleInstance = al_create_sample_instance(sample);
+    if (!sampleInstance) {
+        fprintf(stderr, "failed to create sample instance!\n");
+        al_destroy_sample(sample);
+        return NULL;
+    }
+
+    al_set_sample_instance_playmode(sampleInstance, ALLEGRO_PLAYMODE_ONCE);
+    al_attach_sample_instance_to_mixer(sampleInstance, al_get_default_mixer());
+
+    al_play_sample_instance(sampleInstance);
+
+    return sampleInstance;
 }
