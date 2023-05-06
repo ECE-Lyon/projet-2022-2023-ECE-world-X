@@ -1,16 +1,19 @@
 #include <stdlib.h>
+
+#include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
-#include <allegro5/allegro.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_ttf.h>
+#include <allegro5/mouse.h>
+
 #include "music.h"
 #include "time.h"
 #include "ingame.h"
-#include <allegro5/allegro_image.h>
 #include "menu.h"
-#include <allegro5/allegro_ttf.h>
-#include <allegro5/mouse.h>
 #include "countdown.h"
+#include "endgame.h"
 
 int main() {
     al_init();
@@ -41,6 +44,14 @@ int main() {
     al_register_event_source(queue, al_get_keyboard_event_source());
 
 
+    //A ENELVER LORS DU MERGE
+    char tabPlayers[2][100];
+    strcpy(tabPlayers[0], "Toto");
+    strcpy(tabPlayers[1], "Tata");
+    //A ENLEVER LORS DU MERGE
+
+
+
     bool musicPlaying = false;
     int selected_item = 0;
     int difficulty = 0;
@@ -48,47 +59,50 @@ int main() {
         difficulty = inTheMenu(font, queue, selected_item, display);
     }
 
-    XYT tabXYT[MAXHITOBJECT] = {0};
-    XYT printedArr[20] = {0};
-    int numHitObjects;
-    numHitObjects = getXYTime(difficulty, tabXYT);
-    countdown(font);
-    recalculateCoords(tabXYT, numHitObjects);
+    for (int i = 0; i < 2; i++) {
+        beginning(font, queue, display, tabPlayers[i]);
+        XYT tabXYT[MAXHITOBJECT] = {0};
+        XYT printedArr[20] = {0};
+        int numHitObjects;
+        numHitObjects = getXYTime(difficulty, tabXYT);
+        countdown(font);
+        recalculateCoords(tabXYT, numHitObjects);
 
-    ALLEGRO_SAMPLE_INSTANCE *sampleInstance = play_music(difficulty);
-    if (sampleInstance) {
-        musicPlaying = true;
-    }
+        ALLEGRO_SAMPLE_INSTANCE *sampleInstance = play_music(difficulty);
+        if (sampleInstance) {
+            musicPlaying = true;
+        }
 
-    int current_point_in_arr = 0;
-    int current_point = 0;
-    const int off_beat = clock();
-    int score = 0;
-    int wombocombo = 0;
+        int current_point_in_arr = 0;
+        int current_point = 0;
+        const int off_beat = clock();
+        int score = 0;
+        int wombocombo = 1;
 
-    while (musicPlaying) {
-        // add new points to printedArr
-        while (tabXYT[current_point_in_arr].timing <= clock() - off_beat) {
-            addToPrintedArr(tabXYT, printedArr, current_point_in_arr);
-            current_point_in_arr++;
-            al_clear_to_color(al_map_rgb(0, 0, 0));
-            if (tabXYT[current_point].timing < clock() - off_beat - 500) {
-                NoteMiss(&wombocombo);
-                current_point += 1;
+        while (musicPlaying) {
+            // add new points to printedArr
+            while (tabXYT[current_point_in_arr].timing <= clock() - off_beat + 300) {
+                addToPrintedArr(tabXYT, printedArr, current_point_in_arr);
+                current_point_in_arr++;
+                al_clear_to_color(al_map_rgb(0, 0, 0));
+                if (tabXYT[current_point].timing < clock() - off_beat - 500) {
+                    NoteMiss(&wombocombo);
+                    current_point += 1;
+                }
+            }
+
+            printArr(printedArr, circle, &score, font);
+
+            al_get_next_event(queue, &event);
+            GetInput(current_point, tabXYT, off_beat, &score, wombocombo, event);
+
+            if (!al_get_sample_instance_playing(sampleInstance)) {
+                musicPlaying = false;
             }
         }
 
-        printArr(printedArr, circle, &score, font);
-
-        al_get_next_event(queue, &event);
-        GetInput(current_point, tabXYT, off_beat, &score, wombocombo, event);
-
-        if (!al_get_sample_instance_playing(sampleInstance)) {
-            musicPlaying = false;
-        }
+        save(tabPlayers[i], score, i);
     }
-
-    al_destroy_sample_instance(sampleInstance);
     al_destroy_event_queue(queue);
     al_destroy_display(display);
     return 0;

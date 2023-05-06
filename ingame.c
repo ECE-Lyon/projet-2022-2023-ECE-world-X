@@ -13,7 +13,7 @@ void printArr(XYT arr[], ALLEGRO_BITMAP *circle, int* score, ALLEGRO_FONT* font)
 
     char scoreText[20];
     sprintf(scoreText, "Score: %d", *score);
-    al_draw_text(font, al_map_rgb(255, 255, 255), 150, 20, ALLEGRO_ALIGN_RIGHT, scoreText);
+    al_draw_text(font, al_map_rgb(253, 245, 0), 150, 20, ALLEGRO_ALIGN_RIGHT, scoreText);
 
     al_flip_display();
 
@@ -63,7 +63,7 @@ void IsNoteHit(int *current_point, XYT tabXYT[], int offbeat, int *score, int wo
 }
 
 void NoteMiss(int *wombocombo) {
-    *wombocombo = 0;
+    *wombocombo = 1;
 }
 
 bool IsCursorOnTarget(int current_point, XYT tabXYT[]) {

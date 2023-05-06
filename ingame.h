@@ -9,19 +9,21 @@
 #ifndef OSU_INGAME_H
 #define OSU_INGAME_H
 
-void printArr(XYT arr[], ALLEGRO_BITMAP* circle, int *score, ALLEGRO_FONT *font);
+void printArr(XYT arr[], ALLEGRO_BITMAP *circle, int *score, ALLEGRO_FONT *font);
 
 void addToPrintedArr(XYT source[], XYT dest[], int current_point);
 
 void shiftLeft(XYT arr[]);
 
-void checkForKeyboardInput(ALLEGRO_EVENT_QUEUE* event_queue, int current_point, XYT tabXYT[], int timing, int score, int wombocombo);
+void checkForKeyboardInput(ALLEGRO_EVENT_QUEUE *event_queue, int current_point, XYT tabXYT[], int timing, int score,
+                           int wombocombo);
 
 void IsNoteHit(int *current_point, XYT tabXYT[], int timing, int *score, int wombocombo);
 
-void NoteMiss(int* wombocombo);
+void NoteMiss(int *wombocombo);
 
 void GetInput(int current_point, XYT tabXYT[], int off_beat, int *score, int wombocombo, ALLEGRO_EVENT event);
 
 bool IsCursorOnTarget(int current_point, XYT tabXYT[]);
+
 #endif //OSU_INGAME_H
