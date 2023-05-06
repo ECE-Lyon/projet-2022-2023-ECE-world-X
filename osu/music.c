@@ -6,19 +6,19 @@ ALLEGRO_SAMPLE_INSTANCE *play_music(int difficulty) {
 
     switch (difficulty) {
         case 1:
-            sample = al_load_sample("../musics/music1.wav");
+            sample = al_load_sample("../osu/musics/music1.wav");
             break;
         case 2:
-            sample = al_load_sample("../musics/music2.wav");
+            sample = al_load_sample("../osu/musics/music2.wav");
             break;
         case 3:
-            sample = al_load_sample("../musics/music3.wav");
+            sample = al_load_sample("../osu/musics/music3.wav");
             break;
         case 4:
-            sample = al_load_sample("../musics/music4.wav");
+            sample = al_load_sample("../osu/musics/music4.wav");
             break;
         case 5:
-            sample = al_load_sample("../musics/music10.wav");
+            sample = al_load_sample("../osu/musics/music10.wav");
             break;
         default:
             fprintf(stderr, "Invalid difficulty level!\n");

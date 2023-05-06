@@ -9,23 +9,23 @@ int getXYTime(int difficulty, XYT tabXYT[]) {
     FILE *file;
     switch (difficulty) {
         case 1: {
-            file = fopen("../beatmaps/1meco.osu", "r");
+            file = fopen("../osu/beatmaps/1meco.osu", "r");
             break;
         }
         case 2: {
-            file = fopen("../beatmaps/2Luke.osu", "r");
+            file = fopen("../osu/beatmaps/2Luke.osu", "r");
             break;
         }
         case 3: {
-            file = fopen("../beatmaps/3cantina_band.osu", "r");
+            file = fopen("../osu/beatmaps/3cantina_band.osu", "r");
             break;
         }
         case 4: {
-            file = fopen("../beatmaps/4mecoInsane.osu", "r");
+            file = fopen("../osu/beatmaps/4mecoInsane.osu", "r");
         }
             break;
         case 5: {
-            file = fopen("../beatmaps/10galaxy_collapse_dont_even_try_you_hear_me.osu", "r");
+            file = fopen("../osu/beatmaps/10galaxy_collapse_dont_even_try_you_hear_me.osu", "r");
             break;
         }
     }

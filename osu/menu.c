@@ -8,18 +8,18 @@
 
 MenuItem menuItems[6] = {
         {"Choose your difficulty !!! exponential", false},
-        {"Meco, Star Wars Theme",                  false},
-        {"Luke Theme",                             false},
-        {"Cantina Band",                           false},
-        {"Meco Insane",                            false},
-        {"Don't even try",                         false},
+        {"1-Meco, Star Wars Theme",                  false},
+        {"2-Luke Theme",                             false},
+        {"3-Cantina Band",                           false},
+        {"4-Meco Insane",                            false},
+        {"5-Don't even try",                         false},
 };
 
 void drawMenu(ALLEGRO_FONT *font, int selectedItem, ALLEGRO_DISPLAY *display) {
     al_clear_to_color(al_map_rgb(0, 0, 0));
     int screen_w = al_get_display_width(display);
     int screen_h = al_get_display_height(display);
-    ALLEGRO_BITMAP *background = al_load_bitmap("../design/osubg.png");
+    ALLEGRO_BITMAP *background = al_load_bitmap("../osu/design/osubg.png");
     ALLEGRO_BITMAP *buffer = al_create_bitmap(al_get_display_width(display), al_get_display_height(display));
     al_set_target_bitmap(buffer);
     al_draw_scaled_bitmap(background, 0, 0, al_get_bitmap_width(background), al_get_bitmap_height(background), 0, 0,
@@ -101,7 +101,7 @@ void beginning(ALLEGRO_FONT *font, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_DISPLAY *
     int centerX = displayWidth / 2 - textWidth / 2;
     int centerY = displayHeight / 2 - textHeight / 2;
     al_clear_to_color(al_map_rgb(0, 0, 0));
-    ALLEGRO_BITMAP *background = al_load_bitmap("../design/osubg.png");
+    ALLEGRO_BITMAP *background = al_load_bitmap("../osu/design/osubg.png");
     ALLEGRO_BITMAP *buffer = al_create_bitmap(al_get_display_width(display), al_get_display_height(display));
     al_set_target_bitmap(buffer);
     al_draw_scaled_bitmap(background, 0, 0, al_get_bitmap_width(background), al_get_bitmap_height(background), 0, 0,
