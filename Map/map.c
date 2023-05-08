@@ -26,6 +26,7 @@
 #include "../osu/osugame.h"
 
 
+
 void reset_keys(int Keys[NBKEYS]) {
     for(int i=0; i<NBKEYS; i++) {
         Keys[i] = 0;
@@ -79,8 +80,7 @@ void endgame (ALLEGRO_FONT* police, Perso player1, Perso player2, int *isEnd) {
     }
 }
 
-int rules(ALLEGRO_EVENT_QUEUE* queue, ALLEGRO_DISPLAY* display, ALLEGRO_FONT* police) {
-    int end = 0;
+void textrules(ALLEGRO_FONT* police) {
     set_large_textbox();
     al_draw_text(police, al_map_rgb(255, 239, 56), 10, 10, 0, "bonjour bienvenue dans la cantina !");
     al_draw_text(police, al_map_rgb(255, 239, 56), 10, 30, 0,
@@ -93,6 +93,32 @@ int rules(ALLEGRO_EVENT_QUEUE* queue, ALLEGRO_DISPLAY* display, ALLEGRO_FONT* po
                  "toute les interactions sur la map se font avec la touche entrée");
     al_draw_text(police, al_map_rgb(255, 239, 56), 10, 150, 0, "appuyez sur la touche entrée pour quitter...");
     al_flip_display();
+}
+
+void textscore(ALLEGRO_FONT* police, int score[NBGAME]) {
+    set_large_textbox();
+    al_draw_text(police, al_map_rgb(255, 239, 56), 20, 10, 0, "voici les meilleurs score sur chaque jeux :");
+    al_draw_textf(police, al_map_rgb(255, 239, 56), 20, 50, 0,
+                 "snake : %d", score[0]);
+    al_draw_textf(police, al_map_rgb(255, 239, 56), 20, 90, 0,
+                 "osu : %d ", score[1]);
+    al_draw_textf(police, al_map_rgb(255, 239, 56), 20, 130, 0, "peche au canard :  %d", score[2]);
+    al_draw_textf(police, al_map_rgb(255, 239, 56), 20, 170, 0, "vaisseaux : %d", score[3]);
+    al_draw_text(police, al_map_rgb(255, 239, 56), 20, 210, 0, "appuyez sur la touche entrée pour quitter...");
+    al_flip_display();
+
+
+}
+
+int rulesscore(ALLEGRO_EVENT_QUEUE* queue, ALLEGRO_FONT* police, int choose, int score[NBGAME]) {
+    int end = 0;
+    if (choose == 0) {
+        textrules(police);
+    }
+    else if(choose == 1) {
+        textscore(police, score);
+    }
+
     while (end == 0) {
         ALLEGRO_EVENT event = {0};
         al_wait_for_event(queue, &event);
@@ -115,7 +141,6 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
     int isEnd=0;
     int res = 0;
     int choosepnj = 0;
-    readscore();
 
     ALLEGRO_EVENT_QUEUE*queue;
 
@@ -134,6 +159,8 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
     init_bg(&bar);
 
     int lst_collision[COLLISIONHEI][COLLISIONWI];
+    int score[NBGAME];
+    readscore(score);
     load_file_collision(lst_collision);
     Mapcollision poscollision;
     update_map_pos(&poscollision, bar);
@@ -267,6 +294,15 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                             gamesnake(display, otherplayer, police);
                             al_flush_event_queue(queue);
                             score_comparaison(&player1, &player2);
+                            if (player1.score > score[0]) {
+                                printf("OUI");
+                                score[0] = player1.score;
+                                writescore(score);
+                            }
+                            else if (player2.score > score[0]) {
+                                score[0] = player2.score;
+                                writescore(score);
+                            }
                             break;
                         case SHIP :
                             al_destroy_sample(maintheme);
@@ -287,12 +323,14 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                             res = 0;
                             break;
                         case BARMAN :
-                            rules(queue, display, police);
+                            rulesscore(queue, police, 0, score);
                             al_flush_event_queue(queue);
                             res = 0;
                             break;
                         case STAT :
-                            printf("Stat\n");
+                            readscore(score);
+                            rulesscore(queue, police, 1, score);
+                            res = 0;
                             break;
                     }
                     if (res !=0) {

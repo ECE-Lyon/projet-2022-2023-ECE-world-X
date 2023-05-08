@@ -6,4 +6,6 @@
 #define PROJET_SAVESCORE_H
 
 #endif //OSU_SAVESCORE_H
-void readscore();
+void readscore(int superscore[NBGAME]);
+
+void writescore(int superscore[NBGAME]);

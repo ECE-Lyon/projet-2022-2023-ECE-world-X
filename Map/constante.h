@@ -15,10 +15,10 @@ enum{HAUT, DROITE, BAS, GAUCHE, ENTER, NBKEYS};
 #define STARTXPERSO WIDTH/2
 #define STARTYPERSO HEIGHT/2
 
-#define NBTICKET 1
+#define NBTICKET 5
 
-#define BGX 0
-#define BGY 0
+#define BGX -400
+#define BGY -575
 #define SPEEDBG 5
 
 #define COLLISIONWI 87
@@ -55,5 +55,8 @@ enum{HAUT, DROITE, BAS, GAUCHE, ENTER, NBKEYS};
 #define W 87
 #define P 80
 #define MAXCH 11
+
+#define NBGAME 4
+
 
 #endif //PROJET_CONSTANTE_H
