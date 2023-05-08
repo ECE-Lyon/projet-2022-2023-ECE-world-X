@@ -24,23 +24,18 @@ _footer: Algorithmique Avancée et Bibliothèque Graphique - 2022-2023
 **ING1** Projet d'informatique
 
 
-# ECE World
+# ECE World!
 
 ---
 
 # Equipe X
 
-![bg right:50%]()
-
-photos d'equipe pas oblige 
-
--Nos noms
+- Tristan
+- Arthur 
+- Benjamin
+- Felix
 
 ---
-
-# ECE World
-
-![bg right:50% 198%](images/mapv2.png)
 
 ## Thème
 
@@ -52,136 +47,132 @@ photos d'equipe pas oblige
 
 *Réalisée par : **Tristan**, **Felix**.*
 
--Felix creation de la map
-  - Tristan ajout des sprites et poffinage
+**Design:**
+- creation d'une map sur mesure (Felix)
+  - ajout des sprites (Tristan)
 
-Décrire ici les fonctionnalités implémentées : choix joueurs, saisie des noms, affichage des scores/classement... Comment avez-vous fait ? Quels étaient les problèmes rencontrés.
+**Fonctions:**
+- choix des personnages et des pseudos
+- creation d'un ficher .txt pour les collisons de la map
+- dialogues et interactions avec les sprites
+
+**Difficultés:**
+- Clavier complet fonctionel pour la saisi
+- Collision de la map
+- avoir une maniere simple et naturel pour lancer les jeux
 
 ---
 
 # Carte `2/2`
 
-Suite si ça ne tient pas sur une slide. 
+![bg right:5% 100%](images/mapv2.png)
 
-:bulb: *Vous pouvez faire comme ça à chaque fois qu'une slide ne suffit pas, il vaut mieux 5 slides légères qu'une surchargée.*
+**Description**
+- les musiciens : Osu
+- Jarjar Binks : Peche au canard
+- Chewbacca et MF : Tir au Ballons
+- Stormtrooper : Snake
+- Jabba the Hut : Paris hippique
+- Yoda et les Jawas : le Jackpot
 
 ---
 
 # Organisation des jeux
+En utlilisant Github:***1 Jeux = 1 Branche = 1 Fichier***
+- les jeux ont leurs propres sous fichers 
+  - chaque jeux a sa propre file d'evenements 
+- utlilisation d'une file commune pour lancer les jeux 
 
-Précisez comment les jeux sont organisés ? Sont-ils dans des fichiers séparés ? Dans des dossiers ? Sont-ils éparpillés dans plusieurs fichiers ?
-
-Quels paramètres prennent les jeux ?  La file d'événement par exemple ? Ou est-ce que chaque jeu crée sa propre file ?
-
-Comment on lance un jeu et comment on revient à la carte à la fin de la partie ?
-Comment le classement est-il mis à jour ?
-
-- 1 jeux 1 fichier
-  - les jeux ont leurs propres sous fichers
-- chaque jeux a sa propre file d'evenements
-- utlilisation d'une file commune pour lancer les jeux
-- ils prennent en parametre le meunu qui est la file d'evenement principale3
-
-
+**fibre commune**
+- le menu:
+  - file d'evenement principale
+- structure jouer
+  - conservation des statisiques 
+  - mise a jour automatique
 ---
 
-# Pêche aux canards
+# Pêche aux canards `1/2`
 
 *Réalisé par : **Felix** (100%)*
 
-Décrire le fonctionnement du jeu dans les grandes lignes. Comment vous l'avez conçu.
 - Les canards vont de la droite à la gauche.
 - le nombre max de canard est 5.
 - Les canards vont à une vitesse différente.
 - La collision entre les canards et la cane.
-- .
 
-<sup>:bulb: Remplacez les images par des captures d'écran de votre jeu.</sup>
-
+![bg right:](images/pixelwater.png)
 ---
 
-![bg right:40%](images/Jarjar.png)
+# Pêche aux canards `2/2`
 
-# Pêche aux canards
+**Structures**
 
-Pour chaque jeu (bien détailler au moins un jeu par personne), précisez les structures de données (structures importantes, tableaux importants, listes chainées...) et les fonctions importantes (avec leur prototype).
-
-### Structures
-
-<div class="mermaid">
-%%{init: {'theme':'neutral'}}%%
-classDiagram
-    class Canard
-    Canard : int x, y
-    Canard : int vitesse
-    class Canne
-    Canne : int x, y
-    Canne : Canard* canard
-</div>
-
-### Tableaux
-
-- `Canard canards[20]`
-
+- base du jeux:
+![bg right:](images/structgame.png)
+- image struct duck
+- image duck
 ---
 
-![bg right:40%](images/.jpg)
+# OSU `1/2`
 
-# Pêche aux canards
-
-### Graphe d'appel
-
-<br>
-
-<div class="mermaid">
-%%{init: {'theme':'neutral'}}%%
-flowchart LR
-    pecheAuxCanards --> initialiserCanards
-    initialiserCanards --> positionnerCanard
-    pecheAuxCanards --> deplacerCanards
-    deplacerCanards --> deplacerCanard
-    pecheAuxCanards --> detecterCollisionCanards
-</div>
-
-
+*Réalisé par : **Benjamin** (100%)*
+But du jeux:
+- clicker sur les cercles des qu'ils appaissement au rythme de la musique
+- le jouer avec le meilleur score gagne
+  ![bg right:40%](images/img_3.png)
 ---
 
-![bg right:40%](images/.jpg)
+# OSU `2/2`
 
-# Pêche aux canards
+**Stockage des donnes:**
+- enregistrements des coordonnes et du temps des cercles
+  - mis dans des tableu de structure
+- les ajouts et retraits de cercles demande un autre tableau de structure
+  ![bg right:40%](images/img.png)
+- ![bg right:40%](images/img_2.png)
+**Fonctions principales:**
+- gestion du temp et de l'etat de la souris
+  - voir si il y a collision entre cercle et click
+- gestion des scores et affichages
+---
 
-### Logigramme
+# Snake `1/2`
+*Réalisé par : **Tristan** (100%)*
 
-Que vous jugez pertinent (image ou Mermaid.js)
+- Structure 'Body'
+  - les coordonees
+  - la direction
+  - une liste chainee
+  - 'nextchange' est un pointeur qui manipule les coordonnes de la structure
+- 'waychange' est une liste chainee qui contient tout les changements de directions a venir
 
+---
+# Tir au Vaisseaux
+*Réalisé par : **Arthur** (100%)*
 
-
+- des vaisseaux apparaissent aleatoirment
+- detecter a collison entre la souris et un vessau et le click
+- le jouer qui detruit le plus de vessaux gagne
+![img_2.png](img_2.png)
+![img_1.png](img_1.png)
 ---
 
 # Bilan collectif
 
----
-
-<!--
-_class: lead
--->
-
-# Les slides suivantes ne seront pas présentées oralement lors de la soutenance mais doivent figurer dans la présentation. Nous les survolerons rapidement.
+- un projet bien menee et respectant les delais
+- repartitions des taches aurais pu etre plus equilibre
 
 ---
-
-# Toto
 
 ## Tâches réalisées (pour chaque membre de l'équipe)
 
-- `✅ 100%` Tâche 1
-- `✅ 80%` Tâche 2
-    - *Développer ici pourquoi cette tâche n'est pas terminée à 100%. (exemple : on aurait pu améliorer...).*
-- `❌ 20%` Tâche 3
-    - *Développer ici pourquoi cette tâche n'a pas été terminée.*
-- `❌ 20%` Tâche 4
-    - *Développer ici pourquoi cette tâche n'a pas été terminée.*
-    - *Développer ici pourquoi cette tâche n'a pas été terminée.*
+- `✅ 100%` Snake (Tristan)
+- `✅ 100%` Canard (Felix)
+- `✅ 100%` OSU (Benjamin)
+- `✅ 100%` Tir au Ballon (Arthur)
+- `✅ 80%` Map (Felix)
+    - * Aurais pu ameliorer la qualite des graphisme, faire les sprites sur mesure*
+- `❌ 20%` Jeux Tape taupe (faute d'organisation)
 
 ---
 
@@ -192,65 +183,23 @@ Si vous deviez vous répartir des points, comment feriez-vous ?
 <div class="mermaid">
 %%{init: {'theme':'neutral'}}%%
 pie showData
-    "Toto Jojo" : 20
-    "Tata Jaja" : 20
-    "Tyty Jyjy" : 10
-    "Tutu Juju" : 40
-    "Titi Jiji" : 10
+    "Tristan" : 20
+    "Felix" : 20
+    "Arthur" : 10
+    "Benjamin" : 40
 </div>
 
 ---
 
 # Récapitulatif des jeux
 
-| Jeu | Avancement | Problèmes / reste                                                                                                        |
-| --- | --- |--------------------------------------------------------------------------------------------------------------------------|
-| Pêche aux canards | 100% |                                                                                                                          |
-| Tir aux ballons | 100% | -                                                                                                                        |
-| Guitar Hero | 60% | Ne se synchronise pas avec la musique. Bug lors de l'appui sur deux touches en même temps (ne traite que la première note). |
+| Jeu               | Avancement | Problèmes / reste                                                                                                       |
+|-------------------|------------|-------------------------------------------------------------------------------------------------------------------------|
+| Pêche aux canards | 100%       |                                                                                                                         |
+| Tir aux ballons   | 100%       |                                                                                                                         |
+| OSU               | 100%       |
+| Snake             | 100%       |
 
-Vous pouvez faire ce tableau sur plusieurs slides en dupliquant l'en-tête.
-
----
-
-<!--
-_class: lead
--->
-# Quelques éléments que vous pouvez utiliser à votre guise dans votre présentation
-
----
-
-# Schémas et Graphes
-
-Vous pouvez utiliser [Mermaid.js](https://mermaid.js.org/) pour générer des schémas. Regardez la documentation.
-
----
-
-# Slide avec du code
-
-
-```C
-for(int i = 0; i < 5; i++) {
-    printf("%d ", i);
-}
-```
-
-> 0 1 2 3 4 
-
-
----
-
-# Emojis
-
-https://gist.github.com/rxaviers/7360908
-
----
-
-# Thème 
-
-Vous pouvez personnaliser l'affichage de votre présentation avec le langage CSS en modifiant le fichier `theme.css`.
-
----
 
 # Export PDF
 
