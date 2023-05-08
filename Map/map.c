@@ -87,7 +87,7 @@ void textrules(ALLEGRO_FONT* police) {
                  "ici tu pourras trouver toutes sortes de mini jeux jouable à deux joueurs");
     al_draw_text(police, al_map_rgb(255, 239, 56), 10, 50, 0,
                  "tu as un nombre limité de tickets une défaite te fait perdre un ticket ");
-    al_draw_text(police, al_map_rgb(255, 239, 56), 10, 70, 0, "alors qu'une victore ne t'en fait perdre aucun");
+    al_draw_text(police, al_map_rgb(255, 239, 56), 10, 70, 0, "alors qu'une victoire ne t'en fait perdre aucun");
     al_draw_text(police, al_map_rgb(255, 239, 56), 10, 90, 0, "le perdant est celui qui n'a plus de ticket");
     al_draw_text(police, al_map_rgb(255, 239, 56), 10, 110, 0,
                  "toute les interactions sur la map se font avec la touche entrée");
@@ -286,6 +286,14 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                             launchGame(&jeuxCoin, otherplayer);
                             al_flush_event_queue(queue);
                             score_comparaison(&player1, &player2);
+                            if (player1.score > score[2]) {
+                                score[2] = player1.score;
+                                writescore(score);
+                            }
+                            else if (player2.score > score[2]) {
+                                score[2] = player2.score;
+                                writescore(score);
+                            }
                             break;
                         case SNAKE :
                             al_destroy_sample(maintheme);
@@ -295,7 +303,6 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                             al_flush_event_queue(queue);
                             score_comparaison(&player1, &player2);
                             if (player1.score > score[0]) {
-                                printf("OUI");
                                 score[0] = player1.score;
                                 writescore(score);
                             }
@@ -308,6 +315,14 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                             al_destroy_sample(maintheme);
                             game_ships(display,playeractive, otherplayer);
                             al_flush_event_queue(queue);
+                            if (player1.score > score[3]) {
+                                score[3] = player1.score;
+                                writescore(score);
+                            }
+                            else if (player2.score > score[3]) {
+                                score[3] = player2.score;
+                                writescore(score);
+                            }
                             break;
                         case OSU :
                             al_destroy_sample(maintheme);
@@ -315,6 +330,14 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                             al_flush_event_queue(queue);
                             osuGame(display, otherplayer);
                             score_comparaison(&player1, &player2);
+                            if (player1.score > score[1]) {
+                                score[1] = player1.score;
+                                writescore(score);
+                            }
+                            else if (player2.score > score[1]) {
+                                score[1] = player2.score;
+                                writescore(score);
+                            }
                             break;
                         case TAPETAUPE:
                             res = 0;

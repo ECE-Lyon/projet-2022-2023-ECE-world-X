@@ -211,7 +211,6 @@ void add_body(Body* player, Waychange* lstchange, Damier board, ALLEGRO_BITMAP* 
         player->next->nextchange = player->nextchange;
         player->next->img[0] = stormtrooper;
         player->next->next = NULL;
-        //debug_player(player->next);
         return;
     }
     add_body(player->next, lstchange, board, stormtrooper);
