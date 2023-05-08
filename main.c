@@ -2,10 +2,10 @@
 #include "JarJar/duckGame.h"
 #include "Menu/menu.h"
 
-int main() {
-    menu();
-    return 0;
-}
+//int main() {
+//    menu();
+//    return 0;
+//}
 
 
 

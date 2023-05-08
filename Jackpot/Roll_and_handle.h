@@ -27,17 +27,17 @@ typedef struct {
 
 void error_jackpot(const char *txt);
 
-void init_images_jackpot(Roll roll[NB_ROLLS], Handle handle);
+void init_images_jackpot(Roll roll[NB_ROLLS], Handle *handle);
 
 int prize(Roll roll[NB_ROLLS], Perso P1);
 
-void rolling(Roll roll[NB_ROLLS], float acceleration, float max_speed);
+void rolling(Roll roll[NB_ROLLS], float acceleration, float acceleration2,  float acceleration3, float max_speed);
 
 void init_rolls(Roll roll[NB_ROLLS]);
 
 void display_rolls(Roll roll[NB_ROLLS]);
 
-void display_Machine(Handle handle, ALLEGRO_FONT *fontBig, ALLEGRO_FONT *font);
+void display_Machine(Handle handle, ALLEGRO_FONT *font);
 
 void display_background( Handle handle);
 
