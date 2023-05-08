@@ -40,7 +40,6 @@ int anim_text(ALLEGRO_EVENT_QUEUE* queue, Choose bb8, ALLEGRO_FONT* police, Pers
         switch (event.type) {
             case ALLEGRO_EVENT_DISPLAY_CLOSE :
                 end = 1;
-                return -1;
             case ALLEGRO_EVENT_KEY_DOWN :
                 switch (event.keyboard.keycode) {
                     case ALLEGRO_KEY_ESCAPE :
@@ -71,6 +70,7 @@ int anim_text(ALLEGRO_EVENT_QUEUE* queue, Choose bb8, ALLEGRO_FONT* police, Pers
         }
     }
     al_destroy_timer(timer);
+    return -1;
 }
 
 
@@ -80,19 +80,21 @@ void choose_event_pnj (Choose bb8, ALLEGRO_FONT* police, int res) {
             set_text(bb8, police, "pêche au canard ?");
             break;
         case SNAKE :
-            set_text(bb8, police, "snake ?");
+            set_text(bb8, police, "matricule fn-2187 au rapport, un alien n'est pas loin souhaité le neutraliser ?");
             break;
         case SHIP :
-            set_text(bb8, police, "vaisseau ?");
+            set_text(bb8, police, "*grognement* un petit tour dans le vaisseau ?");
             break;
         case OSU :
-            set_text(bb8, police, "musique ?");
+            set_text(bb8, police, "salut ! un peu de musique avec nous ca te dirait ?");
             break;
         case TAPETAUPE :
-            set_text(bb8, police, "tape taupe ?");
+            set_textbox();
+            afficher_texte_dialog(police, "que la force soit avec toi jeune padawan...(appuyez sur entrée)");
             break;
         case COURSE :
-            set_text(bb8, police, "course ?");
+            set_textbox();
+            afficher_texte_dialog(police, "si tu vois han solo reviens vers moi (appuyez sur entrée)");
             break;
         case BARMAN :
             set_text(bb8, police, "bonjour, que souhaites tu ?");

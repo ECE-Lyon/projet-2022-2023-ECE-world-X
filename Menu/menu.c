@@ -290,4 +290,6 @@ void menu() {
         }
         }
     al_destroy_event_queue(queue);
+    al_destroy_bitmap(background);
+    al_destroy_font(police);
 }

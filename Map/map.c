@@ -44,6 +44,40 @@ int score_comparaison(Perso* player1, Perso* player2) {
     }
 }
 
+int check_win(Perso player1, Perso player2) {
+    if (player1.ticket == 0 && player2.ticket == 0) {
+        return 3;
+    }
+    else if (player1.ticket == 0) {
+        return 1;
+    }
+    else if (player2.ticket == 0) {
+        return 2;
+    }
+    return 0;
+}
+
+void endgame (ALLEGRO_FONT* police, Perso player1, Perso player2, int *isEnd) {
+    int res = check_win(player1, player2);
+    if (res != 0) {
+        *isEnd = 1;
+        if (res == 1) {
+            al_clear_to_color(al_map_rgb(0,0,0));
+            al_draw_textf(police, al_map_rgb(255,239,59), 450, 300, 0, "%s a gagné la partie !!!", player2.name);
+        }
+        else if (res == 2) {
+            al_clear_to_color(al_map_rgb(0,0,0));
+            al_draw_textf(police, al_map_rgb(255,239,59), 450, 300, 0, "%s a gagné la partie !!!", player1.name);
+        }
+        else if (res == 3) {
+            al_clear_to_color(al_map_rgb(0,0,0));
+            al_draw_text(police, al_map_rgb(255,239,59), 450, 300, 0, "Il n'y a pas de gagnant....");
+        }
+        al_flip_display();
+        al_rest(3);
+    }
+}
+
 int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
     int isEnd=0;
     int res = 0;
@@ -97,7 +131,7 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
 
     int Keys[NBKEYS] = {0};
 
-    while(!isEnd){
+    while(isEnd == 0){
         ALLEGRO_EVENT event={0};
         al_wait_for_event(queue,&event);
         switch(event.type) {
@@ -212,11 +246,11 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                             osuGame(display, otherplayer);
                             score_comparaison(&player1, &player2);
                             break;
-                        case TAPETAUPE :
-                            printf("Tape taupe\n");
+                        case TAPETAUPE:
+                            res = 0;
                             break;
                         case COURSE :
-                            printf("Course\n");
+                            res = 0;
                             break;
                         case BARMAN :
                             printf("ticket/regles\n");
@@ -226,7 +260,7 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                             break;
                     }
                     if (res !=0) {
-                        ALLEGRO_SAMPLE *maintheme = al_load_sample("../Map/cantina.wav");
+                        maintheme = al_load_sample("../Map/cantina.wav");
                         if (playeractive == &player1) {
                             playeractive = &player2;
                             otherplayer = &player1;
@@ -241,16 +275,17 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                         else {
                             al_play_sample(maintheme, 1.0f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_LOOP, 0);
                         }
+                        endgame(police, player1, player2, &isEnd);
                     }
-
                     res = 0;
                     al_flip_display();
                     break;
                 }
-
         }
     }
+    al_destroy_sample(maintheme);
+    al_destroy_bitmap(ticket);
     al_destroy_event_queue(queue);
-    return 0;
+    return 1;
 }
 
