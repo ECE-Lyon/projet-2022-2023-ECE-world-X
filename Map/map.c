@@ -6,6 +6,7 @@
 #include "background.h"
 #include "collision.h"
 #include "dialog.h"
+#include "savescore.h"
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
@@ -78,10 +79,43 @@ void endgame (ALLEGRO_FONT* police, Perso player1, Perso player2, int *isEnd) {
     }
 }
 
+int rules(ALLEGRO_EVENT_QUEUE* queue, ALLEGRO_DISPLAY* display, ALLEGRO_FONT* police) {
+    int end = 0;
+    set_large_textbox();
+    al_draw_text(police, al_map_rgb(255, 239, 56), 10, 10, 0, "bonjour bienvenue dans la cantina !");
+    al_draw_text(police, al_map_rgb(255, 239, 56), 10, 30, 0,
+                 "ici tu pourras trouver toutes sortes de mini jeux jouable à deux joueurs");
+    al_draw_text(police, al_map_rgb(255, 239, 56), 10, 50, 0,
+                 "tu as un nombre limité de tickets une défaite te fait perdre un ticket ");
+    al_draw_text(police, al_map_rgb(255, 239, 56), 10, 70, 0, "alors qu'une victore ne t'en fait perdre aucun");
+    al_draw_text(police, al_map_rgb(255, 239, 56), 10, 90, 0, "le perdant est celui qui n'a plus de ticket");
+    al_draw_text(police, al_map_rgb(255, 239, 56), 10, 110, 0,
+                 "toute les interactions sur la map se font avec la touche entrée");
+    al_draw_text(police, al_map_rgb(255, 239, 56), 10, 150, 0, "appuyez sur la touche entrée pour quitter...");
+    al_flip_display();
+    while (end == 0) {
+        ALLEGRO_EVENT event = {0};
+        al_wait_for_event(queue, &event);
+        switch (event.type) {
+            case ALLEGRO_EVENT_DISPLAY_CLOSE :
+                return 1;
+            case ALLEGRO_EVENT_KEY_DOWN :
+                switch (event.keyboard.keycode) {
+                    case ALLEGRO_KEY_ENTER :
+                        end = 1;
+                        break;
+                }
+                break;
+        }
+    }
+}
+
+
 int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
     int isEnd=0;
     int res = 0;
     int choosepnj = 0;
+    readscore();
 
     ALLEGRO_EVENT_QUEUE*queue;
 
@@ -253,7 +287,9 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                             res = 0;
                             break;
                         case BARMAN :
-                            printf("ticket/regles\n");
+                            rules(queue, display, police);
+                            al_flush_event_queue(queue);
+                            res = 0;
                             break;
                         case STAT :
                             printf("Stat\n");
