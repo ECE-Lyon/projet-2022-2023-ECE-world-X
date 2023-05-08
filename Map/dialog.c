@@ -37,12 +37,12 @@ int anim_text(ALLEGRO_EVENT_QUEUE* queue, Choose bb8, ALLEGRO_FONT* police, Pers
     while (end == 0) {
         ALLEGRO_EVENT event = {0};
         al_wait_for_event(queue, &event);
-        switch (event.type) {//en fonction de son type (événement de souris,du clavier...),on agit
+        switch (event.type) {
             case ALLEGRO_EVENT_DISPLAY_CLOSE :
                 end = 1;
                 return -1;
             case ALLEGRO_EVENT_KEY_DOWN :
-                switch (event.keyboard.keycode) {//On vérifie de quelle touche il s'agit
+                switch (event.keyboard.keycode) {
                     case ALLEGRO_KEY_ESCAPE :
                         return 0;
                     case ALLEGRO_KEY_ENTER :

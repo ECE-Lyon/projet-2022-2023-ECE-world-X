@@ -59,7 +59,9 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
         init_vador(&player1);
         init_Luke(&player2);
     }
-    //Perso* player1 = &player1;
+    Perso* playeractive = &player1;
+    Perso* otherplayer = &player2;
+
     Background bar;
     init_bg(&bar);
 
@@ -82,7 +84,6 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
     else {
         al_play_sample(maintheme, 1.0f, 0.0f, 1.0f, ALLEGRO_PLAYMODE_LOOP, 0);
     }
-    //Créer un timer si nécéssaire
     ALLEGRO_TIMER*timer=al_create_timer(1/FPSMAP);
     al_start_timer(timer);
     queue=al_create_event_queue();
@@ -90,8 +91,6 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
 
     ALLEGRO_BITMAP* ticket = al_load_bitmap("../Map/money.png");
 
-
-    //Ajouter tous les types d'événements souhaités
     al_register_event_source(queue,al_get_display_event_source(display));
     al_register_event_source(queue,al_get_timer_event_source(timer));
     al_register_event_source(queue, al_get_keyboard_event_source());
@@ -100,32 +99,32 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
 
     while(!isEnd){
         ALLEGRO_EVENT event={0};
-        al_wait_for_event(queue,&event);//on pioche un événement dès qu'il y en a un
-        switch(event.type) {//en fonction de son type (événement de souris,du clavier...),on agit
+        al_wait_for_event(queue,&event);
+        switch(event.type) {
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
                 isEnd = 1;
                 return 1;
-            case ALLEGRO_EVENT_KEY_DOWN://Si on arrive ici, c'est qu'on a pioché un événement du clavier de type touche  enfoncée
-                switch (event.keyboard.keycode) {//On vérifie de quelle touche il s'agit
+            case ALLEGRO_EVENT_KEY_DOWN:
+                switch (event.keyboard.keycode) {
                     case ALLEGRO_KEY_UP :
                         reset_keys(Keys);
-                        player1.direction = T1;
+                        playeractive->direction = T1;
                         Keys[HAUT] = 1;
                         break;
                     case ALLEGRO_KEY_LEFT :
                         reset_keys(Keys);
                         Keys[GAUCHE] = 1;
-                        player1.direction = L1;
+                        playeractive->direction = L1;
                         break;
                     case ALLEGRO_KEY_RIGHT :
                         reset_keys(Keys);
                         Keys[DROITE] = 1;
-                        player1.direction = R1;
+                        playeractive->direction = R1;
                         break;
                     case ALLEGRO_KEY_DOWN :
                         reset_keys(Keys);
                         Keys[BAS] = 1;
-                        player1.direction = B1;
+                        playeractive->direction = B1;
                         break;
                     case ALLEGRO_KEY_ENTER :
                         Keys[ENTER] = 1;
@@ -133,29 +132,29 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                 }
                 break;
             case ALLEGRO_EVENT_KEY_UP :
-                switch (event.keyboard.keycode) {//On vérifie de quelle touche il s'agit
+                switch (event.keyboard.keycode) {
                     case ALLEGRO_KEY_UP :
                         if (Keys[HAUT] == 1) {
                             Keys[HAUT] = 0;
-                            player1.img = player1.anim[T1];
+                            playeractive->img = playeractive->anim[T1];
                         }
                         break;
                     case ALLEGRO_KEY_LEFT :
                         if (Keys[GAUCHE] == 1) {
                             Keys[GAUCHE] = 0;
-                            player1.img = player1.anim[L1];
+                            playeractive->img = playeractive->anim[L1];
                             break;
                         }
                     case ALLEGRO_KEY_RIGHT :
                         if (Keys[DROITE] == 1) {
                             Keys[DROITE] = 0;
-                            player1.img = player1.anim[R1];
+                            playeractive->img = playeractive->anim[R1];
                             break;
                         }
                     case ALLEGRO_KEY_DOWN :
                         if (Keys[BAS] == 1) {
                             Keys[BAS] = 0;
-                            player1.img = player1.anim[B1];
+                            playeractive->img = playeractive->anim[B1];
                             break;
                         }
                     case ALLEGRO_KEY_ENTER :
@@ -164,21 +163,19 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                 }
                 break;
             case ALLEGRO_EVENT_TIMER :
-                if (check_collision(player1, poscollision, lst_collision, Keys) == 0) {
-                        choosepnj = check_eventmap(player1, poscollision, &bar, lst_collision, Keys);
+                if (check_collision(*playeractive, poscollision, lst_collision, Keys) == 0) {
+                        choosepnj = check_eventmap(*playeractive, poscollision, &bar, lst_collision, Keys);
                         al_clear_to_color(al_map_rgb(0,0,0));
                         print_background(bar);
                         square_ticket(police, player1, player2, ticket);
                         if (al_get_timer_count(timer)%3 == 0) {
-                            animation(&player1, Keys);
-                            //printf("x:%d y:%d\n", bar.x, bar.y);
+                            animation(playeractive, Keys);
                         }
                         update_map_pos(&poscollision, bar);
-                        //printf("x:%d, y:%d\n", poscollision.posmapx, poscollision.posmapy);
                         move_bg(&bar, Keys);
-                        print_character(player1);
+                        print_character(*playeractive);
                     if (choosepnj !=0) {
-                        res = anim_text(queue, bb8, police, player1, bar, choosepnj);
+                        res = anim_text(queue, bb8, police, *playeractive, bar, choosepnj);
                         Keys[ENTER] = 0;
                     }
                     switch (res) {
@@ -188,32 +185,31 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                         case PECHE :
                             al_destroy_sample(maintheme);
                             init_lauchGame(&jeuxCoin, display);
-                            launchGame(&jeuxCoin, &player1);
+                            launchGame(&jeuxCoin, playeractive);
                             al_flush_event_queue(queue);
                             init_lauchGame(&jeuxCoin, display);
-                            launchGame(&jeuxCoin, &player2);
+                            launchGame(&jeuxCoin, otherplayer);
                             al_flush_event_queue(queue);
                             score_comparaison(&player1, &player2);
-                            //Lancer la peche au canard
                             break;
                         case SNAKE :
                             al_destroy_sample(maintheme);
-                            gamesnake(display, &player1, police);
+                            gamesnake(display, playeractive, police);
                             al_flush_event_queue(queue);
-                            gamesnake(display, &player2, police);
+                            gamesnake(display, otherplayer, police);
                             al_flush_event_queue(queue);
                             score_comparaison(&player1, &player2);
                             break;
                         case SHIP :
                             al_destroy_sample(maintheme);
-                            game_ships(display,&player1, &player2);
+                            game_ships(display,playeractive, otherplayer);
                             al_flush_event_queue(queue);
                             break;
                         case OSU :
                             al_destroy_sample(maintheme);
-                            osuGame(display, &player1);
+                            osuGame(display, playeractive);
                             al_flush_event_queue(queue);
-                            osuGame(display, &player2);
+                            osuGame(display, otherplayer);
                             score_comparaison(&player1, &player2);
                             break;
                         case TAPETAUPE :
@@ -223,7 +219,6 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                             printf("Course\n");
                             break;
                         case BARMAN :
-                            //Donner les tickets / expliquer le jeu
                             printf("ticket/regles\n");
                             break;
                         case STAT :
@@ -232,6 +227,14 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                     }
                     if (res !=0) {
                         ALLEGRO_SAMPLE *maintheme = al_load_sample("../Map/cantina.wav");
+                        if (playeractive == &player1) {
+                            playeractive = &player2;
+                            otherplayer = &player1;
+                        }
+                        else{
+                            playeractive = &player1;
+                            otherplayer = &player2;
+                        }
                         if (maintheme == NULL) {
                             printf("Music doesn't load");
                         }

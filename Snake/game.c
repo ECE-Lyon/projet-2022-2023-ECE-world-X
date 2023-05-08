@@ -36,7 +36,6 @@ void gamesnake(ALLEGRO_DISPLAY* display, Perso* playeractive, ALLEGRO_FONT* poli
         printf("Image doesn't load\n");
     }
 
-    //Créer un timer si nécéssaire
     ALLEGRO_TIMER*timer=al_create_timer(1/fps);
     al_start_timer(timer);
     queue2=al_create_event_queue();
@@ -70,13 +69,13 @@ void gamesnake(ALLEGRO_DISPLAY* display, Perso* playeractive, ALLEGRO_FONT* poli
         ALLEGRO_EVENT event = {0};
         al_wait_for_event(queue2, &event);
 
-        switch (event.type) {//en fonction de son type (événement de souris,du clavier...),on agit
+        switch (event.type) {
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
                 isEnd = 1;
                 break;
-            case ALLEGRO_EVENT_KEY_DOWN://Si on arrive ici, c'est qu'on a pioché un événement du clavier de type touche  enfoncée
-                switch (event.keyboard.keycode) {//On vérifie de quelle touche il s'agit
-                    case ALLEGRO_KEY_ESCAPE://on ne gère quel cas où la touche en foncée est ECHAP
+            case ALLEGRO_EVENT_KEY_DOWN:
+                switch (event.keyboard.keycode) {
+                    case ALLEGRO_KEY_ESCAPE:
                         isEnd = 1;
                         break;
                     case ALLEGRO_KEY_UP :

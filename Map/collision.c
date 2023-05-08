@@ -31,14 +31,6 @@ void load_file_collision(int lst_collision[COLLISIONHEI][COLLISIONWI]) {
 
     // fermer le fichier
     fclose(fp);
-
-    // afficher le tableau
-    /*for (i = 0; i < ROWS; i++) {
-        for (j = 0; j < COLS; j++) {
-            printf("%d ", arr[i][j]);
-        }
-        printf("\n");
-    }*/
 }
 
 int check_eventmap(Perso player,Mapcollision poscollision,Background *bar, int lst_collision[COLLISIONHEI][COLLISIONWI], int Keys[NBKEYS]) {

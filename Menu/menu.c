@@ -94,8 +94,8 @@ int select_character(ALLEGRO_DISPLAY* display, ALLEGRO_BITMAP* perso1, ALLEGRO_B
 
     while(!end){
         ALLEGRO_EVENT event={0};
-        al_wait_for_event(queue,&event);//on pioche un événement dès qu'il y en a un
-        switch(event.type){//en fonction de son type (événement de souris,du clavier...),on agit
+        al_wait_for_event(queue,&event);
+        switch(event.type){
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
                 return 1;
             case ALLEGRO_EVENT_MOUSE_AXES :
@@ -223,7 +223,6 @@ void menu() {
     queue = al_create_event_queue();
     assert(queue);
 
-    //Ajouter tous les types d'événements souhaités
     al_register_event_source(queue,al_get_display_event_source(display));
     al_register_event_source(queue, al_get_keyboard_event_source());
 
@@ -243,13 +242,13 @@ void menu() {
 
     while(!isEnd){
         ALLEGRO_EVENT event={0};
-        al_wait_for_event(queue,&event);//on pioche un événement dès qu'il y en a un
-        switch(event.type){//en fonction de son type (événement de souris,du clavier...),on agit
+        al_wait_for_event(queue,&event);
+        switch(event.type){
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
                 isEnd=1;
                 res = 1;
                 break;
-            case ALLEGRO_EVENT_KEY_DOWN://Si on arrive ici, c'est qu'on a pioché un événement du clavier de type touche  enfoncée
+            case ALLEGRO_EVENT_KEY_DOWN:
                 al_clear_to_color(al_map_rgb(0,0,0));
                 res  = select_character(display, perso1, perso2);
                 if (res != 1) {
