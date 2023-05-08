@@ -14,6 +14,7 @@ typedef struct {
     int dessin, i, offsetXduck, offsetYduck, tempsRestant, duckSelect;
     bool gamePause;
     ALLEGRO_DISPLAY* window;
+    ALLEGRO_BITMAP* bgImage;
     ALLEGRO_TIMER* timer;
     ALLEGRO_TIMER* timerPartie;
     ALLEGRO_EVENT event;

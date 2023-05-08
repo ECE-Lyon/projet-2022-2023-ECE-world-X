@@ -12,6 +12,7 @@ void init_lauchGame(Game *jeux, ALLEGRO_DISPLAY* display){
     jeux->dessin = false;
     jeux->offsetXduck = 0;
     jeux->offsetYduck = 0;
+    jeux->bgImage = al_load_bitmap("../JarJar/Images/pixelWater.jpg");
     jeux->tempsRestant = 60;
     jeux->duckSelect = -1;
     jeux->gamePause = false;
@@ -131,6 +132,7 @@ int launchGame(Game *jeux){
         }
         if (jeux->dessin) {// impression fluide a 60FPS
             al_clear_to_color(BLEU);
+            al_draw_bitmap(jeux->bgImage,0,0,0);
             al_draw_textf(jeux->jedi,NOIR,50,50,ALLEGRO_ALIGN_LEFT,"Score: %d",jeux->smallBoat.score);
             al_draw_textf(jeux->jediout,NOIR,50,550,ALLEGRO_ALIGN_LEFT,"temps: %d",jeux->tempsRestant);
             printBoat(&jeux->smallBoat);
