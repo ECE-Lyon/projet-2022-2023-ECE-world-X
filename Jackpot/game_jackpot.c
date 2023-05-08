@@ -8,7 +8,7 @@
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
 
-int main() {
+int game_jackpot() {
     int endgame = 0, pause = 0;
     float max_speed = 10.0;
 
