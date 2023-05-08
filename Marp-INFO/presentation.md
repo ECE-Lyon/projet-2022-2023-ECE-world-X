@@ -183,10 +183,10 @@ Si vous deviez vous répartir des points, comment feriez-vous ?
 <div class="mermaid">
 %%{init: {'theme':'neutral'}}%%
 pie showData
-    "Tristan" : 20
-    "Felix" : 20
-    "Arthur" : 10
-    "Benjamin" : 40
+    "Tristan" : 50
+    "Felix" : 40
+    "Arthur" : 40
+    "Benjamin" : 35
 </div>
 
 ---
