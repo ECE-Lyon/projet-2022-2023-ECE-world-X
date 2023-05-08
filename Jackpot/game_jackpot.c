@@ -176,6 +176,6 @@ int game_jackpot() {
     al_destroy_display(display);
     al_destroy_timer(timer);
 
-
+//
     return 0;
 }

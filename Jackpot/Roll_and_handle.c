@@ -144,6 +144,6 @@ void rolling(Roll roll[NB_ROLLS], float acceleration, float max_speed) {
 }
 
 int prize(Roll roll[NB_ROLLS], Perso P1) {
-
+//
     return;
 }

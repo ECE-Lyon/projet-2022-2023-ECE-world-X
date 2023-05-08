@@ -23,7 +23,7 @@ typedef struct {
     bool down;
     ALLEGRO_BITMAP *Machine_up, *Machine_down, *Machine_background;
 } Handle;
-
+//
 int game_jackpot();
 
 void error_jackpot(const char *txt);
