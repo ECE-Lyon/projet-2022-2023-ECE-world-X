@@ -16,6 +16,4 @@ void drawCane(Cane* pixelCane);
 
 void init_Cane(Cane* pixelCane);
 
-void canePos(Cane* pixelCane, int lar, int haut) ;
-
 #endif //PROJET_CANE_H
