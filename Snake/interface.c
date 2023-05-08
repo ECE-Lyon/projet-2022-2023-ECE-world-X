@@ -14,6 +14,8 @@
 #define SIZESTAR 2
 
 
+
+
 void create_map(Damier board) {
     int x, y;
     int indice = 0;
@@ -73,13 +75,33 @@ int collision_apple(Body* player, int coordx, int coordy) {
     collision_apple(player->next, coordx, coordy);
 }
 
-int update(Body* player,Waychange* lstchange, Food* pomme, star bg_star[NBSTAR], Damier board, ALLEGRO_BITMAP* stormtrooper, ALLEGRO_FONT* police, char* size) {
+void startgame(ALLEGRO_FONT* police,Perso player, star bg_star[NBSTAR]) {
+    al_clear_to_color(al_map_rgb(0,0,0));
+    print_all_stars(bg_star);
+    al_draw_textf(police, al_map_rgb(255,239,56), 500, 300, 0, "c'est au tour de %s", player.name);
+    al_draw_text(police, al_map_rgb(255,239,56), 600, 350, 0, "3");
+    al_flip_display();
+    al_rest(1);
+    al_clear_to_color(al_map_rgb(0,0,0));
+    print_all_stars(bg_star);
+    al_draw_textf(police, al_map_rgb(255,239,56), 500, 300, 0, "c'est au tour de %s", player.name);
+    al_draw_text(police, al_map_rgb(255,239,56), 600, 350, 0, "2");
+    al_flip_display();
+    al_rest(1);
+    al_clear_to_color(al_map_rgb(0,0,0));
+    print_all_stars(bg_star);
+    al_draw_textf(police, al_map_rgb(255,239,56), 500, 300, 0, "c'est au tour de %s", player.name);
+    al_draw_text(police, al_map_rgb(255,239,56), 600, 350, 0, "1");
+    al_flip_display();
+    al_rest(1);
+}
+
+int update(Body* player,Waychange* lstchange, Food* pomme, star bg_star[NBSTAR], Damier board, ALLEGRO_BITMAP* stormtrooper, ALLEGRO_FONT* police, int* size) {
     int res, collision = 0;
 
     al_clear_to_color(al_map_rgb(0, 0, 0));
     print_all_stars(bg_star);
-    al_draw_text(police, al_map_rgb(255,239,56), 50, 250, 0, "score");
-    al_draw_text(police, al_map_rgb(255,239,56), 100, 250, 0, size);
+    al_draw_textf(police, al_map_rgb(255,239,56), 50, 250, 0, "score : %d", *size);
     create_map(board);
     res = bordure(player, board);
     if (res == 1) {
@@ -90,7 +112,7 @@ int update(Body* player,Waychange* lstchange, Food* pomme, star bg_star[NBSTAR],
         return 1;
     }
     print_player(player);
-    res = check_food(player, *pomme);
+    res = check_food(player, *pomme, size);
     if (res == 1) {
         do {
             coord(pomme, board);

@@ -14,10 +14,9 @@ void printArr(XYT arr[], ALLEGRO_BITMAP *circle, int *score, ALLEGRO_FONT *font)
 
     char scoreText[20];
     sprintf(scoreText, "Score: %d", *score);
-    al_draw_text(font, al_map_rgb(253, 245, 0), 150, 20, ALLEGRO_ALIGN_RIGHT, scoreText);
+    al_draw_text(font, al_map_rgb(253, 245, 0), 150, 20, 0, scoreText);
 
     al_flip_display();
-
     // remove points that need to be removed
     int j = 0;
     while (j < i && arr[j].timing < clock() - 500) {

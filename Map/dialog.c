@@ -37,12 +37,11 @@ int anim_text(ALLEGRO_EVENT_QUEUE* queue, Choose bb8, ALLEGRO_FONT* police, Pers
     while (end == 0) {
         ALLEGRO_EVENT event = {0};
         al_wait_for_event(queue, &event);
-        switch (event.type) {//en fonction de son type (événement de souris,du clavier...),on agit
+        switch (event.type) {
             case ALLEGRO_EVENT_DISPLAY_CLOSE :
                 end = 1;
-                return -1;
             case ALLEGRO_EVENT_KEY_DOWN :
-                switch (event.keyboard.keycode) {//On vérifie de quelle touche il s'agit
+                switch (event.keyboard.keycode) {
                     case ALLEGRO_KEY_ESCAPE :
                         return 0;
                     case ALLEGRO_KEY_ENTER :
@@ -71,31 +70,39 @@ int anim_text(ALLEGRO_EVENT_QUEUE* queue, Choose bb8, ALLEGRO_FONT* police, Pers
         }
     }
     al_destroy_timer(timer);
+    return -1;
+}
+void set_large_textbox() {
+    al_draw_filled_rectangle(0,0, WIDTH, HEIGHT, al_map_rgb(0,0,0));
+    al_draw_rectangle(0,0, WIDTH, HEIGHT, al_map_rgb(255,255,255), 2);
 }
 
 
 void choose_event_pnj (Choose bb8, ALLEGRO_FONT* police, int res) {
     switch (res) {
         case PECHE :
-            set_text(bb8, police, "pêche au canard ?");
+            set_text(bb8, police, "veux tu atttaper jarjar pour explorer naboo?");
             break;
         case SNAKE :
-            set_text(bb8, police, "snake ?");
+            set_text(bb8, police, "matricule fn-2187 au rapport, un alien n'est pas loin souhaité le neutraliser ?");
             break;
         case SHIP :
-            set_text(bb8, police, "vaisseau ?");
+            set_text(bb8, police, "grrrrr un petit tour dans le vaisseau ?");
             break;
         case OSU :
-            set_text(bb8, police, "musique ?");
+            set_text(bb8, police, "salut ! un peu de musique avec nous ca te dirait ?");
             break;
         case TAPETAUPE :
-            set_text(bb8, police, "tape taupe ?");
+            set_textbox();
+            afficher_texte_dialog(police, "que la force soit avec toi jeune padawan...(appuyez sur entrée)");
             break;
         case COURSE :
-            set_text(bb8, police, "course ?");
+            set_textbox();
+            afficher_texte_dialog(police, "si tu vois han solo reviens vers moi (appuyez sur entrée)");
             break;
         case BARMAN :
-            set_text(bb8, police, "bonjour, que souhaites tu ?");
+            set_textbox();
+            set_text(bb8, police, "bonjour, souhaites tu savoir comment marche ce lieu ?");
             break;
         case STAT :
             set_text(bb8, police, "moi c'est c3p0 souhaites tu accéder au statistiques ?");
@@ -125,6 +132,8 @@ void set_textbox() {
     al_draw_rectangle(0,HEIGHT-SIZEBOX, WIDTH, HEIGHT, al_map_rgb(255,255,255), 2);
 
 }
+
+
 
 void afficher_texte_dialog(ALLEGRO_FONT* police, char text[MAXCH]) {
     al_draw_text(police, al_map_rgb(255,239,56), WITEXT, HEIGHT-SIZEBOX, 0, text);

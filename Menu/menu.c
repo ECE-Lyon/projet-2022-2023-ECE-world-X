@@ -94,8 +94,8 @@ int select_character(ALLEGRO_DISPLAY* display, ALLEGRO_BITMAP* perso1, ALLEGRO_B
 
     while(!end){
         ALLEGRO_EVENT event={0};
-        al_wait_for_event(queue,&event);//on pioche un événement dès qu'il y en a un
-        switch(event.type){//en fonction de son type (événement de souris,du clavier...),on agit
+        al_wait_for_event(queue,&event);
+        switch(event.type){
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
                 return 1;
             case ALLEGRO_EVENT_MOUSE_AXES :
@@ -132,7 +132,7 @@ int select_character(ALLEGRO_DISPLAY* display, ALLEGRO_BITMAP* perso1, ALLEGRO_B
     }
 }
 
-int set_name(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* police, Perso player, int res, ALLEGRO_BITMAP* img, char* side) {
+int set_name(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* police, Perso* player, int res, ALLEGRO_BITMAP* img, char* side) {
     int close = 0;
     int end = 0;
     int unichar;
@@ -168,7 +168,7 @@ int set_name(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* police, Perso player, int r
                             indice -=1;
                         }
                     }
-                    else {
+                    else if(indice < 10) {
                         unichar = event.keyboard.unichar;
                         lettre[indice] = unichar;
                         indice +=1;
@@ -187,7 +187,7 @@ int set_name(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* police, Perso player, int r
                 switch(event.keyboard.keycode) {
                     case ALLEGRO_KEY_ENTER :
                         name[indice] = '\0';
-                        strcpy(player.name, name);
+                        strcpy(player->name, name);
                         return 0;
                 }
                 break;
@@ -223,7 +223,6 @@ void menu() {
     queue = al_create_event_queue();
     assert(queue);
 
-    //Ajouter tous les types d'événements souhaités
     al_register_event_source(queue,al_get_display_event_source(display));
     al_register_event_source(queue, al_get_keyboard_event_source());
 
@@ -243,35 +242,35 @@ void menu() {
 
     while(!isEnd){
         ALLEGRO_EVENT event={0};
-        al_wait_for_event(queue,&event);//on pioche un événement dès qu'il y en a un
-        switch(event.type){//en fonction de son type (événement de souris,du clavier...),on agit
+        al_wait_for_event(queue,&event);
+        switch(event.type){
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
                 isEnd=1;
                 res = 1;
                 break;
-            case ALLEGRO_EVENT_KEY_DOWN://Si on arrive ici, c'est qu'on a pioché un événement du clavier de type touche  enfoncée
+            case ALLEGRO_EVENT_KEY_DOWN:
                 al_clear_to_color(al_map_rgb(0,0,0));
                 res  = select_character(display, perso1, perso2);
                 if (res != 1) {
                     if (res == 0) {
-                        res = set_name(display, police, player1, res, perso2, "joueur 1 du cote obscure");
+                        res = set_name(display, police, &player1, res, perso2, "joueur 1 du cote obscur");
                         player1.side = 1;
                         if (res == 1) {
                             isEnd = 1;
                         }
                         else {
-                            res = set_name(display, police, player2, res, perso1, "joueur 2 du cote lumineux");
+                            res = set_name(display, police, &player2, res, perso1, "joueur 2 du cote lumineux");
                             player2.side = 0;
                         }
                     }
                     else if (res == -1) {
-                        res = set_name(display, police, player1, res, perso1, "joueur 1 du cote lumineux");
+                        res = set_name(display, police, &player1, res, perso1, "joueur 1 du cote lumineux");
                         player1.side = 0;
                         if (res == 1) {
                             isEnd = 1;
                         }
                         else {
-                            res = set_name(display, police, player2, res, perso2, "joueur 2 du cote obscure");
+                            res = set_name(display, police, &player2, res, perso2, "joueur 2 du cote obscur");
                             player2.side = 0;
                         }
                     }
@@ -291,4 +290,6 @@ void menu() {
         }
         }
     al_destroy_event_queue(queue);
+    al_destroy_bitmap(background);
+    al_destroy_font(police);
 }

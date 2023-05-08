@@ -6,7 +6,7 @@
 #include "constantes.h"
 #include "cane.h"
 #include "Duck.h"
-
+#include "../Map/character.h"
 #ifndef PROJET_DUCKGAME_H
 #define PROJET_DUCKGAME_H
 
@@ -29,7 +29,7 @@ typedef struct {
     Coin ducks[NB_MAX_JARJAR];
 }Game;
 
-int launchGame(Game *jeux);
+int launchGame(Game *jeux,Perso *playeractive);
 
 void init_lauchGame(Game *jeux, ALLEGRO_DISPLAY* display);
 

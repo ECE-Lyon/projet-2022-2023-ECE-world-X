@@ -7,6 +7,15 @@
 
 
 void init_lauchGame(Game *jeux, ALLEGRO_DISPLAY* display){
+    /*assert(al_init());
+    assert(al_init_primitives_addon());
+    assert(al_install_mouse());
+    assert(al_init_image_addon());
+    assert(al_init_font_addon());
+    assert(al_init_ttf_addon());
+    assert(al_install_keyboard());
+    assert(al_install_audio());
+    assert(al_init_acodec_addon());*/
 
     jeux->i = 0;
     jeux->dessin = false;
@@ -29,7 +38,7 @@ void init_lauchGame(Game *jeux, ALLEGRO_DISPLAY* display){
     init_Duck(jeux->ducks);
 }
 
-int launchGame(Game *jeux){
+int launchGame(Game *jeux, Perso *playeractive){
 
     int isEnd = 0;// verification de la fin de la partie
 
@@ -141,7 +150,7 @@ int launchGame(Game *jeux){
             jeux->dessin = false;
         }
     }
-
+    playeractive->score = jeux->smallBoat.score;
     al_destroy_sample(jeux->backgoundMusic);
     al_destroy_font(jeux->jedi);
     al_destroy_font(jeux->jedihol);

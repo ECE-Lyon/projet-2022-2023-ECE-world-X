@@ -6,6 +6,6 @@
 #ifndef PROJET_GAME_H
 #define PROJET_GAME_H
 
-void game(ALLEGRO_DISPLAY* display, Perso* playeractive);
+void gamesnake(ALLEGRO_DISPLAY* display, Perso* playeractive,ALLEGRO_FONT* police);
 
 #endif //PROJET_GAME_H

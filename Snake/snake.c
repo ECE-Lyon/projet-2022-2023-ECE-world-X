@@ -211,7 +211,6 @@ void add_body(Body* player, Waychange* lstchange, Damier board, ALLEGRO_BITMAP* 
         player->next->nextchange = player->nextchange;
         player->next->img[0] = stormtrooper;
         player->next->next = NULL;
-        //debug_player(player->next);
         return;
     }
     add_body(player->next, lstchange, board, stormtrooper);
@@ -234,8 +233,9 @@ void free_snake(Body* player) {
     free(player);
 }
 
-int check_food(Body* player, Food pomme) {
+int check_food(Body* player, Food pomme, int *size) {
     if (player->x == pomme.x && player->y == pomme.y) {
+        *size += 1;
         return 1;
     }
     return 0;

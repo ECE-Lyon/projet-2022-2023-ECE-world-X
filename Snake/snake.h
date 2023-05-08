@@ -32,7 +32,7 @@ void init_snake(Body* player);
 void print_player(Body* player);
 void move_player(Body* player, Damier board);
 int bordure(Body* player, Damier board);
-int check_food(Body *player, Food pomme);
+int check_food(Body *player, Food pomme, int *size);
 void add_body(Body* player, Waychange* lstchange, Damier board, ALLEGRO_BITMAP* stormtrooper);
 void free_snake(Body* player);
 void change_direction(Body* player, int direction);
