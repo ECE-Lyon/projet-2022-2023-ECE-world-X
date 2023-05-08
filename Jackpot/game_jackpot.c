@@ -10,7 +10,7 @@
 
 int game_jackpot() {
     int endgame = 0, pause = 0;
-    float max_speed = 10.0;
+    float acceleration = 0.1, max_speed = 10.0;
 
     Roll roll[NB_ROLLS];
     Handle handle;
@@ -18,10 +18,6 @@ int game_jackpot() {
     for (int i = 0; i < NB_ROLLS; ++i) {
         roll[i].rotation_speed = 1.0;
     }
-    roll[0].location_x = X_ROLL1;
-    roll[1].location_x = X_ROLL2;
-    roll[2].location_x = X_ROLL3;
-
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_EVENT_QUEUE *queue = NULL;
     ALLEGRO_TIMER *timer = NULL;
@@ -29,11 +25,11 @@ int game_jackpot() {
     ALLEGRO_FONT *fontBig = NULL;
     ALLEGRO_EVENT event;
 
-    srand(time(NULL));
-    float acceleration1 = 0.1 + ((rand() % 4)/10);
-    float acceleration2 = 0.1 + ((rand() % 4)/15);
-    float acceleration3 = 0.1 + ((rand() % 4)/20);
+    roll[0].location_x = X_ROLL1;
+    roll[1].location_x = X_ROLL2;
+    roll[2].location_x = X_ROLL3;
 
+    srand(time(NULL));
 
     if (!al_init()) {
         error_jackpot("Initialisation Allegro");
@@ -135,14 +131,14 @@ int game_jackpot() {
                     display_background(handle);
                     display_rolls(roll);
                     display_Machine(handle, font);
-                    if (handle.down == true) {
-                        /*rolling(roll, acceleration1, acceleration2, acceleration3, max_speed);
-                        for (int i = 0; i < NB_ROLLS; ++i) {
-                            if(roll[i].y1)
-                        }*/
-                    }
                     al_flip_display();
+                    if (handle.down == true) {
+                        rolling(roll, acceleration, max_speed);
+                    }
 
+                    if (handle.down == true) {
+                        rolling(roll, acceleration, max_speed);
+                    }
                     if (event.timer.count % 60 == 0) {
 
                     }

@@ -1,10 +1,9 @@
-
-
 #ifndef MAIN_C_ROLL_AND_HANDLE_H
 #define MAIN_C_ROLL_AND_HANDLE_H
 
 #include "../Map/character.h"
 #include "const_jackpot.h"
+
 #include <stdio.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
@@ -33,7 +32,7 @@ void init_images_jackpot(Roll roll[NB_ROLLS], Handle *handle);
 
 int prize(Roll roll[NB_ROLLS], Perso P1);
 
-void rolling(Roll roll[NB_ROLLS], float acceleration, float acceleration2,  float acceleration3, float max_speed);
+void rolling(Roll roll[NB_ROLLS], float acceleration, float max_speed);
 
 void init_rolls(Roll roll[NB_ROLLS]);
 
