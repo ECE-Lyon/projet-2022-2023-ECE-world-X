@@ -136,7 +136,7 @@ But du jeux:
 - gestion des scores et affichages
 ---
 
-# Snake `1/2`
+# Snake 
 *Réalisé par : **Tristan** (100%)*
 
 - Structure 'Body'
