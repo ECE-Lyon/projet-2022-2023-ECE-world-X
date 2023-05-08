@@ -6,12 +6,12 @@
 #define PROJET_BOAT_H
 
 typedef struct {
-    int x, y, h, l;
-    int score;
+    int x, y, h, l, frame, fps;
+    int score, actif;
     ALLEGRO_BITMAP *boaty;
 } Boat;
 
-void printBoat(Boat* smallBoat);
+void printBoat(Boat* smallboat);
 
 void init_boat(Boat* smallBoat);
 

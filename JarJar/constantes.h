@@ -16,13 +16,13 @@
 #include <assert.h>
 
 #define NB_MAX_JARJAR 5
-#define BTN_LEFT 1
-#define LARGEUR 1200
+#define BTN_LEFT 1 // click gauche
+#define LARGEUR 1200// dimension window
 #define HAUTEUR 600
-#define HAUTEURMAX 500
+#define HAUTEURMAX 500// pour eviter la colison entre les canards et le bateau
 #define BLEU al_map_rgb(128, 197, 222)
 #define NOIR al_map_rgb(0,0,0)
 #define JAUNE al_map_rgb(255,232,31)
-#define FPSCOIN 60.0
+#define FPSCOIN 60.0// screen refresh rate
 
 #endif //PROJET_CONSTANTES_H

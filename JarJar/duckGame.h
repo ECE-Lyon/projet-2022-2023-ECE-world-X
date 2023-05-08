@@ -2,9 +2,8 @@
 // Created by Félix Pignal on 27/04/2023.
 //
 
-// DuckGame.h
+
 #include "constantes.h"
-//#include "boat.h"
 #include "cane.h"
 #include "Duck.h"
 
