@@ -15,7 +15,7 @@ enum{HAUT, DROITE, BAS, GAUCHE, ENTER, NBKEYS};
 #define STARTXPERSO WIDTH/2
 #define STARTYPERSO HEIGHT/2
 
-#define NBTICKET 0
+#define NBTICKET 5
 
 #define BGX 0
 #define BGY 0
@@ -54,6 +54,6 @@ enum{HAUT, DROITE, BAS, GAUCHE, ENTER, NBKEYS};
 #define YODA 89
 #define W 87
 #define P 80
-#define MAXCH 70
+#define MAXCH 11
 
 #endif //PROJET_CONSTANTE_H

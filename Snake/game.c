@@ -7,6 +7,8 @@
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 #include <assert.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -19,8 +21,8 @@
 #include "game.h"
 
 
-void game(ALLEGRO_DISPLAY* display, Perso* playeractive){
-    int isEnd=0;
+void gamesnake(ALLEGRO_DISPLAY* display, Perso* playeractive, ALLEGRO_FONT* police){
+    int isEnd = 0;
     float fps;
     int changeallowed;
     int size = 0;
@@ -40,6 +42,9 @@ void game(ALLEGRO_DISPLAY* display, Perso* playeractive){
     queue2=al_create_event_queue();
     assert(queue2);
 
+    ALLEGRO_SAMPLE* sample = al_load_sample("../Snake/snakesample.wav");
+    al_play_sample(sample, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, 0);
+
     al_register_event_source(queue2,al_get_display_event_source(display));
     al_register_event_source(queue2, al_get_keyboard_event_source());
     al_register_event_source(queue2,al_get_timer_event_source(timer));
@@ -50,9 +55,6 @@ void game(ALLEGRO_DISPLAY* display, Perso* playeractive){
     Food pomme;
     Waychange* lstchange = NULL;
 
-    ALLEGRO_FONT* police = al_load_ttf_font("../Map/star_jedi/starjedi/Starjedi.ttf", 18, 0);
-    assert(police != NULL);
-
     player = malloc(sizeof(Body));
 
     init_board(&board);
@@ -61,6 +63,8 @@ void game(ALLEGRO_DISPLAY* display, Perso* playeractive){
     init_apple(&pomme, board);
 
     Waychange* newchange;
+    startgame(police, *playeractive, bg_star);
+    al_flush_event_queue(queue2);
 
     while(!isEnd) {
         ALLEGRO_EVENT event = {0};
@@ -127,8 +131,7 @@ void game(ALLEGRO_DISPLAY* display, Perso* playeractive){
                 break;
             case ALLEGRO_EVENT_TIMER :
                 changeallowed = 1;
-                char * txtsize = (char*) size;
-                isEnd = update(player, lstchange, &pomme, bg_star, board, stormtrooper, police, txtsize);
+                isEnd = update(player, lstchange, &pomme, bg_star, board, stormtrooper, police, &size);
                 al_flip_display();
                 break;
         }
@@ -136,7 +139,7 @@ void game(ALLEGRO_DISPLAY* display, Perso* playeractive){
     al_destroy_event_queue(queue2);
     al_destroy_timer(timer);
     al_destroy_bitmap(stormtrooper);
-    size = size_snake(player, size);
+    al_destroy_sample(sample);
     playeractive->score = size;
     free_snake(player);
 

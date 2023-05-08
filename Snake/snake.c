@@ -234,8 +234,9 @@ void free_snake(Body* player) {
     free(player);
 }
 
-int check_food(Body* player, Food pomme) {
+int check_food(Body* player, Food pomme, int *size) {
     if (player->x == pomme.x && player->y == pomme.y) {
+        *size += 1;
         return 1;
     }
     return 0;

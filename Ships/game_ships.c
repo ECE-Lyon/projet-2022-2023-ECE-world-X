@@ -10,8 +10,11 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
+#include "../Map/character.h"
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 
-int game_ships(ALLEGRO_DISPLAY* display) {
+int game_ships(ALLEGRO_DISPLAY* display, Perso* player1, Perso* player2) {
     int endgame = 0, gameover = 0, pause = 0, destroyed_Ships = 0, start = 0, ingame = 0, scoreP1 = 0, scoreP2 = 0;
     FPSdisplay turret;
     Ship ships[NB_SHIPS];
@@ -28,12 +31,8 @@ int game_ships(ALLEGRO_DISPLAY* display) {
     ALLEGRO_FONT *font = NULL;
     ALLEGRO_FONT *fontBig = NULL;
     ALLEGRO_EVENT event;
-
-    al_set_window_position(display, 200, 100);
-    if (!display) {
-        error("Display creation");
-    }
-
+    ALLEGRO_SAMPLE* themeship = al_load_sample("../Ships/themeship.wav");
+    assert(themeship);
     timer = al_create_timer(1.0 / 60.0);
 
     if (!timer) {
@@ -58,8 +57,8 @@ int game_ships(ALLEGRO_DISPLAY* display) {
 
     init_images(&turret, &crosshair);
 
-
     al_start_timer(timer);
+    al_play_sample(themeship, 1,0,1,ALLEGRO_PLAYMODE_LOOP,0);
 
     font = al_load_ttf_font("../Ships/Pictures/Starjedi.ttf", 18, 0);
     fontBig = al_load_ttf_font("../Ships/Pictures/Starjedi.ttf", 35, 0);
@@ -111,7 +110,7 @@ int game_ships(ALLEGRO_DISPLAY* display) {
                 if (!pause) {
                     if (ingame == 0) {
                         display_turret(turret);
-                        start_game(P1, P2, turret, font, fontBig);
+                        start_game(P1, P2, turret, font, fontBig, *player1, *player2);
                         init_ships(ships);
                         spawn_ships(ships);
                         al_flush_event_queue(queue);
@@ -139,12 +138,14 @@ int game_ships(ALLEGRO_DISPLAY* display) {
                             ships[21].destroyed + ships[22].destroyed + ships[23].destroyed + ships[24].destroyed;
                     if (destroyed_Ships == NB_SHIPS) {
                         if (P1.turn == true) {
+                            player1->score = scoreP1;
                             P1.score = scoreP1;
                             P1.turn = false;
                             P2.turn = true;
                             destroyed_Ships = 0;
                             ingame = 0;
                         } else if (P2.turn == true) {
+                            player2->score = scoreP2;
                             P2.score = scoreP2;
                             gameover = 1;
                         }
@@ -162,19 +163,16 @@ int game_ships(ALLEGRO_DISPLAY* display) {
 
         if (gameover) {
             if (P1.score < P2.score) {
-                P2.tickets -= 1;
-                P1.tickets += 1;
                 al_clear_to_color(al_map_rgb(0, 0, 0));
                 al_draw_bitmap(turret.backgrounddisplay, 0, 0, 0);
                 al_draw_bitmap(turret.turretdisplay, 0, 159, 0);
                 al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
                               SCREEN_HEIGHT / 2 - al_get_font_ascent(font), ALLEGRO_ALIGN_CENTER,
                               "player 1 wins");
+                player2->ticket--;
                 al_flip_display();
                 al_rest(2);
             } else if (P1.score > P2.score) {
-                P2.tickets += 1;
-                P1.tickets -= 1;
                 al_clear_to_color(al_map_rgb(0, 0, 0));
                 al_draw_bitmap(turret.backgrounddisplay, 0, 0, 0);
                 al_draw_bitmap(turret.turretdisplay, 0, 159, 0);
@@ -182,6 +180,7 @@ int game_ships(ALLEGRO_DISPLAY* display) {
                               SCREEN_HEIGHT / 2 - al_get_font_ascent(font), ALLEGRO_ALIGN_CENTER,
                               "player 2 wins");
                 al_flip_display();
+                player1->ticket--;
                 al_rest(2);
             }
             endgame = true;
@@ -207,11 +206,10 @@ int game_ships(ALLEGRO_DISPLAY* display) {
     al_destroy_bitmap(turret.turretdisplay);
     al_destroy_bitmap(turret.backgrounddisplay);
     al_destroy_bitmap(crosshair.crosshair);
-
+    al_destroy_sample(themeship);
     al_destroy_font(font);
     al_destroy_font(fontBig);
     al_destroy_event_queue(queue);
-    al_destroy_display(display);
     al_destroy_timer(timer);
 
 

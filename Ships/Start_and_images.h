@@ -11,6 +11,7 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
+#include "../Map/character.h"
 
 typedef struct {
     int score;
@@ -26,8 +27,8 @@ void display_turret(FPSdisplay turret);
 
 void shoot_turret(Ship ships[NB_SHIPS], Crosshair crosshair);
 
-void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALLEGRO_FONT *fontBig);
+void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALLEGRO_FONT *fontBig,Perso player1, Perso player2);
 
-int game_ships();
+int game_ships(ALLEGRO_DISPLAY* display, Perso* player1, Perso* player2);
 
 #endif //PROJET_ECE_WORLD_TURRET_AND_TIMER_H
