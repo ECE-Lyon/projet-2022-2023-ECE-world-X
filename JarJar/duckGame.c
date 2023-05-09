@@ -26,11 +26,9 @@ void init_lauchGame(Game *jeux, ALLEGRO_DISPLAY* display){
     jeux->duckSelect = -1;
     jeux->gamePause = false;
     jeux->window = display;
-    //jeux->event;
     jeux->fifo = al_create_event_queue();
     jeux->timer = al_create_timer(1.0/FPSCOIN);
     jeux->timerPartie = al_create_timer(1.0);// timer allegro pour le decompte du temps de partie
-    //jeux->mouse_state;
     jeux->jedi = al_load_ttf_font("../JarJar/Fonts/Starjedi.ttf",30,0);
     jeux->jediout = al_load_ttf_font("../JarJar/Fonts/Starjout.ttf",30,0);
     jeux->jedihol = al_load_ttf_font("../JarJar/Fonts/Starjhol.ttf",50,0);
