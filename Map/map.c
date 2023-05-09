@@ -97,7 +97,7 @@ void textrules(ALLEGRO_FONT* police) {
 
 void textscore(ALLEGRO_FONT* police, int score[NBGAME]) {
     set_large_textbox();
-    al_draw_text(police, al_map_rgb(255, 239, 56), 20, 10, 0, "voici les meilleurs score sur chaque jeux :");
+    al_draw_text(police, al_map_rgb(255, 239, 56), 20, 10, 0, "voici les meilleurs scores sur chaque jeux :");
     al_draw_textf(police, al_map_rgb(255, 239, 56), 20, 50, 0,
                  "snake : %d", score[0]);
     al_draw_textf(police, al_map_rgb(255, 239, 56), 20, 90, 0,
@@ -315,14 +315,15 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                             al_destroy_sample(maintheme);
                             game_ships(display,playeractive, otherplayer);
                             al_flush_event_queue(queue);
-                            if (player1.score > score[3]) {
+                            if (player1.score < score[3]) {
                                 score[3] = player1.score;
                                 writescore(score);
                             }
-                            else if (player2.score > score[3]) {
+                            else if (player2.score < score[3]) {
                                 score[3] = player2.score;
                                 writescore(score);
                             }
+                            al_show_mouse_cursor(display);
                             break;
                         case OSU :
                             al_destroy_sample(maintheme);
@@ -338,6 +339,7 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                                 score[1] = player2.score;
                                 writescore(score);
                             }
+                            al_show_mouse_cursor(display);
                             break;
                         case TAPETAUPE:
                             res = 0;

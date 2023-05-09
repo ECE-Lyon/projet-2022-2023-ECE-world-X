@@ -71,8 +71,8 @@ void start_game(Player P1, Player P2, FPSdisplay turret, ALLEGRO_FONT *font, ALL
 void shoot_turret(Ship ships[NB_SHIPS], Crosshair crosshair) {
     for (int i = 0; i < NB_SHIPS; ++i) {
         if (ships[i].destroyed == false) {
-            if (crosshair.location_x >= ships[i].x && crosshair.location_x <= (ships[i].x + ships[i].width)
-                && crosshair.location_y >= ships[i].y && crosshair.location_y <= (ships[i].y + ships[i].length)) {
+            if (crosshair.location_x+19 >= ships[i].x && crosshair.location_x+19 <= (ships[i].x + ships[i].width)
+                && crosshair.location_y+19 >= ships[i].y && crosshair.location_y+19 <= (ships[i].y + ships[i].length)) {
                 if (ships[i].size == 1) {
                     al_draw_bitmap(ships->explosion1, ships[i].x, ships[i].y, 0);
                     ships[i].destroyed = true;

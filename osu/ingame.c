@@ -71,8 +71,8 @@ bool IsCursorOnTarget(int current_point, XYT tabXYT[]) {
     al_get_mouse_state(&mouse_state);
     int x = mouse_state.x;
     int y = mouse_state.y;
-    if (tabXYT[current_point].x - 64 < x && tabXYT[current_point].x + 64 > x && tabXYT[current_point].y - 64 < y &&
-        tabXYT[current_point].y + 64 > y) {
+    if (tabXYT[current_point].x - 54 < x && tabXYT[current_point].x + 74 > x && tabXYT[current_point].y - 54 < y &&
+        tabXYT[current_point].y + 74 > y) {
         return true;
     } else {
         return false;
@@ -86,7 +86,7 @@ void GetInput(int current_point, XYT tabXYT[], int off_beat, int *score, int wom
         al_get_mouse_state(&mouseState);
         int mouseX = mouseState.x;
         int mouseY = mouseState.y;
-        al_draw_filled_circle(mouseX, mouseY, 4, al_map_rgb(255, 0, 0));
+        al_draw_filled_circle(mouseX+10, mouseY+10, 4, al_map_rgb(255, 0, 0));
         if (IsCursorOnTarget(current_point, tabXYT)) {
             IsNoteHit(&current_point, tabXYT, off_beat, score, wombocombo);
         } else {

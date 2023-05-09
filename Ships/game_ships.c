@@ -75,8 +75,8 @@ int game_ships(ALLEGRO_DISPLAY* display, Perso* player1, Perso* player2) {
         if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
             endgame = 1;
         } else if (event.type == ALLEGRO_EVENT_MOUSE_AXES) {
-            crosshair.location_x = event.mouse.x + 19;
-            crosshair.location_y = event.mouse.y + 19;
+            crosshair.location_x = event.mouse.x;
+            crosshair.location_y = event.mouse.y;
         } else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
             switch (event.mouse.button) {
                 case 1:
@@ -168,7 +168,7 @@ int game_ships(ALLEGRO_DISPLAY* display, Perso* player1, Perso* player2) {
                 al_draw_bitmap(turret.turretdisplay, 0, 159, 0);
                 al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
                               SCREEN_HEIGHT / 2 - al_get_font_ascent(font), ALLEGRO_ALIGN_CENTER,
-                              "player 1 wins");
+                              "%s wins", player1->name);
                 player2->ticket--;
                 al_flip_display();
                 al_rest(2);
@@ -178,9 +178,21 @@ int game_ships(ALLEGRO_DISPLAY* display, Perso* player1, Perso* player2) {
                 al_draw_bitmap(turret.turretdisplay, 0, 159, 0);
                 al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
                               SCREEN_HEIGHT / 2 - al_get_font_ascent(font), ALLEGRO_ALIGN_CENTER,
-                              "player 2 wins");
+                              "%s wins", player2->name);
                 al_flip_display();
                 player1->ticket--;
+                al_rest(2);
+            }
+            else if (P1.score == P2.score) {
+                al_clear_to_color(al_map_rgb(0, 0, 0));
+                al_draw_bitmap(turret.backgrounddisplay, 0, 0, 0);
+                al_draw_bitmap(turret.turretdisplay, 0, 159, 0);
+                al_draw_text(font, al_map_rgb(255, 255, 0), SCREEN_WIDTH / 2,
+                             SCREEN_HEIGHT / 2 - al_get_font_ascent(font), ALLEGRO_ALIGN_CENTER,
+                             "draw");
+                al_flip_display();
+                player1->ticket--;
+                player2->ticket--;
                 al_rest(2);
             }
             endgame = true;
