@@ -1,5 +1,5 @@
-#ifndef PROJET_ECE_WORLD_CONST_H
-#define PROJET_ECE_WORLD_CONST_H
+#ifndef JACKPOT_CONST_H
+#define JACKPOT_CONST_H
 
 #define SCREEN_WIDTH 1200
 #define SCREEN_HEIGHT 600
@@ -8,4 +8,4 @@
 #define X_ROLL2 516
 #define X_ROLL3 673
 
-#endif //PROJET_ECE_WORLD_CONST_H
+#endif //JACKPOT_CONST_H

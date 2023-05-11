@@ -7,8 +7,9 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
+#include "const_jackpot.h"
 
-int game_jackpot() {
+int game_jackpot(ALLEGRO_DISPLAY* display) {
     int endgame = 0, pause = 0;
     float acceleration = 0.1, max_speed = 10.0;
 
@@ -18,7 +19,7 @@ int game_jackpot() {
     for (int i = 0; i < NB_ROLLS; ++i) {
         roll[i].rotation_speed = 1.0;
     }
-    ALLEGRO_DISPLAY *display = NULL;
+    //ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_EVENT_QUEUE *queue = NULL;
     ALLEGRO_TIMER *timer = NULL;
     ALLEGRO_FONT *font = NULL;
@@ -31,7 +32,7 @@ int game_jackpot() {
 
     srand(time(NULL));
 
-    if (!al_init()) {
+    /*if (!al_init()) {
         error_jackpot("Initialisation Allegro");
     }
     if (!al_install_keyboard()) {
@@ -51,12 +52,12 @@ int game_jackpot() {
         error_jackpot("Initialisation images");
     }
 
-    display = al_create_display(SCREEN_WIDTH, SCREEN_HEIGHT);
+    //display = al_create_display(SCREEN_WIDTH, SCREEN_HEIGHT);
 
     al_set_window_position(display, 200, 100);
     if (!display) {
         error_jackpot("Display creation");
-    }
+    }*/
 
     timer = al_create_timer(1.0 / 60.0);
 

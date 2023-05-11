@@ -24,6 +24,7 @@
 #include "../JarJar/duckGame.h"
 #include "../Ships/Start_and_images.h"
 #include "../osu/osugame.h"
+#include "../Jackpot/Roll_and_handle.h"
 
 
 
@@ -342,6 +343,7 @@ int mapgame(ALLEGRO_DISPLAY* display, Perso player1, Perso player2){
                             al_show_mouse_cursor(display);
                             break;
                         case TAPETAUPE:
+                            game_jackpot(display);
                             res = 0;
                             break;
                         case COURSE :

@@ -1,6 +1,4 @@
-#include "const_jackpot.h"
 #include "Roll_and_handle.h"
-
 #include <stdio.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
@@ -143,7 +141,4 @@ void rolling(Roll roll[NB_ROLLS], float acceleration, float max_speed) {
     }
 }
 
-int prize(Roll roll[NB_ROLLS], Perso P1) {
-//
-    return;
-}
+

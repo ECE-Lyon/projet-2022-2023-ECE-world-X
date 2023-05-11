@@ -1,8 +1,8 @@
-#ifndef MAIN_C_ROLL_AND_HANDLE_H
-#define MAIN_C_ROLL_AND_HANDLE_H
+
 
 #include "../Map/character.h"
 #include "const_jackpot.h"
+
 
 #include <stdio.h>
 #include <allegro5/allegro.h>
@@ -10,6 +10,9 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
+
+#ifndef MAIN_C_ROLL_AND_HANDLE_H
+#define MAIN_C_ROLL_AND_HANDLE_H
 
 typedef struct {
     float rotation_speed;
@@ -23,8 +26,8 @@ typedef struct {
     bool down;
     ALLEGRO_BITMAP *Machine_up, *Machine_down, *Machine_background;
 } Handle;
-//
-int game_jackpot();
+
+int game_jackpot(ALLEGRO_DISPLAY* display);
 
 void error_jackpot(const char *txt);
 
